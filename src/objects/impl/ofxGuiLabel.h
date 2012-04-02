@@ -127,7 +127,7 @@ protected:
     ofRectangle fullStringBoundingBox;
     ofRectangle displayStringBoundingBox;
     
-    ofFont* labelFont;
+    ofxGuiFont* labelFont;
     ofxGuiSize labelSize;
 
     ofxGuiLineBreakMode lineBreakMode;

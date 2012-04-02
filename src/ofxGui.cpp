@@ -42,21 +42,21 @@ ofxGui::ofxGui(int _w, int _h) : ofxGuiEnabler() {
 //--------------------------------------------------------------
 
 ofxGui::~ofxGui() {
-	ofRemoveListener(ofEvents.setup, this, &ofxGui::setup); // sets up any guis
-	ofRemoveListener(ofEvents.update, this, &ofxGui::update);
-	ofRemoveListener(ofEvents.draw, this, &ofxGui::draw);
-    ofRemoveListener(ofEvents.exit, this, &ofxGui::exit);
-    ofRemoveListener(ofEvents.windowResized, this, &ofxGui::windowResized);
-    ofRemoveListener(ofEvents.fileDragEvent, this, &ofxGui::fileDragEvent);
-    ofRemoveListener(ofEvents.messageEvent, this, &ofxGui::gotMessage);
+	ofRemoveListener(ofEvents().setup, this, &ofxGui::setup); // sets up any guis
+	ofRemoveListener(ofEvents().update, this, &ofxGui::update);
+	ofRemoveListener(ofEvents().draw, this, &ofxGui::draw);
+    ofRemoveListener(ofEvents().exit, this, &ofxGui::exit);
+    ofRemoveListener(ofEvents().windowResized, this, &ofxGui::windowResized);
+    ofRemoveListener(ofEvents().fileDragEvent, this, &ofxGui::fileDragEvent);
+    ofRemoveListener(ofEvents().messageEvent, this, &ofxGui::gotMessage);
 
-	ofRemoveListener(ofEvents.keyPressed, this, &ofxGui::keyPressed);
-	ofRemoveListener(ofEvents.keyReleased, this, &ofxGui::keyReleased);
+	ofRemoveListener(ofEvents().keyPressed, this, &ofxGui::keyPressed);
+	ofRemoveListener(ofEvents().keyReleased, this, &ofxGui::keyReleased);
 	
-    ofRemoveListener(ofEvents.mouseMoved, this, &ofxGui::mouseMoved);
-	ofRemoveListener(ofEvents.mouseDragged, this, &ofxGui::mouseDragged);
-	ofRemoveListener(ofEvents.mouseReleased, this, &ofxGui::mouseReleased);
-	ofRemoveListener(ofEvents.mousePressed, this, &ofxGui::mousePressed);
+    ofRemoveListener(ofEvents().mouseMoved, this, &ofxGui::mouseMoved);
+	ofRemoveListener(ofEvents().mouseDragged, this, &ofxGui::mouseDragged);
+	ofRemoveListener(ofEvents().mouseReleased, this, &ofxGui::mouseReleased);
+	ofRemoveListener(ofEvents().mousePressed, this, &ofxGui::mousePressed);
 	
     for(int i = 0; i < mObjects.size(); i++) {
         delete mObjects[i];   
@@ -68,21 +68,21 @@ ofxGui::~ofxGui() {
 
 //--------------------------------------------------------------
 void ofxGui::init() {
-    ofAddListener(ofEvents.setup, this, &ofxGui::setup); // sets up any guis
-	ofAddListener(ofEvents.update, this, &ofxGui::update);
-	ofAddListener(ofEvents.draw, this, &ofxGui::draw);
-	ofAddListener(ofEvents.exit, this, &ofxGui::exit);
-    ofAddListener(ofEvents.windowResized, this, &ofxGui::windowResized);
-    ofAddListener(ofEvents.fileDragEvent, this, &ofxGui::fileDragEvent);
-    ofAddListener(ofEvents.messageEvent, this, &ofxGui::gotMessage);
+    ofAddListener(ofEvents().setup, this, &ofxGui::setup); // sets up any guis
+	ofAddListener(ofEvents().update, this, &ofxGui::update);
+	ofAddListener(ofEvents().draw, this, &ofxGui::draw);
+	ofAddListener(ofEvents().exit, this, &ofxGui::exit);
+    ofAddListener(ofEvents().windowResized, this, &ofxGui::windowResized);
+    ofAddListener(ofEvents().fileDragEvent, this, &ofxGui::fileDragEvent);
+    ofAddListener(ofEvents().messageEvent, this, &ofxGui::gotMessage);
     
-	ofAddListener(ofEvents.keyPressed, this, &ofxGui::keyPressed);
-	ofAddListener(ofEvents.keyReleased, this, &ofxGui::keyReleased);
+	ofAddListener(ofEvents().keyPressed, this, &ofxGui::keyPressed);
+	ofAddListener(ofEvents().keyReleased, this, &ofxGui::keyReleased);
     
-	ofAddListener(ofEvents.mouseMoved, this, &ofxGui::mouseMoved);
-	ofAddListener(ofEvents.mouseDragged, this, &ofxGui::mouseDragged);
-	ofAddListener(ofEvents.mouseReleased, this, &ofxGui::mouseReleased);
-	ofAddListener(ofEvents.mousePressed, this, &ofxGui::mousePressed);
+	ofAddListener(ofEvents().mouseMoved, this, &ofxGui::mouseMoved);
+	ofAddListener(ofEvents().mouseDragged, this, &ofxGui::mouseDragged);
+	ofAddListener(ofEvents().mouseReleased, this, &ofxGui::mouseReleased);
+	ofAddListener(ofEvents().mousePressed, this, &ofxGui::mousePressed);
     
 	mXmlDone			= true;
 	

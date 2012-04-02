@@ -1069,17 +1069,20 @@ bool ofxGuiObject::getKeyboardOnPress() {
 
 //--------------------------------------------------------------
 bool ofxGuiObject::isShiftPressed() {
-    return ofGetModifierPressed(OF_KEY_SHIFT);
+    // PR rejected b/c of glut find new solution
+    return false;//ofGetModifierPressed(OF_KEY_SHIFT);
 }
 
 //--------------------------------------------------------------
 bool ofxGuiObject::isCtrlPressed() {
-    return ofGetModifierPressed(OF_KEY_CTRL);
+    // PR rejected b/c of glut find new solution
+    return false;//ofGetModifierPressed(OF_KEY_CTRL);
 }
 
 //--------------------------------------------------------------
 bool ofxGuiObject::isAltPressed() {
-    return ofGetModifierPressed(OF_KEY_ALT);
+    // PR rejected b/c of glut find new solution
+    return false;//ofGetModifierPressed(OF_KEY_ALT);
 }
 
 //--------------------------------------------------------------

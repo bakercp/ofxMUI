@@ -8,10 +8,10 @@
 
 #pragma once
 
-#include "ofFont.h"
+#include "ofxGuiFont.h"
 
 
-class ofxGuiTrueTypeFont : public ofFont {
+class ofxGuiTrueTypeFont : public ofxGuiFont {
     
 public:
 /*

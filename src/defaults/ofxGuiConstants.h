@@ -9,6 +9,22 @@
 
 #pragma once
 
+enum ofTextAlignHorz {
+    OF_TEXT_ALIGN_HORZ_LEFT = 0      ,
+    OF_TEXT_ALIGN_HORZ_RIGHT         ,
+    OF_TEXT_ALIGN_HORZ_CENTER        ,
+    OF_TEXT_ALIGN_HORZ_JUSTIFIED
+};
+
+enum ofTextAlignVert {
+    OF_TEXT_ALIGN_VERT_TOP = 0       ,
+    OF_TEXT_ALIGN_VERT_BOTTOM        ,
+    OF_TEXT_ALIGN_VERT_CENTER        ,
+    OF_TEXT_ALIGN_VERT_BASELINE
+};
+
+
+
 enum ofxGuiSize {
     SIZE_NONE = 0,
     SIZE_XXSMALL,

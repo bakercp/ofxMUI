@@ -323,7 +323,7 @@ void ofxGuiDefaults::initFonts() {
     
     cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
     
-    ofTrueTypeFont::Settings settings;
+    ofxGuiFont::Settings settings;
     
     settings.bAntiAliased = false;
     settings.bForceAutoHinting = true;
