@@ -18,14 +18,14 @@ public:
 
     // utilities for rectangles
     
-    static ofRectangle  intersection(const ofRectangle* rect0, 
-                                     const ofRectangle* rect1); 
-    
-    static bool intersect(const ofRectangle* rect0, 
-                          const ofRectangle* rect1); 
-    
-    static bool contains(const ofRectangle* r0, 
-                         const ofRectangle* r1);
+//    static ofRectangle  intersection(const ofRectangle* rect0, 
+//                                     const ofRectangle* rect1); 
+//    
+//    static bool intersect(const ofRectangle* rect0, 
+//                          const ofRectangle* rect1); 
+//    
+//    static bool contains(const ofRectangle* r0, 
+//                         const ofRectangle* r1);
 
     
     // utilities for alignment and distribution

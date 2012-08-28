@@ -1,34 +1,34 @@
 #include "ofxGuiRectUtils.h"
 
 
-//--------------------------------------------------------------
-ofRectangle ofxGuiRectUtils::intersection(const ofRectangle* r0, const ofRectangle* r1) {
-    ofRectangle r(0,0,0,0);
-    
-    if(intersect(r0, r1)) {
-        r.x = MAX(r0->x, r1->x);
-        r.y = MAX(r0->y, r1->y);
-        r.width = MIN(r0->x + r0->width, r1->x + r1->width); 
-        r.height = MIN(r0->y + r0->height, r1->y + r1->height); 
-    } 
-       
-    return r;
-}
-
-//--------------------------------------------------------------
-bool ofxGuiRectUtils::contains(const ofRectangle* r0, const ofRectangle* r1) {
-    return r1->x >= r0->x && r1->x + r1->width  <= r0->x + r0->width &&
-           r1->y >= r0->y && r1->y + r1->height <= r0->y + r0->height;
-    
-}
-
-//--------------------------------------------------------------
-bool ofxGuiRectUtils::intersect(const ofRectangle* r0, const ofRectangle* r1) {
-    return  r0->x               < (r1->x + r1->width)  &&
-           (r0->x + r0->width)  >  r1->x               &&
-            r0->y               < (r1->y + r1->height) &&
-           (r0->y + r0->height) >  r1->y;
-}
+////--------------------------------------------------------------
+//ofRectangle ofxGuiRectUtils::intersection(const ofRectangle* r0, const ofRectangle* r1) {
+//    ofRectangle r(0,0,0,0);
+//    
+//    if(intersect(r0, r1)) {
+//        r.x = MAX(r0->x, r1->x);
+//        r.y = MAX(r0->y, r1->y);
+//        r.width = MIN(r0->x + r0->width, r1->x + r1->width); 
+//        r.height = MIN(r0->y + r0->height, r1->y + r1->height); 
+//    } 
+//       
+//    return r;
+//}
+//
+////--------------------------------------------------------------
+//bool ofxGuiRectUtils::contains(const ofRectangle* r0, const ofRectangle* r1) {
+//    return r1->x >= r0->x && r1->x + r1->width  <= r0->x + r0->width &&
+//           r1->y >= r0->y && r1->y + r1->height <= r0->y + r0->height;
+//    
+//}
+//
+////--------------------------------------------------------------
+//bool ofxGuiRectUtils::intersect(const ofRectangle* r0, const ofRectangle* r1) {
+//    return  r0->x               < (r1->x + r1->width)  &&
+//           (r0->x + r0->width)  >  r1->x               &&
+//            r0->y               < (r1->y + r1->height) &&
+//           (r0->y + r0->height) >  r1->y;
+//}
 
 //--------------------------------------------------------------
 void ofxGuiRectUtils::horzAlign(ofRectangle* rect, 
@@ -565,11 +565,11 @@ void ofxGuiRectUtils::selectRectangles(vector<ofRectangle*>& toTest, vector<ofRe
     selected.clear();
     for(vector<ofRectangle*>::iterator it = toTest.begin(); it != toTest.end(); ++it) {
         if(enclosed) {
-            if(contains(&boundingBox, (*it))) {
+            if(boundingBox.inside(*(*it))) {
                 selected.push_back((*it));
             }
         } else {
-            if(intersect(&boundingBox, (*it))) {
+            if(boundingBox.intersects(*(*it))) {
                 selected.push_back(*it);
             }
         }
