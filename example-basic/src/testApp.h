@@ -3,11 +3,11 @@
 
 
 #include "ofMain.h"
-#include "ofxGui.h"
+#include "ofxMui.h"
 
-#include "ofxGuiWindow.h"
-#include "ofxGuiTextBlock.h"
-#include "ofxGuiTrueTypeFont.h"
+#include "ofxMuiWindow.h"
+#include "ofxMuiTextBlock.h"
+#include "ofxMuiTrueTypeFont.h"
 //#include "MyCustomControllerObject.h"
 //#include "TestObject.h"
 
@@ -33,9 +33,9 @@ public:
 
     float bkg;
 
-    //ofxGuiSlider* mySlider;
-    //ofxGuiLabelledButton* myButton;
-    //ofxGuiLabelledButton* myOtherButton;
+    //ofxMuiSlider* mySlider;
+    //ofxMuiLabelledButton* myButton;
+    //ofxMuiLabelledButton* myOtherButton;
 
     void printModifiers();
     
@@ -43,50 +43,50 @@ public:
 
     void newButtonEvent(const void * sender, int & i);
 
-    ofxGui* gui;
-    ofxGuiButton* button;
-    ofxGuiButton* button0;
-    ofxGuiButton* button1;
-    ofxGuiButton* button2;
-    ofxGuiButton* button3;
-    ofxGuiButton* button4;
+    ofxMui* gui;
+    ofxMuiButton* button;
+    ofxMuiButton* button0;
+    ofxMuiButton* button1;
+    ofxMuiButton* button2;
+    ofxMuiButton* button3;
+    ofxMuiButton* button4;
     
     //, obj;
-    //ofxGuiColorPicker* picker;
-    //ofxGuiWindow* panel;
-    //ofxGuiWindow* panel1;
-    //    ofxGuiPanel* obj;
-    //ofxGuiLabelledButton* obj;
-    ofxGuiSlider* sliderH;
-    ofxGuiSlider* sliderV;
-    ofxGuiSlider* slider0;
-    ofxGuiSlider* slider1;
-    ofxGuiSlider* slider2;
-    ofxGuiSlider* slider3;
+    //ofxMuiColorPicker* picker;
+    //ofxMuiWindow* panel;
+    //ofxMuiWindow* panel1;
+    //    ofxMuiPanel* obj;
+    //ofxMuiLabelledButton* obj;
+    ofxMuiSlider* sliderH;
+    ofxMuiSlider* sliderV;
+    ofxMuiSlider* slider0;
+    ofxMuiSlider* slider1;
+    ofxMuiSlider* slider2;
+    ofxMuiSlider* slider3;
 
     
-    ofxGuiLabel* lab0;
-    ofxGuiLabel* lab1;
-    ofxGuiLabel* lab2;
-    ofxGuiLabel* lab3;
-    ofxGuiLabel* lab4;
-    ofxGuiLabel* lab5;
-    ofxGuiLabel* lab6;
-    ofxGuiLabel* lab7;
+    ofxMuiLabel* lab0;
+    ofxMuiLabel* lab1;
+    ofxMuiLabel* lab2;
+    ofxMuiLabel* lab3;
+    ofxMuiLabel* lab4;
+    ofxMuiLabel* lab5;
+    ofxMuiLabel* lab6;
+    ofxMuiLabel* lab7;
 
-    ofxGuiLabel* lab0i;
-    ofxGuiLabel* lab1i;
-    ofxGuiLabel* lab2i;
-    ofxGuiLabel* lab3i;
+    ofxMuiLabel* lab0i;
+    ofxMuiLabel* lab1i;
+    ofxMuiLabel* lab2i;
+    ofxMuiLabel* lab3i;
 
-    ofxGuiNumberBox* nb0;
-    ofxGuiNumberBox* nb1;
-    ofxGuiNumberBox* nb2;
-    ofxGuiNumberBox* nb3;
+    ofxMuiNumberBox* nb0;
+    ofxMuiNumberBox* nb1;
+    ofxMuiNumberBox* nb2;
+    ofxMuiNumberBox* nb3;
     
     
-    ofxGuiKnob* knob0;
-    //ofxGuiNumberBox* nb;
+    ofxMuiKnob* knob0;
+    //ofxMuiNumberBox* nb;
 
     //ofxTestObj* obj;
     //MyCustomControllerObject* guiObj;
@@ -96,9 +96,9 @@ public:
     ofRectangle bb;
     
     
-    ofxGuiTextBlock* tb;;
-    ofxGuiTrueTypeFont ttf;
-    //ofxGuiTrueTypeFont ttf2;
+    ofxMuiTextBlock* tb;;
+    ofxMuiTrueTypeFont ttf;
+    //ofxMuiTrueTypeFont ttf2;
     
     vector<ofCharacter> offsets;
     

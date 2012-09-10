@@ -39,7 +39,7 @@ void testApp::setup(){
 */
     
     
-    ofxGuiFont::Settings settings;
+    ofxMuiFont::Settings settings;
     
     settings.fontFilename = "Calibri.ttf";//automat.ttf";//gui/default/fonts/ProggySquare.ttf";
     settings.fontSize = 30;
@@ -82,10 +82,10 @@ void testApp::setup(){
 
     //    img.loadImage("tree.jpeg");
     
-	gui = new ofxGui(ofGetWidth(), ofGetHeight());
+	gui = new ofxMui(ofGetWidth(), ofGetHeight());
 
     /*
-    tb = new ofxGuiTextBlock(&ttf);
+    tb = new ofxMuiTextBlock(&ttf);
     tb->setBlockWidth(500);
     
     tb->setText(txt);
@@ -101,10 +101,10 @@ void testApp::setup(){
     float w = 300;
     float h = 50;
   
-//    nb0 = new ofxGuiNumberBox("XXSMALL/DEFAULT",xPos,yPos);
+//    nb0 = new ofxMuiNumberBox("XXSMALL/DEFAULT",xPos,yPos);
 //    gui->addGuiObject(nb0);
 
-    knob0 = new ofxGuiKnob("The KNOB", xPos,yPos);
+    knob0 = new ofxMuiKnob("The KNOB", xPos,yPos);
    knob0->setBounds(0,1024);
     knob0->setRange(255,768);
     gui->addGuiObject(knob0);
@@ -112,52 +112,52 @@ void testApp::setup(){
     
     
     
-    lab0 = new ofxGuiLabel("XXSMALL/DEFAULT", xPos, yPos);//, w, h);
+    lab0 = new ofxMuiLabel("XXSMALL/DEFAULT", xPos, yPos);//, w, h);
     lab0->setFontSize(SIZE_XXSMALL);
     //lab0->setOrientation(OF_ORIENTATION_90_LEFT);
     gui->addGuiObject(lab0);
-    lab1 = new ofxGuiLabel("XSMALL/DEFAULT", xPos, lab0->getBottom());//,w, h);
+    lab1 = new ofxMuiLabel("XSMALL/DEFAULT", xPos, lab0->getBottom());//,w, h);
     lab1->setFontSize(SIZE_XSMALL);
     gui->addGuiObject(lab1);
-    lab2 = new ofxGuiLabel("SMALL/DEFAULT", xPos, lab1->getBottom());//,w, h);
+    lab2 = new ofxMuiLabel("SMALL/DEFAULT", xPos, lab1->getBottom());//,w, h);
     lab2->setFontSize(SIZE_SMALL);
     gui->addGuiObject(lab2);
-    lab3 = new ofxGuiLabel("MED/DEFAULT", xPos, lab2->getBottom());//,w, h);
+    lab3 = new ofxMuiLabel("MED/DEFAULT", xPos, lab2->getBottom());//,w, h);
     lab3->setFontSize(SIZE_MEDIUM);
     gui->addGuiObject(lab3);
-    lab4 = new ofxGuiLabel("LARGE/DEFAULT", xPos, lab3->getBottom());//,w, h);
+    lab4 = new ofxMuiLabel("LARGE/DEFAULT", xPos, lab3->getBottom());//,w, h);
     lab4->setFontSize(SIZE_LARGE);
     gui->addGuiObject(lab4);
-    lab5 = new ofxGuiLabel("XLARGE/DEFAULT", xPos, lab4->getBottom());//,w, h);
+    lab5 = new ofxMuiLabel("XLARGE/DEFAULT", xPos, lab4->getBottom());//,w, h);
     lab5->setFontSize(SIZE_XLARGE);
     gui->addGuiObject(lab5);
-    lab6 = new ofxGuiLabel("XXLARGE/DEFAULT", xPos, lab5->getBottom());//,w, h);
+    lab6 = new ofxMuiLabel("XXLARGE/DEFAULT", xPos, lab5->getBottom());//,w, h);
     lab6->setFontSize(SIZE_XXLARGE);
     gui->addGuiObject(lab6);
     lab6->setOrientation(OF_ORIENTATION_180);
 
     
-    lab0i = new ofxGuiLabel("LABEL 0", 250, 150);
+    lab0i = new ofxMuiLabel("LABEL 0", 250, 150);
     lab0i->setFontSize(SIZE_SMALL);
     lab0i->setOrientation(OF_ORIENTATION_DEFAULT);
     gui->addGuiObject(lab0i);
-    lab1i = new ofxGuiLabel("LABEL 1", 250, 150 + 50);
+    lab1i = new ofxMuiLabel("LABEL 1", 250, 150 + 50);
     lab1i->setFontSize(SIZE_MEDIUM);
     lab1i->setOrientation(OF_ORIENTATION_DEFAULT);
     gui->addGuiObject(lab1i);
-    lab2i = new ofxGuiLabel("LABEL 2", 250, 150 + 100);
+    lab2i = new ofxMuiLabel("LABEL 2", 250, 150 + 100);
     lab2i->setFontSize(SIZE_LARGE);
     lab2i->setOrientation(OF_ORIENTATION_DEFAULT);
     gui->addGuiObject(lab2i);
     
 
     
-    button = new ofxGuiButton("MY BIG ASS BUTTON", ofGetWidth() / 2, ofGetHeight() / 2);
+    button = new ofxMuiButton("MY BIG ASS BUTTON", ofGetWidth() / 2, ofGetHeight() / 2);
     gui->addGuiObject(button);
 
     
     
-    sliderH = new ofxGuiSlider("SLIDER ONE AND A HALF",100,100);//,10,10);
+    sliderH = new ofxMuiSlider("SLIDER ONE AND A HALF",100,100);//,10,10);
     //sliderH->disableLabel();
     //sliderH->setSliderHeight(10);
     //sliderH->getLabel()->setFontSize(SIZE_XSMALL);
@@ -168,14 +168,14 @@ void testApp::setup(){
     sliderH->setValue(0.5);
     gui->addGuiObject(sliderH);
     
-    sliderV = new ofxGuiSlider("SLIDER TWO",100,150);//,10,10);
+    sliderV = new ofxMuiSlider("SLIDER TWO",100,150);//,10,10);
     sliderV->setOrientation(OF_ORIENTATION_90_LEFT);
     sliderV->setBoundsMin(-1000);
     sliderV->setBoundsMax(1000);
     sliderV->setValue(0.5);
     gui->addGuiObject(sliderV);
     
-    slider0 = new ofxGuiSlider("SLIDER TWO",400,50);//,10,10);
+    slider0 = new ofxMuiSlider("SLIDER TWO",400,50);//,10,10);
     slider0->setOrientation(OF_ORIENTATION_90_LEFT);
     //slider0->setLabelPosition(ALIGN_RIGHT);
     slider0->setBoundsMin(-1000);
@@ -185,7 +185,7 @@ void testApp::setup(){
     gui->addGuiObject(slider0);
 
     
-    slider1 = new ofxGuiSlider("SLIDER TWO",400,300);//,10,10);
+    slider1 = new ofxMuiSlider("SLIDER TWO",400,300);//,10,10);
     //slider1->setLabelPosition(ALIGN_TOP);
     slider1->setBoundsMin(-1000);
     slider1->setBoundsMax(1000);
@@ -195,19 +195,19 @@ void testApp::setup(){
 
 
     
-    button = new ofxGuiButton("BUTTON 0", 10, 200);
-    button0 = new ofxGuiButton("BUTTON 1", 10, 200+40);
+    button = new ofxMuiButton("BUTTON 0", 10, 200);
+    button0 = new ofxMuiButton("BUTTON 1", 10, 200+40);
     button0->setButtonIcon(ICON_TARGET);
     button0->setRoundFrame(true);
     
-    button1 = new ofxGuiButton("BUTTON 2", 10, 200+80);
+    button1 = new ofxMuiButton("BUTTON 2", 10, 200+80);
     button1->setButtonIcon(ICON_X);
     
-    button2 = new ofxGuiButton("BUTTON 3", 10, 200+120);
+    button2 = new ofxMuiButton("BUTTON 3", 10, 200+120);
     button2->setButtonIcon(ICON_PLUSMINUS);
-    button3 = new ofxGuiButton("BUTTON 3", 10, 200+160);
+    button3 = new ofxMuiButton("BUTTON 3", 10, 200+160);
     button3->setButtonIcon(ICON_CHECK);
-    button4 = new ofxGuiButton("BUTTON 3", 10, 200+200);
+    button4 = new ofxMuiButton("BUTTON 3", 10, 200+200);
     
     gui->addGuiObject(button);
     gui->addGuiObject(button0);
@@ -237,11 +237,11 @@ void testApp::setup(){
 	knob = panel->addKnob("My Knob");
 	nb = panel->addNumberBox("My NumberBox");
 
-	//obj = new ofxGuiButton("BUTTON", 600,600);
+	//obj = new ofxMuiButton("BUTTON", 600,600);
 	//obj->getLabel()->setName("b_U_TTTOON");
 	//gui->addGuiObject(obj);
 
-	slider = new ofxGuiSlider("MY SLIDER", 500, 500);
+	slider = new ofxMuiSlider("MY SLIDER", 500, 500);
 	slider->setSliderWidth(400);
 	slider->setSliderHeight(50);
 	//slider->setGlobalMinMax(0.0, 100.0);
@@ -411,8 +411,8 @@ void testApp::draw(){
     ofSetColor(255);
     //img.draw(0,0);
     
-	//ofxGuiLabel* panelEDBValueLabel = panel->enableDisableButton->getValueLabel();
-	//ofxGuiLabel* panelEDBLabel = panel->enableDisableButton->getLabel();
+	//ofxMuiLabel* panelEDBValueLabel = panel->enableDisableButton->getValueLabel();
+	//ofxMuiLabel* panelEDBLabel = panel->enableDisableButton->getLabel();
 
 	ofSetColor(0,255,0);
 	ofNoFill();
@@ -514,10 +514,10 @@ void testApp::keyPressed(int key){
     printModifiers();
     
     if(key == 'a') {
-        sliderH->setBounds(ofxGuiRange(-1000,1000));
+        sliderH->setBounds(ofxMuiRange(-1000,1000));
         sliderH->setRange(-100,100); 
     } else if(key == 'b') {
-        sliderH->setBounds(ofxGuiRange(-1,1));
+        sliderH->setBounds(ofxMuiRange(-1,1));
         sliderH->clearRange();
     } else if(key == 'c') {
         sliderH->enableLabels();
@@ -559,7 +559,7 @@ void testApp::mousePressed(int x, int y, int button){
     rects.push_back(oo);
     
      */
-   // ofxGuiBox::getBoundingBox(rects, bb);
+   // ofxMuiBox::getBoundingBox(rects, bb);
     
 }
 
