@@ -28,16 +28,16 @@ public:
     // CONSTRUCTORS+DESTRUCTORS ////////////////////////////////////
     //--------------------------------------------------------------
     ofxGuiNumberData();
-    ofxGuiNumberData(ofxGuiNumberDataType dataType);
-    ofxGuiNumberData(ofxGuiNumberDataType dataType, int initialSize);
+    ofxGuiNumberData(const ofxGuiNumberDataType& dataType);
+    ofxGuiNumberData(const ofxGuiNumberDataType& dataType, int initialSize);
     
     virtual ~ofxGuiNumberData();
 
     //--------------------------------------------------------------
     // DATA TYPE ///////////////////////////////////////////////////
     //--------------------------------------------------------------
-    void setDataType(ofxGuiNumberDataType dataType);
-    ofxGuiNumberDataType getDataType();
+    void setDataType(const ofxGuiNumberDataType& dataType);
+    ofxGuiNumberDataType getDataType() const;
     
     //--------------------------------------------------------------
     // GETTING AND SETTING /////////////////////////////////////////
@@ -47,29 +47,28 @@ public:
     bool  setNormalizedValue(float val, int index = 0);
     void  setAllNormalizedValues(float val);
     
-    float getValue(int index = 0);
-    float getValueFloat(int index = 0);
-    int   getValueInt(int index = 0);
-    bool  getValueBool(int index = 0);
+    float getValue(int index = 0) const;
+    float getValueFloat(int index = 0) const;
+    int   getValueInt(int index = 0) const;
+    bool  getValueBool(int index = 0) const;
     
-    float getNormalizedValue(int index = 0); // can fail
+    float getNormalizedValue(int index = 0) const; // can fail
     
     // simple history
-    float getLastValue(int index = 0);
-    float getLastValueFloat(int index = 0);
-    int   getLastValueInt(int index = 0);
-    bool  getLastValueBool(int index = 0);
+    float getLastValue(int index = 0) const;
+    float getLastValueFloat(int index = 0) const;
+    int   getLastValueInt(int index = 0) const;
+    bool  getLastValueBool(int index = 0) const;
 
-    float getLastNormalizedValue(int index = 0); // can fail
+    float getLastNormalizedValue(int index = 0) const; // can fail
     
     // uses the value with the last value
-    float getDeltaValue(int index = 0);
-    float getDeltaValueFloat(int index = 0);
-    int   getDeltaValueInt(int index = 0);
-    bool  getDeltaValueBool(int index = 0);
-    
-
-    int   getNumValues();
+    float getDeltaValue(int index = 0) const;
+    float getDeltaValueFloat(int index = 0) const;
+    int   getDeltaValueInt(int index = 0) const;
+    bool  getDeltaValueBool(int index = 0) const;
+ 
+    int   getNumValues() const;
     
     //--------------------------------------------------------------
     // HISTORY ////////////////////////////////////////////////////
@@ -78,7 +77,7 @@ public:
     // TODO: implement a variable history with the queue
     
     bool setHistoryLength(int length, int index = 0);
-    int getHistoryLength(int index = 0);
+    int getHistoryLength(int index = 0) const;
     
     //--------------------------------------------------------------
     // ADDING/INSERTING/REMOVING ///////////////////////////////////
@@ -109,13 +108,13 @@ public:
     bool setBoundsMin(float _min, int index = 0);
     bool setBoundsMax(float _max, int index = 0);
     
-    float getBoundsMin(int index = 0);
-    float getBoundsMax(int index = 0);
+    float getBoundsMin(int index = 0) const;
+    float getBoundsMax(int index = 0) const;
     
     bool clearBounds(int index = 0); // will also clear range
 
 
-    ofxGuiRange getBounds(int index = 0);
+    ofxGuiRange getBounds(int index = 0) const;
 
     // range
     
@@ -125,26 +124,26 @@ public:
     bool setRangeMin(float _min, int index = 0);
     bool setRangeMax(float _max, int index = 0);
     
-    float getRangeMin(int index = 0);
-    float getRangeMax(int index = 0);
+    float getRangeMin(int index = 0) const;
+    float getRangeMax(int index = 0) const;
     
     bool setNormalizedRangeMin(float _min, int index = 0);
     bool setNormalizedRangeMax(float _max, int index = 0);
     
-    float getNormalizedRangeMin(int index = 0);
-    float getNormalizedRangeMax(int index = 0);
+    float getNormalizedRangeMin(int index = 0) const;
+    float getNormalizedRangeMax(int index = 0) const;
         
-    ofxGuiRange getRange(int index = 0);
+    ofxGuiRange getRange(int index = 0) const;
 
-    bool isRangeEnabled();
+    bool isRangeEnabled() const;
     bool clearRange(int index = 0);
     
     //--------------------------------------------------------------
     // DISPLAY PRECISION ///////////////////////////////////////////
     //--------------------------------------------------------------
 
+    float getDisplayPrecision(int index = 0) const;
     bool  setDisplayPrecision(float _precision, int index = 0);
-    float getDisplayPrecision(int index = 0);
     
     //--------------------------------------------------------------
     // INCREMENTING ////////////////////////////////////////////////
@@ -152,7 +151,7 @@ public:
     
     bool setIncrementValue(float _incrementValue, int index = 0);
     bool setAllIncrementValues(float _incrementValue);
-    float getIncrementValue(int index = 0);
+    float getIncrementValue(int index = 0) const;
 
     bool increment(int index = 0);
     void incrementAll();
@@ -189,7 +188,7 @@ public:
     //--------------------------------------------------------------
     
     bool setQuantizationSteps(int _numSteps, int index = 0);
-    int  getQuantizationSteps(int index = 0);
+    int  getQuantizationSteps(int index = 0) const;
     bool setAllQuantizationSteps(float _numSteps);
     bool disableQuantization(int index = 0);
 
@@ -215,23 +214,23 @@ public:
     void setRightOrLeftRangeLimit(float norm);
     
 protected:
-    bool isValidIndex(int index);
-    bool isValidInsertionIndex(int index);
+    bool isValidIndex(int index) const;
+    bool isValidInsertionIndex(int index) const;
     
-    bool canUseSetAll();
+    bool canUseSetAll() const;
     
     void checkRange(bool& boundsChanged, bool& rangeChanged, int index = 0);
         
-    bool isArrayType();
-    bool isBoolType();
-    bool isFloatType();
-    bool isIntType();
+    bool isArrayType() const;
+    bool isBoolType() const;
+    bool isFloatType() const;
+    bool isIntType() const;
 
     
-    float getDefaultIncrement();
-    float getDefaultDisplayPrecision();
-    ofxGuiRange getDefaultBound();
-    ofxGuiRange getDefaultRange();
+    float getDefaultIncrement() const;
+    float getDefaultDisplayPrecision() const;
+    ofxGuiRange getDefaultBound() const;
+    ofxGuiRange getDefaultRange() const;
     
 private:
     

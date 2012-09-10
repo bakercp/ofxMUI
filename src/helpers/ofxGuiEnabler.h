@@ -24,7 +24,7 @@ public:
     // this is a general use state.  this is the base state.  if the
     // subclass is not enabled, then very little will be propagated.
     
-    bool isEnabled();
+    bool isEnabled() const;
     void enable();
     void disable();
     void toggleEnabled();
@@ -37,7 +37,7 @@ public:
     // values) respect a locked state.  e.g. when a button is locked
     // it cannot be modified
     
-    bool isLocked();
+    bool isLocked() const;
     void setLocked(bool _locked);
     
     //--------------------------------------------------------------
@@ -46,7 +46,7 @@ public:
     // this is primarily set and unset by parent objects that 
     // minimize (i.e. panels);
     
-    bool isHidden();
+    bool isHidden() const;
     void setHidden(bool _hidden);
     void show();
     void hide();
@@ -57,7 +57,7 @@ public:
     // this allows a special case when the object should not be 
     // setup for some reason.
     
-    bool isSetupHandler();
+    bool isSetupHandler() const;
     void setIsSetupHandler(bool _isSetup);
     
     bool propagateSetupEvents();
@@ -69,7 +69,7 @@ public:
     // this allows a special case when the object should not be 
     // rendered for some reason.
     
-    bool isDrawHandler();
+    bool isDrawHandler() const;
     void setIsDrawHandler(bool _isDrawing);
     
     bool propagateDrawEvents();
@@ -81,7 +81,7 @@ public:
     // this allows a special case when the object should not be 
     // rendered for some reason.
     
-    bool isUpdateHandler();
+    bool isUpdateHandler() const;
     void setIsUpdateHandler(bool _isUpdating);
     
     bool propagateUpdateEvents();
@@ -92,7 +92,7 @@ public:
     // INPUT EVENT HANDLING ////////////////////////////////////////
     //--------------------------------------------------------------
     
-    bool isMouseHandler();
+    bool isMouseHandler() const;
     void setIsMouseHandler(bool _isMouseHandler);
     
     bool isKeyboardHandler();
@@ -114,13 +114,13 @@ public:
     // OTHER EVENT HANDLING ////////////////////////////////////////
     //--------------------------------------------------------------
     
-    bool isMessageHandler();
+    bool isMessageHandler() const;
     void setIsMessageHandler(bool _val);
 
-    bool isFileDragHandler();
+    bool isFileDragHandler() const;
     void setIsFileDragHandler(bool _val);
     
-    bool isWindowResizedHandler();
+    bool isWindowResizedHandler() const;
     void setIsWindowResizedHandler(bool _val);
 
     

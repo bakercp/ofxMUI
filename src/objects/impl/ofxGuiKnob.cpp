@@ -22,21 +22,21 @@
 #include "ofxGuiKnob.h"
 
 //--------------------------------------------------------------
-ofxGuiKnob::ofxGuiKnob(string _name, int _x, int _y, int _width, int _height, bool _enabled) : 
+ofxGuiKnob::ofxGuiKnob(const string& _name, int _x, int _y, int _width, int _height, bool _enabled) : 
     ofxGuiLabelledObject(_name, _x, _y, _width, _height, _enabled),
     ofxGuiNumberData() {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiKnob::ofxGuiKnob(string _name, int _x, int _y,bool _enabled) : 
+ofxGuiKnob::ofxGuiKnob(const string& _name, int _x, int _y,bool _enabled) : 
     ofxGuiLabelledObject(_name, _x, _y, _enabled),
     ofxGuiNumberData() {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiKnob::ofxGuiKnob(string _name,bool _enabled) :
+ofxGuiKnob::ofxGuiKnob(const string& _name,bool _enabled) :
     ofxGuiLabelledObject(_name, _enabled),
     ofxGuiNumberData() {
     init();
@@ -108,7 +108,7 @@ void ofxGuiKnob::init() {
     
     normCtrlDragStartMin = 0.0f;
     normCtrlDragStartMax = 0.0f;
-    totalDragDelta = 0.0f;
+    totalDragDelta = ofPoint(0.0f,0.0f);
     
     dKnobScaler = 0.01f;
     
@@ -320,7 +320,7 @@ void ofxGuiKnob::keyBind_decreaseValue(int key) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiKnob::getSmartRotate() {
+bool ofxGuiKnob::getSmartRotate() const {
     return smartRotate;
 }
 

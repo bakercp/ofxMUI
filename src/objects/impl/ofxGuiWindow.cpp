@@ -2,19 +2,19 @@
 #include "ofxGuiWindow.h"
 
 //--------------------------------------------------------------
-ofxGuiWindow::ofxGuiWindow(string _name, int _x, int _y, int _width, int _height, bool _enabled) : 
+ofxGuiWindow::ofxGuiWindow(const string& _name, int _x, int _y, int _width, int _height, bool _enabled) : 
 ofxGuiPanel(_name, _x, _y, _width, _height, _enabled) {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiWindow::ofxGuiWindow(string _name, int _x, int _y,bool _enabled) : 
+ofxGuiWindow::ofxGuiWindow(const string& _name, int _x, int _y,bool _enabled) : 
 ofxGuiPanel(_name, _x, _y, _enabled) {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiWindow::ofxGuiWindow(string _name,bool _enabled) :
+ofxGuiWindow::ofxGuiWindow(const string& _name,bool _enabled) :
 ofxGuiPanel(_name, _enabled) {
     init();
 }

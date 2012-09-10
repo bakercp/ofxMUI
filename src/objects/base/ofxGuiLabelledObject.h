@@ -33,19 +33,28 @@ public:
     void disableValueLabel();
     void disableLabel();
     
-    void setLabelPosition(ofxGuiAlign pos);
-    void setValueLabelPosition(ofxGuiAlign pos);
+    void setLabelPositionHorz(const ofAlignHorz& hPos);
+    void setLabelPositionVert(const ofAlignVert& vPos);
 
-    ofxGuiAlign getLabelPosition();
-    ofxGuiAlign getValueLabelPosition();
+    void setValueLabelPositionHorz(const ofAlignHorz& hPos);
+    void setValueLabelPositionVert(const ofAlignVert& vPos);
+
+    ofAlignHorz getLabelPositionHorz() const;
+    ofAlignVert getLabelPositionVert() const;
+    
+    ofAlignHorz getValueLabelPositionHorz() const;
+    ofAlignVert getValueLabelPositionVert() const;
     
 protected:
     void init();
     ofxGuiLabel* label;      // the label describing the value
     ofxGuiLabel* valueLabel; // the internal value label
     
-    ofxGuiAlign labelPosition;
-    ofxGuiAlign valueLabelPosition;
+    ofAlignHorz labelPositionHorz;
+    ofAlignVert labelPositionVert;
     
+    ofAlignHorz valueLabelPositionHorz;
+    ofAlignVert valueLabelPositionVert;
+        
 };
 

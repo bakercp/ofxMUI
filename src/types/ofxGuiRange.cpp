@@ -62,19 +62,19 @@ void ofxGuiRange::expandToFit(float _val) {
 
 
 //--------------------------------------------------------------
-bool ofxGuiRange::intersects(ofxGuiRange _range) {
+bool ofxGuiRange::intersects(ofxGuiRange _range) const {
     return contains(_range.getMin()) || contains(_range.getMax());
 }
 
 //--------------------------------------------------------------
-ofxGuiRange ofxGuiRange::intersect(ofxGuiRange _range) {
+ofxGuiRange ofxGuiRange::intersect(ofxGuiRange _range) const {
     ofxGuiRange newRange;
     newRange.setMin(constrain(_range.getMin()));
     newRange.setMax(constrain(_range.getMax()));
     return newRange;
 }
 
-ofxGuiRange ofxGuiRange::constrain(ofxGuiRange _range) {
+ofxGuiRange ofxGuiRange::constrain(ofxGuiRange _range) const {
     ofxGuiRange range = _range;
     //cout << "\t\tCONSTRAIN 0 <<" << range.toString() << endl;
     range.setMin(constrain(range.getMin()));
@@ -85,7 +85,7 @@ ofxGuiRange ofxGuiRange::constrain(ofxGuiRange _range) {
 }
 
 //--------------------------------------------------------------
-float ofxGuiRange::constrain(float _value) {
+float ofxGuiRange::constrain(float _value) const {
     float value = _value;
     if(isMinSet()) {
         //cout << "CONSTRAINED " << value << " BY BOUNDED MIN OF " << getMin();
@@ -114,7 +114,7 @@ float ofxGuiRange::constrain(float _value) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiRange::contains(float _value) {
+bool ofxGuiRange::contains(float _value) const {
     if(isMinSet() && isMaxSet()) {
         return _value <= max && _value >= min;
     } else if(isMinSet()) {
@@ -128,35 +128,35 @@ bool ofxGuiRange::contains(float _value) {
 }
 
 //--------------------------------------------------------------
-float ofxGuiRange::mean() {
+float ofxGuiRange::mean() const {
     return lerp(0.5);
 }
 
 //--------------------------------------------------------------
-float ofxGuiRange::lerp(float amt) {
+float ofxGuiRange::lerp(float amt) const {
     if(!isBounded()) ofLog(OF_LOG_WARNING,"ofxGuiRange:: Attempting to lerp with an unbounded range.");
     return ofLerp(getMin(), getMax(), amt);
 }
 
 
 //--------------------------------------------------------------
-float ofxGuiRange::normalize(float _nValue) {
+float ofxGuiRange::normalize(float _nValue) const {
     if(!isBounded()) ofLog(OF_LOG_WARNING,"ofxGuiRange:: Attempting to denormalize with an unbounded range.");
     return ofNormalize(_nValue, getMin(),getMax());
 }
 
 
 //--------------------------------------------------------------
-float ofxGuiRange::denormalize(float _nValue) {
+float ofxGuiRange::denormalize(float _nValue) const {
     if(!isBounded()) ofLog(OF_LOG_WARNING,"ofxGuiRange:: Attempting to denormalize with an unbounded range.");
     if(_nValue > 1 || _nValue < 0) ofLog(OF_LOG_WARNING,"ofxGuiRange:: Attempting to denormalize a value outside of the 0-1 range, clamping.");
     return ofLerp(getMin(),getMax(), ofClamp(_nValue, 0, 1));
 }
 
 //--------------------------------------------------------------
-float ofxGuiRange::getMin() {return min;}
+float ofxGuiRange::getMin() const {return min;}
 //--------------------------------------------------------------
-float ofxGuiRange::getMax() {return max;}
+float ofxGuiRange::getMax() const {return max;}
 //--------------------------------------------------------------
 void ofxGuiRange::clearMin() { min = -numeric_limits<float>::max(); }
 //--------------------------------------------------------------
@@ -168,17 +168,17 @@ void ofxGuiRange::invertExtrema() {
     swap(min,max);
 }
 //--------------------------------------------------------------
-float ofxGuiRange::delta() {
+float ofxGuiRange::delta() const {
     if(!isBounded()) ofLog(OF_LOG_WARNING,"ofxGuiRange:: Attempting to delta with an unbounded range.");
     return getMax() - getMin();
 }
 //--------------------------------------------------------------
-bool ofxGuiRange::isMinSet() { return min != -numeric_limits<float>::max(); }
+bool ofxGuiRange::isMinSet() const { return min != -numeric_limits<float>::max(); }
 //--------------------------------------------------------------
-bool ofxGuiRange::isMaxSet() { return max != numeric_limits<float>::max(); }
+bool ofxGuiRange::isMaxSet() const { return max != numeric_limits<float>::max(); }
 
 //--------------------------------------------------------------
-bool ofxGuiRange::isBounded() {
+bool ofxGuiRange::isBounded() const {
     return isMinSet() && isMaxSet();
 }
 
@@ -254,7 +254,7 @@ ofxGuiRange ofxGuiRange::roundInward(ofxGuiRange& range) {
 
 
 
-string ofxGuiRange::toString() {
+string ofxGuiRange::toString() const {
     return ofToString(isMinSet()) + "/" + 
             ofToString(isMaxSet()) + 
             " MIN: " + ofToString(getMin()) + 

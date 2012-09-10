@@ -54,7 +54,7 @@ ofxGuiEnabler::~ofxGuiEnabler() {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiEnabler::isEnabled() {
+bool ofxGuiEnabler::isEnabled() const {
 		return _enabled;
 }
 
@@ -91,7 +91,7 @@ void ofxGuiEnabler::setEnabled(bool __enabled) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiEnabler::isLocked() {
+bool ofxGuiEnabler::isLocked() const {
     return _locked;
 }
 
@@ -110,7 +110,7 @@ void ofxGuiEnabler::setLocked(bool _val) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiEnabler::isHidden() {
+bool ofxGuiEnabler::isHidden() const {
     return _hidden;
 }
 
@@ -133,7 +133,7 @@ void ofxGuiEnabler::show() {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiEnabler::isSetupHandler() {
+bool ofxGuiEnabler::isSetupHandler() const {
     return _setupEvents;
 }
 
@@ -155,7 +155,7 @@ void ofxGuiEnabler::setPropagateSetupEvents(bool _val) {
 
 
 //--------------------------------------------------------------
-bool ofxGuiEnabler::isDrawHandler() {
+bool ofxGuiEnabler::isDrawHandler() const {
     return _drawEvents;
 }
 
@@ -176,7 +176,7 @@ void ofxGuiEnabler::setPropagateDrawEvents(bool _val) {
 
 
 //--------------------------------------------------------------
-bool ofxGuiEnabler::isUpdateHandler() {
+bool ofxGuiEnabler::isUpdateHandler() const {
     return _updateEvents;
 }
 
@@ -197,7 +197,7 @@ void ofxGuiEnabler::setPropagateUpdateEvents(bool _val) {
 
 
 //--------------------------------------------------------------
-bool ofxGuiEnabler::isMouseHandler() {
+bool ofxGuiEnabler::isMouseHandler() const {
     return _mouseEvents;
 }
 
@@ -245,7 +245,7 @@ void ofxGuiEnabler::setPropagatePeripheralEvents(bool _val) {
 
 
 //--------------------------------------------------------------
-bool ofxGuiEnabler::isMessageHandler() {
+bool ofxGuiEnabler::isMessageHandler() const {
     return _messageEvents;
 }
 
@@ -266,7 +266,7 @@ void ofxGuiEnabler::setPropagateMessageEvents(bool _val) {
 
 
 //--------------------------------------------------------------
-bool ofxGuiEnabler::isFileDragHandler() {
+bool ofxGuiEnabler::isFileDragHandler() const {
     return _fileDragEvents;
 }
 
@@ -287,7 +287,7 @@ void ofxGuiEnabler::setPropagateFileDragEvents(bool _val) {
 
 
 //--------------------------------------------------------------
-bool ofxGuiEnabler::isWindowResizedHandler() {
+bool ofxGuiEnabler::isWindowResizedHandler() const {
     return _windowResizedEvents;
 }
 
@@ -305,12 +305,3 @@ bool ofxGuiEnabler::propagateWindowResizedEvents() {
 void ofxGuiEnabler::setPropagateWindowResizedEvents(bool _val) {
     _propagateWindowResizedEvents = _val;
 }
-
-
-
-
-
-
-
-
- 

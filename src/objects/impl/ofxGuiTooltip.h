@@ -16,7 +16,7 @@
 
 class ofxGuiTooltip : public ofxGuiLabel {
 public:
-    ofxGuiTooltip(string _name, bool _enabled = true);
+    ofxGuiTooltip(const string& _name, bool _enabled = true);
     ofxGuiTooltip(bool _enabled = true);
     ~ofxGuiTooltip();
     
@@ -24,19 +24,19 @@ public:
     
     void setObject(ofxGuiObject* _object, ofMouseEventArgs &e);
     
-    void touchOn(ofVec2f _mousePosition);
+    void touchOn(const ofVec2f& _mousePosition);
     void touchOff();
 
     void cancel();
     
+    int  getFadeDelay() const;
     void setFadeDelay(int millis);
-    int  getFadeDelay();
     
+    int  getWaitDelay() const;
     void setWaitDelay(int millis);
-    int  getWaitDelay();
     
+    bool getFadeOut() const;
     void setFadeOut(bool _fadeOut);
-    bool getFadeOut();
     
 protected:
     void init();

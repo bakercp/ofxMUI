@@ -37,9 +37,9 @@ public:
     // CONSTRUCTORS+DESTRUCTORS ////////////////////////////////////
     //--------------------------------------------------------------
 
-    ofxGuiObject(string _name, int _x, int _y, int _width, int _height, bool _enabled = true);
-    ofxGuiObject(string _name, int _x, int _y, bool _enabled = true);
-    ofxGuiObject(string _name, bool _enabled = true);
+    ofxGuiObject(const string& _name, int _x, int _y, int _width, int _height, bool _enabled = true);
+    ofxGuiObject(const string& _name, int _x, int _y, bool _enabled = true);
+    ofxGuiObject(const string& _name, bool _enabled = true);
     ofxGuiObject(bool _enabled = true);
     
     virtual ~ofxGuiObject();
@@ -123,37 +123,37 @@ public:
 	void    cancelDrag();   // immediate cancel the dragging
 	
     void    setIsDragMoveable(bool _val); // can we drag this thing around
-    bool    isDragMoveable();
+    bool    isDragMoveable() const;
     
-    bool    isDragging();
+    bool    isDragging() const;
     
-    bool    isHitDragable();
-    bool    isHitDragOrigin();
+    bool    isHitDragable() const;
+    bool    isHitDragOrigin() const;
 
     void    setIsFileDropReceiver(bool _val);
-    bool    isFileDropReceiver();
+    bool    isFileDropReceiver() const;
     
     void    setIsDropSender(bool _val);
-    bool    isDropSender();
+    bool    isDropSender() const;
     
     void    setIsDropReceiver(bool _val);
-    bool    isDropReceiver();
+    bool    isDropReceiver() const;
     
     //--------------------------------------------------------------
     // INTERACTIVE INPUT ///////////////////////////////////////////
     //--------------------------------------------------------------
 
-    bool    isMouseDown();
-    bool    isMouseOver();
+    bool    isMouseDown() const;
+    bool    isMouseOver() const;
     
     //--------------------------------------------------------------
     // TOOLTIP /////////////////////////////////////////////////////
     //--------------------------------------------------------------
 
-    string  getTooltip();
-    void    setTooltip(string _tooltip);
+    string  getTooltip() const;
+    void    setTooltip(const string& _tooltip);
     
-    bool    isTooltipEnabled();
+    bool    isTooltipEnabled() const;
     void    setTooltipEnabled(bool _enable);
     
     //--------------------------------------------------------------
@@ -164,7 +164,7 @@ public:
     void setParent(ofxGuiObject* parent);
     
     // implemets virtual method from box
-	bool hasParent();
+	bool hasParent() const;
 
     bool isChild(ofxGuiObject* child);
     void addChild(ofxGuiObject* child);
@@ -175,10 +175,10 @@ public:
     // COLORS/SHADOWS //////////////////////////////////////////////
     //--------------------------------------------------------------
 
-    float getAlphaScale();
+    float getAlphaScale() const;
     void  setAlphaScale(float _alphaScale);
     
-    bool  getDoShadow();
+    bool  getDoShadow() const;
     void  setDoShadow(bool _doShadow);
     
     //--------------------------------------------------------------

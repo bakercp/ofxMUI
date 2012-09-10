@@ -38,9 +38,9 @@ class ofxGuiButton : public ofxGuiLabelledObject, public ofxGuiNumberData {
     
 public:
 
-    ofxGuiButton(string _name, int _x, int _y, int _width, int _height, bool _enabled = true);
-    ofxGuiButton(string _name, int _x, int _y,bool _enabled = true);
-    ofxGuiButton(string _name, bool _enabled = true);
+    ofxGuiButton(const string& _name, int _x, int _y, int _width, int _height, bool _enabled = true);
+    ofxGuiButton(const string& _name, int _x, int _y,bool _enabled = true);
+    ofxGuiButton(const string& _name, bool _enabled = true);
     ofxGuiButton(bool _enabled = true);
     virtual ~ofxGuiButton();
 
@@ -73,14 +73,14 @@ public:
     int  getButtonWidth();
     int  getButtonHeight();
 
-    void setButtonType(ofxGuiButtonType _buttonType);
-    ofxGuiButtonType getButtonType();
+    void setButtonType(const ofxGuiButtonType& _buttonType);
+    ofxGuiButtonType getButtonType() const;
     
-    void setButtonIcon(ofxGuiIconName _buttonIcon);
-    ofxGuiIconName getButtonIcon();
+    void setButtonIcon(const ofxGuiIconName& _buttonIcon);
+    ofxGuiIconName getButtonIcon() const;
     
-    void setVerticalAlign(ofxGuiAlign _vertical);
-    ofxGuiAlign getVerticalAlign();
+    void setAlignVert(const ofAlignVert& _vAlign);
+    ofAlignVert getAlignVert() const;
     
     void setRoundFrame(bool _roundFrame);
     bool getRoundFrame();
@@ -94,9 +94,6 @@ public:
     
     ofEvent<bool> ofxGuiButtonEvent;
 
-    
-    
-    
 protected:
 
     void init(); // local init for convenience
@@ -123,8 +120,9 @@ protected:
 	ofxGuiButtonType        buttonType;
     ofxGuiIconName          buttonIconName;
 
-    ofxGuiAlign             labelPosition;
-    ofxGuiAlign             verticalAlign;
+    ofAlignHorz             labelPositionHorz;
+    ofAlignVert             labelPositionVert;
+    ofAlignVert             vAlign;
     
     bool                    roundFrame;
     

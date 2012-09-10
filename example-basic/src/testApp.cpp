@@ -177,7 +177,7 @@ void testApp::setup(){
     
     slider0 = new ofxGuiSlider("SLIDER TWO",400,50);//,10,10);
     slider0->setOrientation(OF_ORIENTATION_90_LEFT);
-    slider0->setLabelPosition(ALIGN_RIGHT);
+    //slider0->setLabelPosition(ALIGN_RIGHT);
     slider0->setBoundsMin(-1000);
     slider0->setBoundsMax(1000);
     slider0->setValue(0.5);
@@ -186,7 +186,7 @@ void testApp::setup(){
 
     
     slider1 = new ofxGuiSlider("SLIDER TWO",400,300);//,10,10);
-    slider1->setLabelPosition(ALIGN_TOP);
+    //slider1->setLabelPosition(ALIGN_TOP);
     slider1->setBoundsMin(-1000);
     slider1->setBoundsMax(1000);
     slider1->setValue(0.5);

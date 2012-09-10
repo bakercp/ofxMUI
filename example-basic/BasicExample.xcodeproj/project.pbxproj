@@ -41,7 +41,6 @@
 		FD1D68CA13DD42F60096FAB8 /* ofxGuiColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD1D68B713DD42F60096FAB8 /* ofxGuiColor.cpp */; };
 		FD1D68D113DDDD660096FAB8 /* ofxGuiNumberBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD1D68D013DDDD650096FAB8 /* ofxGuiNumberBox.cpp */; };
 		FD217A7514E0E50C00E48401 /* ofxGuiTrueTypeFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD217A7414E0E50C00E48401 /* ofxGuiTrueTypeFont.cpp */; };
-		FD217A8114E203A700E48401 /* ofxGuiTextWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD217A8014E203A700E48401 /* ofxGuiTextWrapper.cpp */; };
 		FD96879313D3E92A00E81053 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD96878C13D3E92A00E81053 /* tinyxml.cpp */; };
 		FD96879413D3E92A00E81053 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD96878E13D3E92A00E81053 /* tinyxmlerror.cpp */; };
 		FD96879513D3E92A00E81053 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD96878F13D3E92A00E81053 /* tinyxmlparser.cpp */; };
@@ -51,7 +50,7 @@
 		FDC27AE714BB97FC00BB6C99 /* ofxGuiRange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC27AE514BB97F100BB6C99 /* ofxGuiRange.cpp */; };
 		FDC27AEA14BB9A3C00BB6C99 /* ofxGuiNumberData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC27AE814BB9A3A00BB6C99 /* ofxGuiNumberData.cpp */; };
 		FDC5067C152A3F0B00FE8B45 /* ofxGuiFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC5067A152A3F0B00FE8B45 /* ofxGuiFont.cpp */; };
-		FDD5F54614C750DA007F602C /* ofxGuiRectUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDD5F54414C750DA007F602C /* ofxGuiRectUtils.cpp */; };
+		FDD17E1D15FDB569000144C1 /* ofxRectangleUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDD17E1115FDB569000144C1 /* ofxRectangleUtils.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,8 +143,6 @@
 		FD217A7214E07CC800E48401 /* ofxGuiTextUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGuiTextUtils.h; sourceTree = "<group>"; };
 		FD217A7314E0E4F800E48401 /* ofxGuiTrueTypeFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGuiTrueTypeFont.h; sourceTree = "<group>"; };
 		FD217A7414E0E50C00E48401 /* ofxGuiTrueTypeFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGuiTrueTypeFont.cpp; sourceTree = "<group>"; };
-		FD217A7F14E2039000E48401 /* ofxGuiTextWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGuiTextWrapper.h; sourceTree = "<group>"; };
-		FD217A8014E203A700E48401 /* ofxGuiTextWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGuiTextWrapper.cpp; sourceTree = "<group>"; };
 		FD96878C13D3E92A00E81053 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
 		FD96878D13D3E92A00E81053 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
 		FD96878E13D3E92A00E81053 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
@@ -162,9 +159,9 @@
 		FDC27AE814BB9A3A00BB6C99 /* ofxGuiNumberData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGuiNumberData.cpp; sourceTree = "<group>"; };
 		FDC27AE914BB9A3B00BB6C99 /* ofxGuiNumberData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGuiNumberData.h; sourceTree = "<group>"; };
 		FDC5067A152A3F0B00FE8B45 /* ofxGuiFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGuiFont.cpp; sourceTree = "<group>"; };
-		FDC5067B152A3F0B00FE8B45 /* ofxGuiFont.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ofxGuiFont.h; sourceTree = "<group>"; };
-		FDD5F54414C750DA007F602C /* ofxGuiRectUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGuiRectUtils.cpp; sourceTree = "<group>"; };
-		FDD5F54514C750DA007F602C /* ofxGuiRectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGuiRectUtils.h; sourceTree = "<group>"; };
+		FDC5067B152A3F0B00FE8B45 /* ofxGuiFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGuiFont.h; sourceTree = "<group>"; };
+		FDD17E1115FDB569000144C1 /* ofxRectangleUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxRectangleUtils.cpp; sourceTree = "<group>"; };
+		FDD17E1215FDB569000144C1 /* ofxRectangleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxRectangleUtils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				FD6580E313D3E9B2006908FC /* ofxGui */,
+				FDD17DFD15FDB569000144C1 /* ofxRectangleUtils */,
 				FD96878913D3E92A00E81053 /* ofxXmlSettings */,
 			);
 			name = addons;
@@ -306,8 +304,6 @@
 			children = (
 				FDC5067A152A3F0B00FE8B45 /* ofxGuiFont.cpp */,
 				FDC5067B152A3F0B00FE8B45 /* ofxGuiFont.h */,
-				FDD5F54414C750DA007F602C /* ofxGuiRectUtils.cpp */,
-				FDD5F54514C750DA007F602C /* ofxGuiRectUtils.h */,
 				FD1D689613DD42F60096FAB8 /* ofxGuiBox.cpp */,
 				FD1D689713DD42F60096FAB8 /* ofxGuiBox.h */,
 				FD1D689813DD42F60096FAB8 /* ofxGuiEnabler.cpp */,
@@ -316,8 +312,6 @@
 				FD1D689B13DD42F60096FAB8 /* ofxGuiKeyMapper.h */,
 				FD1D689C13DD42F60096FAB8 /* ofxGuiUtils.h */,
 				FD217A7214E07CC800E48401 /* ofxGuiTextUtils.h */,
-				FD217A7F14E2039000E48401 /* ofxGuiTextWrapper.h */,
-				FD217A8014E203A700E48401 /* ofxGuiTextWrapper.cpp */,
 			);
 			path = helpers;
 			sourceTree = "<group>";
@@ -420,6 +414,24 @@
 			children = (
 				FD96879113D3E92A00E81053 /* ofxXmlSettings.cpp */,
 				FD96879213D3E92A00E81053 /* ofxXmlSettings.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		FDD17DFD15FDB569000144C1 /* ofxRectangleUtils */ = {
+			isa = PBXGroup;
+			children = (
+				FDD17E0E15FDB569000144C1 /* src */,
+			);
+			name = ofxRectangleUtils;
+			path = ../../ofxRectangleUtils;
+			sourceTree = "<group>";
+		};
+		FDD17E0E15FDB569000144C1 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FDD17E1115FDB569000144C1 /* ofxRectangleUtils.cpp */,
+				FDD17E1215FDB569000144C1 /* ofxRectangleUtils.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -536,11 +548,10 @@
 				FDB57E7E13F9BF9B002EF33E /* ofxGuiWindow.cpp in Sources */,
 				FDC27AE714BB97FC00BB6C99 /* ofxGuiRange.cpp in Sources */,
 				FDC27AEA14BB9A3C00BB6C99 /* ofxGuiNumberData.cpp in Sources */,
-				FDD5F54614C750DA007F602C /* ofxGuiRectUtils.cpp in Sources */,
 				FDB517DC14D9C54800FD61A0 /* ofxGuiTextBlock.cpp in Sources */,
 				FD217A7514E0E50C00E48401 /* ofxGuiTrueTypeFont.cpp in Sources */,
-				FD217A8114E203A700E48401 /* ofxGuiTextWrapper.cpp in Sources */,
 				FDC5067C152A3F0B00FE8B45 /* ofxGuiFont.cpp in Sources */,
+				FDD17E1D15FDB569000144C1 /* ofxRectangleUtils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

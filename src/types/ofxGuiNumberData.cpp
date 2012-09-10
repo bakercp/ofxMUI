@@ -16,12 +16,12 @@ ofxGuiNumberData::ofxGuiNumberData() {
     init(1);
 }
 //--------------------------------------------------------------
-ofxGuiNumberData::ofxGuiNumberData(ofxGuiNumberDataType _dataType) {
+ofxGuiNumberData::ofxGuiNumberData(const ofxGuiNumberDataType& _dataType) {
     dataType = _dataType;
     init(1);
 }
 //--------------------------------------------------------------
-ofxGuiNumberData::ofxGuiNumberData(ofxGuiNumberDataType _dataType, int _initialSize) {
+ofxGuiNumberData::ofxGuiNumberData(const ofxGuiNumberDataType& _dataType, int _initialSize) {
     dataType = _dataType;
     init(_initialSize);
 }
@@ -32,12 +32,12 @@ ofxGuiNumberData::~ofxGuiNumberData() {
 //--------------------------------------------------------------
 // DATA TYPE ///////////////////////////////////////////////////
 //--------------------------------------------------------------
-void ofxGuiNumberData::setDataType(ofxGuiNumberDataType _dataType) {
+void ofxGuiNumberData::setDataType(const ofxGuiNumberDataType& _dataType) {
     dataType = _dataType;
     // TODO -- DO CHECKING HERE??
 }
 //--------------------------------------------------------------
-ofxGuiNumberDataType ofxGuiNumberData::getDataType() {
+ofxGuiNumberDataType ofxGuiNumberData::getDataType() const {
     return dataType;
 }
 
@@ -95,7 +95,7 @@ void  ofxGuiNumberData::setAllNormalizedValues(float val) {
 }
 
 //--------------------------------------------------------------
-float ofxGuiNumberData::getValue(int index) {
+float ofxGuiNumberData::getValue(int index) const {
     if(isValidIndex(index)) {
         // conditionally quantize based on the BOUNDS, not the range
         return values[index].back();//bounds[index];.quantize(values[index]);
@@ -105,20 +105,20 @@ float ofxGuiNumberData::getValue(int index) {
     }
 }
 //--------------------------------------------------------------
-float ofxGuiNumberData::getValueFloat(int index) {
+float ofxGuiNumberData::getValueFloat(int index) const {
     return getValue(index);
 }
 //--------------------------------------------------------------
-int   ofxGuiNumberData::getValueInt(int index) {
+int   ofxGuiNumberData::getValueInt(int index) const {
     return (int)getValue(index);
 }
 //--------------------------------------------------------------
-bool  ofxGuiNumberData::getValueBool(int index) {
+bool  ofxGuiNumberData::getValueBool(int index) const {
     return (bool)getValue(index);
 }
 
 //--------------------------------------------------------------
-float ofxGuiNumberData::getNormalizedValue(int index) {
+float ofxGuiNumberData::getNormalizedValue(int index) const {
     if(isValidIndex(index) && bounds[index].isBounded()) {
         return bounds[index].normalize(getValue());
     } else {
@@ -128,7 +128,7 @@ float ofxGuiNumberData::getNormalizedValue(int index) {
 }
 
 //--------------------------------------------------------------
-float ofxGuiNumberData::getLastValue(int index) {
+float ofxGuiNumberData::getLastValue(int index) const {
     if(isValidIndex(index)) {
         // conditionally quantize based on the BOUNDS, not the range
         return values[index][values[index].size()-2];//bounds[index];.quantize(values[index]);
@@ -138,20 +138,20 @@ float ofxGuiNumberData::getLastValue(int index) {
     }
 }
 //--------------------------------------------------------------
-float ofxGuiNumberData::getLastValueFloat(int index) {
+float ofxGuiNumberData::getLastValueFloat(int index) const {
     return getLastValue(index);
 }
 //--------------------------------------------------------------
-int   ofxGuiNumberData::getLastValueInt(int index) {
+int   ofxGuiNumberData::getLastValueInt(int index) const {
     return (int)getLastValue(index);
 }
 //--------------------------------------------------------------
-bool  ofxGuiNumberData::getLastValueBool(int index) {
+bool  ofxGuiNumberData::getLastValueBool(int index) const {
     return (bool)getLastValue(index);
 }
 
 //--------------------------------------------------------------
-float ofxGuiNumberData::getLastNormalizedValue(int index) {
+float ofxGuiNumberData::getLastNormalizedValue(int index) const {
     if(isValidIndex(index) && bounds[index].isBounded()) {
         return bounds[index].normalize(getLastValue());
         // TODO ... this is trick ... it's possible that the bounds
@@ -164,7 +164,7 @@ float ofxGuiNumberData::getLastNormalizedValue(int index) {
 }
 
 //--------------------------------------------------------------
-float ofxGuiNumberData::getDeltaValue(int index) {
+float ofxGuiNumberData::getDeltaValue(int index) const {
     if(isValidIndex(index)) {
         // conditionally quantize based on the BOUNDS, not the range
         return (values[index][values[index].size()-2] - values[index].back());//bounds[index];.quantize(values[index]);
@@ -174,20 +174,20 @@ float ofxGuiNumberData::getDeltaValue(int index) {
     }
 }
 //--------------------------------------------------------------
-float ofxGuiNumberData::getDeltaValueFloat(int index) {
+float ofxGuiNumberData::getDeltaValueFloat(int index) const {
     return getDeltaValue(index);
 }
 //--------------------------------------------------------------
-int   ofxGuiNumberData::getDeltaValueInt(int index) {
+int   ofxGuiNumberData::getDeltaValueInt(int index) const {
     return (int)(getDeltaValue(index));
 }
 //--------------------------------------------------------------
-bool  ofxGuiNumberData::getDeltaValueBool(int index) {
+bool  ofxGuiNumberData::getDeltaValueBool(int index) const {
     return (bool)(getDeltaValue(index));
 }
 
 //--------------------------------------------------------------
-int   ofxGuiNumberData::getNumValues() {
+int   ofxGuiNumberData::getNumValues() const {
     return values.size();;
 }
 
@@ -222,7 +222,7 @@ bool ofxGuiNumberData::setHistoryLength(int length, int index) {
 }
 
 //--------------------------------------------------------------
-int ofxGuiNumberData::getHistoryLength(int index) {
+int ofxGuiNumberData::getHistoryLength(int index) const {
     if(isValidIndex(index)) {
         return historyLength[index];
     } else {
@@ -386,7 +386,7 @@ bool ofxGuiNumberData::setBoundsMax(float _max, int index) {
 }
 
 //--------------------------------------------------------------
-float ofxGuiNumberData::getBoundsMin(int index) {
+float ofxGuiNumberData::getBoundsMin(int index) const {
     if(isValidIndex(index)) {
         return bounds[index].getMin();
     } else {
@@ -394,7 +394,7 @@ float ofxGuiNumberData::getBoundsMin(int index) {
     }
 }
 //--------------------------------------------------------------
-float ofxGuiNumberData::getBoundsMax(int index) {
+float ofxGuiNumberData::getBoundsMax(int index) const {
     if(isValidIndex(index)) {
         return bounds[index].getMax();
     } else {
@@ -404,7 +404,7 @@ float ofxGuiNumberData::getBoundsMax(int index) {
 
 
 //--------------------------------------------------------------
-ofxGuiRange ofxGuiNumberData::getBounds(int index) {
+ofxGuiRange ofxGuiNumberData::getBounds(int index) const {
     if(isValidIndex(index)) {
         return bounds[index];
     } else {
@@ -424,7 +424,7 @@ bool ofxGuiNumberData::setRangeMax(float _max, int index) {
 }
 
 //--------------------------------------------------------------
-float ofxGuiNumberData::getRangeMin(int index) {
+float ofxGuiNumberData::getRangeMin(int index) const {
     if(isValidIndex(index)) {
         return ranges[index].getMin();
     } else {
@@ -432,7 +432,7 @@ float ofxGuiNumberData::getRangeMin(int index) {
     }
 }
 //--------------------------------------------------------------
-float ofxGuiNumberData::getRangeMax(int index) {
+float ofxGuiNumberData::getRangeMax(int index) const{
     if(isValidIndex(index)) {
         return ranges[index].getMax();
     } else {
@@ -451,7 +451,7 @@ bool ofxGuiNumberData::setNormalizedRangeMax(float _max, int index) {
 }
 
 //--------------------------------------------------------------
-float ofxGuiNumberData::getNormalizedRangeMin(int index) {
+float ofxGuiNumberData::getNormalizedRangeMin(int index) const {
     if(isValidIndex(index)) {
         return bounds[index].normalize(ranges[index].getMin());
     } else {
@@ -459,7 +459,7 @@ float ofxGuiNumberData::getNormalizedRangeMin(int index) {
     }
 }
 //--------------------------------------------------------------
-float ofxGuiNumberData::getNormalizedRangeMax(int index) {
+float ofxGuiNumberData::getNormalizedRangeMax(int index) const {
     if(isValidIndex(index)) {
         return bounds[index].normalize(ranges[index].getMax());
     } else {
@@ -506,7 +506,7 @@ bool ofxGuiNumberData::setRange(ofxGuiRange _range, int index) {
 }
 
 //--------------------------------------------------------------
-ofxGuiRange ofxGuiNumberData::getRange(int index) {
+ofxGuiRange ofxGuiNumberData::getRange(int index) const {
     if(isValidIndex(index)) {
         return ranges[index];
     } else {
@@ -544,7 +544,7 @@ bool ofxGuiNumberData::clearBounds(int index) {
 
 
 //--------------------------------------------------------------
-bool ofxGuiNumberData::isRangeEnabled() {
+bool ofxGuiNumberData::isRangeEnabled() const {
     return hasRange;
 }
 
@@ -563,7 +563,7 @@ bool ofxGuiNumberData::setDisplayPrecision(float _precision, int index) {
 }
 
 //--------------------------------------------------------------
-float ofxGuiNumberData::getDisplayPrecision(int index) {
+float ofxGuiNumberData::getDisplayPrecision(int index) const {
     if(isValidIndex(index)) {
         return displayPrecision[index];
     } else {
@@ -584,7 +584,7 @@ bool ofxGuiNumberData::setIncrementValue(float _incrementValue, int index) {
 }
 
 //--------------------------------------------------------------
-float ofxGuiNumberData::getIncrementValue(int index) {
+float ofxGuiNumberData::getIncrementValue(int index) const {
     if(isValidIndex(index)) {
         return incrementValues[index];
     } else {
@@ -853,7 +853,7 @@ string ofxGuiNumberData::rangeToString(int index) {
 
 
 //--------------------------------------------------------------
-bool ofxGuiNumberData::isValidIndex(int index) {
+bool ofxGuiNumberData::isValidIndex(int index) const {
     if(index == 0 || (index > 0 && index < getNumValues() && isArrayType())) {
         return true;
     } else {
@@ -863,7 +863,7 @@ bool ofxGuiNumberData::isValidIndex(int index) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiNumberData::isValidInsertionIndex(int index) {
+bool ofxGuiNumberData::isValidInsertionIndex(int index) const {
     if(isArrayType() && index > -1 && index <= getNumValues()) {
         return true;
     } else {
@@ -874,7 +874,7 @@ bool ofxGuiNumberData::isValidInsertionIndex(int index) {
 
 
 //--------------------------------------------------------------
-bool ofxGuiNumberData::canUseSetAll() {
+bool ofxGuiNumberData::canUseSetAll() const {
     if(getNumValues() > 0 && isArrayType()) {
         return true;
     } else {
@@ -946,20 +946,20 @@ void ofxGuiNumberData::checkRange(bool& _boundsChanged, bool& _rangeChanged, int
 }
       
 //--------------------------------------------------------------
-bool ofxGuiNumberData::isBoolType() {
+bool ofxGuiNumberData::isBoolType() const {
     return dataType == OFXGUI_BOOL || dataType == OFXGUI_BOOL_ARRAY;
 }
 //--------------------------------------------------------------
-bool ofxGuiNumberData::isFloatType() {
+bool ofxGuiNumberData::isFloatType() const {
    return dataType == OFXGUI_FLOAT || dataType == OFXGUI_FLOAT_ARRAY;
 }
 //--------------------------------------------------------------
-bool ofxGuiNumberData::isIntType() {
+bool ofxGuiNumberData::isIntType() const {
    return dataType == OFXGUI_INT || dataType == OFXGUI_INT_ARRAY;
 }
 
 //--------------------------------------------------------------
-bool ofxGuiNumberData::isArrayType() {
+bool ofxGuiNumberData::isArrayType() const {
     return  dataType == OFXGUI_BOOL_ARRAY ||
             dataType == OFXGUI_INT_ARRAY  ||
             dataType == OFXGUI_FLOAT_ARRAY;

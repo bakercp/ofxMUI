@@ -43,7 +43,7 @@ public:
         left = _left;
     }
     
-    void set(ofxGuiBoxSide side, float value) {
+    void set(const ofxGuiBoxSide& side, float value) {
         switch (side) {
             case SIDE_LEFT:
                 left = value;
@@ -60,7 +60,7 @@ public:
         }
     }
     
-    float get(ofxGuiBoxSide side) {
+    float get(const ofxGuiBoxSide& side) const {
         switch (side) {
             case SIDE_LEFT:
                 return left;

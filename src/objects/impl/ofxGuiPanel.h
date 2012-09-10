@@ -34,9 +34,9 @@ class ofxGuiPanel : public ofxGuiLabelledObject
 
 public:
 
-    ofxGuiPanel(string _name, int _x, int _y, int _width, int _height, bool _enabled = true);
-    ofxGuiPanel(string _name, int _x, int _y,bool _enabled = true);
-    ofxGuiPanel(string _name, bool _enabled = true);
+    ofxGuiPanel(const string& _name, int _x, int _y, int _width, int _height, bool _enabled = true);
+    ofxGuiPanel(const string& _name, int _x, int _y,bool _enabled = true);
+    ofxGuiPanel(const string& _name, bool _enabled = true);
     ofxGuiPanel(bool _enabled = true);
     virtual ~ofxGuiPanel();
     

@@ -17,7 +17,7 @@ ofxGuiTextBlock::ofxGuiTextBlock(ofxGuiTrueTypeFont* _font) {
     init();
 }
 //--------------------------------------------------------------
-ofxGuiTextBlock::ofxGuiTextBlock(ofxGuiTrueTypeFont* _font, string _text) {
+ofxGuiTextBlock::ofxGuiTextBlock(ofxGuiTrueTypeFont* _font, const string& _text) {
     font = _font;
     text = _text;
     blockWidth  = numeric_limits<float>::max();
@@ -25,7 +25,7 @@ ofxGuiTextBlock::ofxGuiTextBlock(ofxGuiTrueTypeFont* _font, string _text) {
     init();
 }
 //--------------------------------------------------------------
-ofxGuiTextBlock::ofxGuiTextBlock(ofxGuiTrueTypeFont* _font, string _text, float _width) {
+ofxGuiTextBlock::ofxGuiTextBlock(ofxGuiTrueTypeFont* _font, const string& _text, float _width) {
     font = _font;
     text = _text;
     blockWidth  = _width;
@@ -33,7 +33,7 @@ ofxGuiTextBlock::ofxGuiTextBlock(ofxGuiTrueTypeFont* _font, string _text, float 
     init();
 }
 //--------------------------------------------------------------
-ofxGuiTextBlock::ofxGuiTextBlock(ofxGuiTrueTypeFont* _font, string _text, float _width, float _height) {
+ofxGuiTextBlock::ofxGuiTextBlock(ofxGuiTrueTypeFont* _font, const string& _text, float _width, float _height) {
     font = _font;
     text = _text;
     blockWidth  = _width;
@@ -73,12 +73,12 @@ void ofxGuiTextBlock::init() {
 }
 
 //--------------------------------------------------------------
-void ofxGuiTextBlock::setTextColor(ofColor _cText) {
+void ofxGuiTextBlock::setTextColor(const ofColor& _cText) {
     cTextColor = _cText;
 }
 
 //--------------------------------------------------------------
-ofColor ofxGuiTextBlock::getTextColor() {
+ofColor ofxGuiTextBlock::getTextColor() const {
     return cTextColor;
 }
 
@@ -280,7 +280,7 @@ void ofxGuiTextBlock::draw() {
 }
 
 //--------------------------------------------------------------
-void ofxGuiTextBlock::setText(string _text) {
+void ofxGuiTextBlock::setText(const string& _text) {
     if(text.compare(_text) != 0) {
         text = _text;
         displayText = _text;
@@ -289,12 +289,12 @@ void ofxGuiTextBlock::setText(string _text) {
 }
 
 //--------------------------------------------------------------
-string ofxGuiTextBlock::getText() {
+string ofxGuiTextBlock::getText() const {
     return text;
 }
 
 //--------------------------------------------------------------
-void ofxGuiTextBlock::insert(string s, int position) {
+void ofxGuiTextBlock::insert(const string& s, int position) {
     // TODO, update from position
     if(position > text.length()) {
         ofLogError("ofxGuiTextBlock::insert: out of range.");
@@ -304,25 +304,25 @@ void ofxGuiTextBlock::insert(string s, int position) {
     needsUpdate = true;
 }
 //--------------------------------------------------------------
-void ofxGuiTextBlock::append(string s) {
+void ofxGuiTextBlock::append(const string& s) {
     // TODO, update from position
     text += s;
     needsUpdate = true;
 }
 //--------------------------------------------------------------
-void ofxGuiTextBlock::prepend(string s) {
+void ofxGuiTextBlock::prepend(const string& s) {
     // TODO, update from position
     text = s + text;
     needsUpdate = true;
 }
 
 //--------------------------------------------------------------
-string ofxGuiTextBlock::getDisplayText() {
+string ofxGuiTextBlock::getDisplayText() const {
     return displayText;
 }
 
 //--------------------------------------------------------------
-string ofxGuiTextBlock::getDisplayTextLine(int lineNumber) {
+string ofxGuiTextBlock::getDisplayTextLine(int lineNumber) const {
     if(lineNumber > getNumLines() - 1) {
         ofLogError("ofxGuiTextBlock::getDisplayText() requested a display text line that doesn't exist.");
     }
@@ -331,7 +331,7 @@ string ofxGuiTextBlock::getDisplayTextLine(int lineNumber) {
 }
 
 //--------------------------------------------------------------
-vector<string> ofxGuiTextBlock::getDisplayTextLines() {
+vector<string> ofxGuiTextBlock::getDisplayTextLines() const {
     return displayLines;
 }
 
@@ -342,7 +342,7 @@ void ofxGuiTextBlock::setFont(ofxGuiTrueTypeFont* _font) {
 }
 
 //--------------------------------------------------------------
-void ofxGuiTextBlock::setCapsStyle(ofxGuiCapsMode _capsStyle) {
+void ofxGuiTextBlock::setCapsStyle(const ofxGuiCapsMode& _capsStyle) {
     if(capsStyle != _capsStyle) {
         capsStyle = _capsStyle;
         needsUpdate = true;
@@ -350,12 +350,12 @@ void ofxGuiTextBlock::setCapsStyle(ofxGuiCapsMode _capsStyle) {
 }
 
 //--------------------------------------------------------------
-ofxGuiCapsMode ofxGuiTextBlock::getCapsStyle() { 
+ofxGuiCapsMode ofxGuiTextBlock::getCapsStyle() const {
     return capsStyle;
 }
 
 //--------------------------------------------------------------
-void ofxGuiTextBlock::setLineBreakMode(ofxGuiLineBreakMode _lineBreakMode) {
+void ofxGuiTextBlock::setLineBreakMode(const ofxGuiLineBreakMode& _lineBreakMode) {
     if(lineBreakMode != _lineBreakMode) {
         lineBreakMode = _lineBreakMode;
         needsUpdate = true;
@@ -363,12 +363,12 @@ void ofxGuiTextBlock::setLineBreakMode(ofxGuiLineBreakMode _lineBreakMode) {
 }
 
 //--------------------------------------------------------------
-ofxGuiLineBreakMode ofxGuiTextBlock::getLineBreakMode() {
+ofxGuiLineBreakMode ofxGuiTextBlock::getLineBreakMode() const {
     return lineBreakMode;
 }
 
 //--------------------------------------------------------------
-void ofxGuiTextBlock::setTruncationString(string _truncationString) {
+void ofxGuiTextBlock::setTruncationString(const string& _truncationString) {
     if(truncationString.compare(_truncationString) != 0) {
         truncationString = _truncationString;
         needsUpdate = true;
@@ -376,12 +376,12 @@ void ofxGuiTextBlock::setTruncationString(string _truncationString) {
 }
 
 //--------------------------------------------------------------
-string ofxGuiTextBlock::getTruncationString() {
+string ofxGuiTextBlock::getTruncationString() const {
     return truncationString;
 }
 
 //--------------------------------------------------------------
-void ofxGuiTextBlock::setLineTruncationMode(ofxGuiLineTruncationMode _lineTruncationMode) {
+void ofxGuiTextBlock::setLineTruncationMode(const ofxGuiLineTruncationMode& _lineTruncationMode) {
     if(truncationMode != _lineTruncationMode) {
         truncationMode = _lineTruncationMode;
         needsUpdate = true;
@@ -389,12 +389,12 @@ void ofxGuiTextBlock::setLineTruncationMode(ofxGuiLineTruncationMode _lineTrunca
 }
 
 //--------------------------------------------------------------
-ofxGuiLineTruncationMode ofxGuiTextBlock::getLineTruncationMode() {
+ofxGuiLineTruncationMode ofxGuiTextBlock::getLineTruncationMode() const {
     return truncationMode;
 }
 
 //--------------------------------------------------------------
-void ofxGuiTextBlock::setHorizontalAlignment(ofxGuiAlign _hAlign) {
+void ofxGuiTextBlock::setAlignHorz(const ofAlignHorz& _hAlign) {
     if(_hAlign != hAlign) {
         hAlign = _hAlign;
         needsUpdate = true;
@@ -402,7 +402,7 @@ void ofxGuiTextBlock::setHorizontalAlignment(ofxGuiAlign _hAlign) {
 }
 
 //--------------------------------------------------------------
-void ofxGuiTextBlock::setVerticalAlignment(ofxGuiAlign _vAlign) {
+void ofxGuiTextBlock::setAlignVert(const ofAlignVert& _vAlign) {
     if(_vAlign != vAlign) {
         vAlign = _vAlign;
         needsUpdate = true;
@@ -410,28 +410,29 @@ void ofxGuiTextBlock::setVerticalAlignment(ofxGuiAlign _vAlign) {
 }
 
 //--------------------------------------------------------------
-ofxGuiAlign ofxGuiTextBlock::getVerticalAlign() {
-    return vAlign;
-}
-//--------------------------------------------------------------
-ofxGuiAlign ofxGuiTextBlock::getHorizontalAlignment() {
+ofAlignHorz ofxGuiTextBlock::getAlignHorz() const {
     return hAlign;
 }
 
 //--------------------------------------------------------------
-void ofxGuiTextBlock::setOrientation(ofOrientation _orientation) {
+ofAlignVert ofxGuiTextBlock::getAlignVert() const {
+    return vAlign;
+}
+
+//--------------------------------------------------------------
+void ofxGuiTextBlock::setOrientation(const ofOrientation& _orientation) {
     if(_orientation != orientation) {
         orientation = _orientation;
         needsUpdate = true;
     }
 }
 //--------------------------------------------------------------
-ofOrientation ofxGuiTextBlock::getOrientation() {
+ofOrientation ofxGuiTextBlock::getOrientation() const {
     return orientation;
 }
 
 //--------------------------------------------------------------
-bool ofxGuiTextBlock::allowMultipleLines() {
+bool ofxGuiTextBlock::allowMultipleLines() const {
     
     if(maximumLines > 0) {
         switch (lineBreakMode) {
@@ -477,17 +478,17 @@ void ofxGuiTextBlock::clearBlockHeight() {
 }
 
 //--------------------------------------------------------------
-float ofxGuiTextBlock::getBlockWidth() {
+float ofxGuiTextBlock::getBlockWidth() const {
     return blockWidth;
 }
 //--------------------------------------------------------------
-float ofxGuiTextBlock::getBlockHeight() {
+float ofxGuiTextBlock::getBlockHeight() const {
     return blockHeight;
 }
 
 
 //--------------------------------------------------------------
-float ofxGuiTextBlock::getTextWidth() {
+float ofxGuiTextBlock::getTextWidth() const {
     if(isTextHorizontal()) {
         return getBlockWidth();
     } else {
@@ -496,7 +497,7 @@ float ofxGuiTextBlock::getTextWidth() {
 }
 
 //--------------------------------------------------------------
-float ofxGuiTextBlock::getTextHeight() {
+float ofxGuiTextBlock::getTextHeight() const {
     if(isTextHorizontal()) {
         return getBlockHeight();
     } else {
@@ -505,7 +506,7 @@ float ofxGuiTextBlock::getTextHeight() {
 }
 
 //--------------------------------------------------------------
-int ofxGuiTextBlock::getNumLines() {
+int ofxGuiTextBlock::getNumLines() const {
     return (int)displayLines.size();
 }
 
@@ -518,7 +519,7 @@ void ofxGuiTextBlock::setMaximumLines(int _numLines) {
 }
 
 //--------------------------------------------------------------
-int ofxGuiTextBlock::getMaximumLines() {
+int ofxGuiTextBlock::getMaximumLines() const {
     return maximumLines;
 }
 
@@ -532,12 +533,12 @@ void ofxGuiTextBlock::clearMaximumLines() {
        
        
 //--------------------------------------------------------------
-bool ofxGuiTextBlock::empty() {
+bool ofxGuiTextBlock::empty() const {
     return text.empty();
 }
 
 //--------------------------------------------------------------
-bool ofxGuiTextBlock::isTextHorizontal() {
+bool ofxGuiTextBlock::isTextHorizontal() const {
     switch(orientation) {
         case OF_ORIENTATION_UNKNOWN:
         case OF_ORIENTATION_DEFAULT:
@@ -550,16 +551,16 @@ bool ofxGuiTextBlock::isTextHorizontal() {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiTextBlock::isTextVertical() {
+bool ofxGuiTextBlock::isTextVertical() const {
     return !isTextHorizontal();
 }
 
 //--------------------------------------------------------------
-bool ofxGuiTextBlock::isTextWidthLimited() {
+bool ofxGuiTextBlock::isTextWidthLimited() const {
     return blockWidth != numeric_limits<float>::max();
 }
 //--------------------------------------------------------------
-bool ofxGuiTextBlock::isTextHeightLimited() {
+bool ofxGuiTextBlock::isTextHeightLimited() const {
     return blockHeight != numeric_limits<float>::max();
 }
 

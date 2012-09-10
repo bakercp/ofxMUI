@@ -14,9 +14,9 @@
 class ofxGuiNumberBox : public ofxGuiLabelledObject, public ofxGuiNumberData {
 public:
     
-    ofxGuiNumberBox(string _name, int _x, int _y, int _width, int _height, bool _enabled = true);
-    ofxGuiNumberBox(string _name, int _x, int _y,bool _enabled = true);
-    ofxGuiNumberBox(string _name, bool _enabled = true);
+    ofxGuiNumberBox(const string& _name, int _x, int _y, int _width, int _height, bool _enabled = true);
+    ofxGuiNumberBox(const string& _name, int _x, int _y,bool _enabled = true);
+    ofxGuiNumberBox(const string& _name, bool _enabled = true);
     ofxGuiNumberBox(bool _enabled = true);
     virtual ~ofxGuiNumberBox();
     

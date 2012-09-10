@@ -28,9 +28,9 @@
 class ofxGuiSlider : public ofxGuiLabelledObject, public ofxGuiNumberData {
 public:
 
-    ofxGuiSlider(string _name, int _x, int _y, int _width, int _height, bool _enabled = true);
-    ofxGuiSlider(string _name, int _x, int _y,bool _enabled = true);
-    ofxGuiSlider(string _name, bool _enabled = true);
+    ofxGuiSlider(const string& _name, int _x, int _y, int _width, int _height, bool _enabled = true);
+    ofxGuiSlider(const string& _name, int _x, int _y,bool _enabled = true);
+    ofxGuiSlider(const string& _name, bool _enabled = true);
     ofxGuiSlider(bool _enabled = true);
     virtual ~ofxGuiSlider();
 
@@ -59,14 +59,14 @@ public:
     // GETTERS AND SETTERS /////////////////////////////////////////
     //--------------------------------------------------------------
     
+    int  getSliderWidth() const;
     void setSliderWidth(int _width);
-    int  getSliderWidth();
     
+    int  getSliderHeight() const;
     void setSliderHeight(int _height);
-    int  getSliderHeight();
     
-    void setOrientation(ofOrientation _orientation);
-    ofOrientation getOrientation();
+    ofOrientation getOrientation() const;
+    void setOrientation(const ofOrientation& _orientation);
         
 protected:
 

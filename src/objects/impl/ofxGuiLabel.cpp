@@ -10,7 +10,7 @@
 
 
 //--------------------------------------------------------------
-ofxGuiLabel::ofxGuiLabel(string _name, 
+ofxGuiLabel::ofxGuiLabel(const string& _name, 
                          int _x, 
                          int _y, 
                          int _width, 
@@ -25,7 +25,7 @@ ofxGuiLabel::ofxGuiLabel(string _name,
     init();
 }
 //--------------------------------------------------------------
-ofxGuiLabel::ofxGuiLabel(string _name, 
+ofxGuiLabel::ofxGuiLabel(const string& _name, 
                          int _x, 
                          int _y, 
                          bool _enabled) : 
@@ -36,7 +36,7 @@ ofxGuiLabel::ofxGuiLabel(string _name,
     init();
 }
 
-ofxGuiLabel::ofxGuiLabel(string _name, 
+ofxGuiLabel::ofxGuiLabel(const string& _name, 
                          bool _enabled) : 
     ofxGuiObject(_name, 
                  _enabled) {
@@ -136,69 +136,69 @@ void ofxGuiLabel::draw() {
 }
 
 //--------------------------------------------------------------
-void ofxGuiLabel::setText(string _text) {
+void ofxGuiLabel::setText(const string& _text) {
     text = _text;
     requestBoxLayout();
 }
 
 //--------------------------------------------------------------
-string ofxGuiLabel::getText() {
+string ofxGuiLabel::getText() const {
     return text;
 }
 
 //--------------------------------------------------------------
-string ofxGuiLabel::getDisplayText() {
+string ofxGuiLabel::getDisplayText() const {
     return displayText;
 }
 
 //--------------------------------------------------------------
-void ofxGuiLabel::setFontSize(ofxGuiSize _labelSize) {
+void ofxGuiLabel::setFontSize(const ofxGuiSize& _labelSize) {
     labelSize = _labelSize;
     labelFont = defaults->getFont(_labelSize);
     requestBoxLayout();
 }
 
 //--------------------------------------------------------------
-ofxGuiSize ofxGuiLabel::getFontSize() {
+ofxGuiSize ofxGuiLabel::getFontSize() const {
     return labelSize;
 }
 
 
 //--------------------------------------------------------------
-void ofxGuiLabel::setCapsStyle(ofxGuiCapsMode _capsStyle) {
+void ofxGuiLabel::setCapsStyle(const ofxGuiCapsMode& _capsStyle) {
     capsStyle = _capsStyle;
     requestBoxLayout();
 }
 
 //--------------------------------------------------------------
-ofxGuiCapsMode ofxGuiLabel::getCapsStyle() { 
+ofxGuiCapsMode ofxGuiLabel::getCapsStyle() const {
     return capsStyle;
 }
 
 //--------------------------------------------------------------
-void ofxGuiLabel::setLineBreakMode(ofxGuiLineBreakMode _lineBreakMode) {
+void ofxGuiLabel::setLineBreakMode(const ofxGuiLineBreakMode& _lineBreakMode) {
     lineBreakMode = _lineBreakMode;
     requestBoxLayout();
 }
 
 //--------------------------------------------------------------
-ofxGuiLineBreakMode ofxGuiLabel::getLineBreakMode() {
+ofxGuiLineBreakMode ofxGuiLabel::getLineBreakMode() const {
     return lineBreakMode;
 }
 
 //--------------------------------------------------------------
-void ofxGuiLabel::setTruncationString(string _truncationString) {
+void ofxGuiLabel::setTruncationString(const string& _truncationString) {
     truncationString = _truncationString;
     requestBoxLayout();
 }
 
 //--------------------------------------------------------------
-string ofxGuiLabel::getTruncationString() {
+string ofxGuiLabel::getTruncationString() const {
     return truncationString;
 }
 
 //--------------------------------------------------------------
-bool ofxGuiLabel::empty() {
+bool ofxGuiLabel::empty() const {
     return text.empty();
 }
 

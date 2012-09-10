@@ -3,19 +3,19 @@
 #include "ofxGuiPanel.h"
 
 //--------------------------------------------------------------
-ofxGuiPanel::ofxGuiPanel(string _name, int _x, int _y, int _width, int _height, bool _enabled) : 
+ofxGuiPanel::ofxGuiPanel(const string& _name, int _x, int _y, int _width, int _height, bool _enabled) : 
 ofxGuiLabelledObject(_name, _x, _y, _width, _height, _enabled) {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiPanel::ofxGuiPanel(string _name, int _x, int _y,bool _enabled) : 
+ofxGuiPanel::ofxGuiPanel(const string& _name, int _x, int _y,bool _enabled) : 
 ofxGuiLabelledObject(_name, _x, _y, _enabled) {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiPanel::ofxGuiPanel(string _name,bool _enabled) :
+ofxGuiPanel::ofxGuiPanel(const string& _name,bool _enabled) :
 ofxGuiLabelledObject(_name, _enabled) {
     init();
 }

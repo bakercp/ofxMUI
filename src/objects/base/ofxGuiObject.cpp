@@ -23,7 +23,7 @@
 #include "ofxGuiObject.h"
 
 //--------------------------------------------------------------
-ofxGuiObject::ofxGuiObject(string _name, int _x, int _y, int _width, int _height, bool _enabled) : 
+ofxGuiObject::ofxGuiObject(const string& _name, int _x, int _y, int _width, int _height, bool _enabled) : 
     ofxGuiBox(_x,_y,_width,_height), 
     ofxGuiEnabler(_enabled), 
     ofxGuiKeyMapper(),
@@ -31,7 +31,7 @@ ofxGuiObject::ofxGuiObject(string _name, int _x, int _y, int _width, int _height
         init();
 }
 //--------------------------------------------------------------
-ofxGuiObject::ofxGuiObject(string _name, int _x, int _y, bool _enabled) : 
+ofxGuiObject::ofxGuiObject(const string& _name, int _x, int _y, bool _enabled) : 
     ofxGuiBox(_x,_y), 
     ofxGuiEnabler(_enabled), 
     ofxGuiKeyMapper(),
@@ -39,7 +39,7 @@ ofxGuiObject::ofxGuiObject(string _name, int _x, int _y, bool _enabled) :
         init();
 }
 //--------------------------------------------------------------
-ofxGuiObject::ofxGuiObject(string _name, bool _enabled) : 
+ofxGuiObject::ofxGuiObject(const string& _name, bool _enabled) : 
     ofxGuiBox(), 
     ofxGuiEnabler(_enabled), 
     ofxGuiKeyMapper(),
@@ -500,8 +500,8 @@ ofxGuiObject* ofxGuiObject::_mouseDragged(ofMouseEventArgs &e, ofxGuiObject* han
         if(isDragMoveable() && (!isHitDragable() && isHitDragOrigin())) {
             
             ofVec2f pos = getPosition();
-            ofVec2f maxB = getMaxBounds();
-            ofVec2f minB = getMinBounds();
+            ofVec2f maxB = getMax();
+            ofVec2f minB = getMin();
             
             ofVec2f inWPos;
             if(hasParent()) {
@@ -522,11 +522,11 @@ ofxGuiObject* ofxGuiObject::_mouseDragged(ofMouseEventArgs &e, ofxGuiObject* han
             
             if((inWPos.x > minB.x && deltaMousePosition.x > 0) ||
                (inWPos.x < maxB.x && deltaMousePosition.x < 0)) {
-                addX(deltaMousePosition.x);
+                translateX(deltaMousePosition.x);
             }
             
             
-                addY(deltaMousePosition.y);
+                translateY(deltaMousePosition.y);
 
             onDragMoving();
         } 
@@ -668,22 +668,22 @@ void ofxGuiObject::setIsDragMoveable(bool _val) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::isDragMoveable() {
+bool ofxGuiObject::isDragMoveable() const {
     return _isDragMoveable;
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::isDragging() {
+bool ofxGuiObject::isDragging() const {
     return _isDragging;
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::isHitDragable() {
+bool ofxGuiObject::isHitDragable() const {
     return _isHitDragable;
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::isHitDragOrigin() {
+bool ofxGuiObject::isHitDragOrigin() const {
     return _isHitDragOrigin;
 }
 
@@ -693,7 +693,7 @@ void ofxGuiObject::setIsFileDropReceiver(bool _val) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::isFileDropReceiver() {
+bool ofxGuiObject::isFileDropReceiver() const {
     return _isFileDropReceiver;
 }
 
@@ -703,7 +703,7 @@ void ofxGuiObject::setIsDropSender(bool _val) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::isDropSender() {
+bool ofxGuiObject::isDropSender() const {
     return _isDropSender;
 }
 
@@ -713,17 +713,17 @@ void ofxGuiObject::setIsDropReceiver(bool _val) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::isDropReceiver() {
+bool ofxGuiObject::isDropReceiver() const {
     return _isDropReceiver;
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::isMouseDown() {
+bool ofxGuiObject::isMouseDown() const {
     return _isMouseDown;
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::isMouseOver() {
+bool ofxGuiObject::isMouseOver() const {
     return _isMouseOver;
 }
 
@@ -811,7 +811,7 @@ void ofxGuiObject::saveKeyboardEvent(ofKeyEventArgs &e) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::hasParent() {
+bool ofxGuiObject::hasParent() const {
 	return parent != NULL;
 }
 
@@ -901,17 +901,17 @@ bool ofxGuiObject::isOrientationHorizontal() {
 
 
 //--------------------------------------------------------------
-string ofxGuiObject::getTooltip() {
+string ofxGuiObject::getTooltip() const {
     return tooltip;
 }
 
 //--------------------------------------------------------------
-void ofxGuiObject::setTooltip(string _tooltip) {
+void ofxGuiObject::setTooltip(const string& _tooltip) {
     tooltip = _tooltip;
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::isTooltipEnabled() {
+bool ofxGuiObject::isTooltipEnabled() const {
     return tooltipEnabled;
 }
 
@@ -1040,7 +1040,7 @@ void ofxGuiObject::drawShadowBox() {
 
 
 //--------------------------------------------------------------
-float ofxGuiObject::getAlphaScale() {
+float ofxGuiObject::getAlphaScale() const {
     return alphaScale;
 }
 //--------------------------------------------------------------
@@ -1049,7 +1049,7 @@ void ofxGuiObject::setAlphaScale(float _alphaScale) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiObject::getDoShadow() {
+bool ofxGuiObject::getDoShadow() const {
     return doShadow;
 }
 //--------------------------------------------------------------

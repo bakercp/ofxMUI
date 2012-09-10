@@ -29,9 +29,9 @@ class ofxGuiTextBlock {
 public:
     
     ofxGuiTextBlock(ofxGuiTrueTypeFont* font);
-    ofxGuiTextBlock(ofxGuiTrueTypeFont* font, string _text);
-    ofxGuiTextBlock(ofxGuiTrueTypeFont* font, string _text, float _width);
-    ofxGuiTextBlock(ofxGuiTrueTypeFont* font, string _text, float _width, float _height);
+    ofxGuiTextBlock(ofxGuiTrueTypeFont* font, const string& _text);
+    ofxGuiTextBlock(ofxGuiTrueTypeFont* font, const string& _text, float _width);
+    ofxGuiTextBlock(ofxGuiTrueTypeFont* font, const string& _text, float _width, float _height);
     
     virtual ~ofxGuiTextBlock();
 
@@ -41,52 +41,52 @@ public:
     virtual void draw();
     
     // content
-    void setText(string text);
-    string getText();
+    void setText(const string& text);
+    string getText() const;
     
-    void insert(string s, int position);
-    void append(string s);
-    void prepend(string s);
+    void insert(const string& s, int position);
+    void append(const string& s);
+    void prepend(const string& s);
     
-    string getDisplayText();
-    string getDisplayTextLine(int lineNumber);
-    vector<string> getDisplayTextLines();
+    string getDisplayText() const;
+    string getDisplayTextLine(int lineNumber) const;
+    vector<string> getDisplayTextLines() const;
     
     // style
     
-    void setTextColor(ofColor _cText);
-    ofColor getTextColor();
+    void setTextColor(const ofColor& _cText);
+    ofColor getTextColor() const;
 
     ofxGuiTrueTypeFont* getFont();
     void setFont(ofxGuiTrueTypeFont* _font);
     
-    void setCapsStyle(ofxGuiCapsMode _capsStyle);
-    ofxGuiCapsMode getCapsStyle();
+    void setCapsStyle(const ofxGuiCapsMode& _capsStyle);
+    ofxGuiCapsMode getCapsStyle() const;
 
-    void setLineBreakMode(ofxGuiLineBreakMode _lineBreakMode);
-    ofxGuiLineBreakMode getLineBreakMode();
+    void setLineBreakMode(const ofxGuiLineBreakMode& _lineBreakMode);
+    ofxGuiLineBreakMode getLineBreakMode() const;
     
-    void setLineTruncationMode(ofxGuiLineTruncationMode _lineTruncationMode);
-    ofxGuiLineTruncationMode getLineTruncationMode();
+    void setLineTruncationMode(const ofxGuiLineTruncationMode& _lineTruncationMode);
+    ofxGuiLineTruncationMode getLineTruncationMode() const;
     
-    void setTruncationString(string _truncationString);
-    string getTruncationString();
+    void setTruncationString(const string& _truncationString);
+    string getTruncationString() const;
 
-    void setHorizontalAlignment(ofxGuiAlign _hAlign);
-    void setVerticalAlignment(ofxGuiAlign _vAlign);
+    void setAlignHorz(const ofAlignHorz& _hAlign);
+    void setAlignVert(const ofAlignVert& _vAlign);
     
-    ofxGuiAlign getVerticalAlign();
-    ofxGuiAlign getHorizontalAlignment();
+    ofAlignHorz getAlignHorz() const;
+    ofAlignVert getAlignVert() const;
 
-    void setOrientation(ofOrientation _orientation);
-    ofOrientation getOrientation();
+    void setOrientation(const ofOrientation& _orientation);
+    ofOrientation getOrientation() const;
     
     
-    bool allowMultipleLines();
-    int  getNumLines();
+    bool allowMultipleLines() const;
+    int  getNumLines() const;
 
     void setMaximumLines(int _numLines);
-    int getMaximumLines();
+    int getMaximumLines() const;
     void clearMaximumLines();
 
     void setBlockWidth(float _width);
@@ -95,23 +95,23 @@ public:
     void clearBlockWidth();
     void clearBlockHeight();
     
-    float getBlockWidth();
-    float getBlockHeight();
+    float getBlockWidth() const;
+    float getBlockHeight() const;
     
-    bool empty();    
+    bool empty() const;
     
-    bool isTextHorizontal();
-    bool isTextVertical();
-    bool isTextWidthLimited();
-    bool isTextHeightLimited();
+    bool isTextHorizontal() const;
+    bool isTextVertical() const;
+    bool isTextWidthLimited() const;
+    bool isTextHeightLimited() const;
     
     // can override w/ a library like libhyphenate
     virtual string hyphenate(string word) {return word;}
     
 protected:
     
-    float getTextWidth();  // accounts for rotation
-    float getTextHeight(); // accounts for rotation
+    float getTextWidth() const;  // accounts for rotation
+    float getTextHeight() const; // accounts for rotation
     
     
     bool debug;
@@ -144,8 +144,8 @@ protected:
     
     // size, location, position, etc.
     
-    ofxGuiAlign hAlign;
-    ofxGuiAlign vAlign;
+    ofAlignHorz hAlign;
+    ofAlignVert vAlign;
     ofOrientation orientation;
     
     int cursorPosition;

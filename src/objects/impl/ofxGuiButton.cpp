@@ -24,21 +24,21 @@
 #include "ofxGuiButton.h"
 
 
-ofxGuiButton::ofxGuiButton(string _name, int _x, int _y, int _width, int _height, bool _enabled) : 
+ofxGuiButton::ofxGuiButton(const string& _name, int _x, int _y, int _width, int _height, bool _enabled) : 
 ofxGuiLabelledObject(_name, _x, _y, _width, _height, _enabled),
 ofxGuiNumberData(OFXGUI_BOOL) {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiButton::ofxGuiButton(string _name, int _x, int _y,bool _enabled) : 
+ofxGuiButton::ofxGuiButton(const string& _name, int _x, int _y,bool _enabled) : 
 ofxGuiLabelledObject(_name, _x, _y, _enabled),
 ofxGuiNumberData(OFXGUI_BOOL) {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiButton::ofxGuiButton(string _name,bool _enabled) :
+ofxGuiButton::ofxGuiButton(const string& _name,bool _enabled) :
 ofxGuiLabelledObject(_name, _enabled),
 ofxGuiNumberData(OFXGUI_BOOL) {
     init();
@@ -248,16 +248,16 @@ int  ofxGuiButton::getButtonHeight() {
 }
 
 //--------------------------------------------------------------
-void ofxGuiButton::setButtonType(ofxGuiButtonType _buttonType) {
+void ofxGuiButton::setButtonType(const ofxGuiButtonType& _buttonType) {
     buttonType = _buttonType;
     requestBoxLayout();
 }
 //--------------------------------------------------------------
-ofxGuiButtonType ofxGuiButton::getButtonType() {
+ofxGuiButtonType ofxGuiButton::getButtonType() const {
     return buttonType;
 }
 //--------------------------------------------------------------
-void ofxGuiButton::setButtonIcon(ofxGuiIconName _buttonIcon) {
+void ofxGuiButton::setButtonIcon(const ofxGuiIconName& _buttonIcon) {
     buttonIconName = _buttonIcon;
     if(buttonIconName == ICON_NONE) {
         icon = NULL;
@@ -277,19 +277,19 @@ void ofxGuiButton::setButtonIcon(ofxGuiIconName _buttonIcon) {
     requestBoxLayout();
 }
 
-ofxGuiIconName ofxGuiButton::getButtonIcon() {
+ofxGuiIconName ofxGuiButton::getButtonIcon() const {
     return buttonIconName;
 }
 
-//--------------------------------------------------------------
-void ofxGuiButton::setVerticalAlign(ofxGuiAlign _verticalAlign) {
-    verticalAlign = _verticalAlign;
-}
-
-//--------------------------------------------------------------
-ofxGuiAlign ofxGuiButton::getVerticalAlign() {
-    return verticalAlign;
-}
+////--------------------------------------------------------------
+//void ofxGuiButton::setAlignVert(const ofAlignVert& _vAlign) {
+//    verticalAlign = _vAlign;
+//}
+//
+////--------------------------------------------------------------
+//ofAlignVert ofxGuiButton::getAlignVert() const {
+//    return verticalAlign;
+//}
 
 //--------------------------------------------------------------
 void ofxGuiButton::setRoundFrame(bool _roundFrame) {

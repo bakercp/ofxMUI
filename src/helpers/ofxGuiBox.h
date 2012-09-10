@@ -12,7 +12,7 @@
 #include "ofxGuiConstants.h"
 #include "ofxGuiRange.h"
 #include "ofxGuiBoxProperties.h"
-#include "ofxGuiRectUtils.h"
+#include "ofxRectangleUtils.h"
 
 
 enum ofxGuiBoxCoordinates {
@@ -28,7 +28,7 @@ enum ofxGuiBoxCoordinates {
 // the base box properties is not protected and any changes must be manually
 // followed by a call to setNeedsLayoutUpdate().  perhaps
 // there is a good way around this -- a callback in the box properties?
-class ofxGuiBox : protected ofRectangle, public ofxGuiBoxProperties {
+class ofxGuiBox : public ofRectangle, public ofxGuiBoxProperties {
 public:
 
     // THE GUI BOX!
@@ -106,50 +106,15 @@ public:
     //--------------------------------------------------------------
     
     ofRectangle getBox();
-    ofVec2f     getPosition();
     
-    bool        insideBox(ofPoint _point);
+    bool insideBox(const ofPoint& _point) const;
     
     // this is relative to the enclosing content box or screen
     
-    void set(ofRectangle const & rect);
-    void set (float px, float py, float w, float h);
-    void set (ofPoint pos, float w, float h);
-    void setFromCenter (float px, float py, float w, float h);
-    void setFromCenter (ofPoint pos, float w, float h);
+//    void setPosition(float _x, float _y, bool _updateParent = false);
+//    void setX(float _x, bool _updateParent = false);
+//    void setY(float _y, bool _updateParent = false);
 
-    void setPosition(float _x, float _y, bool _updateParent = false);
-    void setX(float _x, bool _updateParent = false);
-    void setY(float _y, bool _updateParent = false);
-    
-    void addX(float _dx);
-    void addY(float _dy);
-    
-    float  getX();
-    float  getY();
-    
-    float  getX1();
-    float  getY1();
-
-    float  getLeft();
-    float  getTop();
-    float  getRight();
-    float  getBottom();
-        
-    float  getCenterX();
-    float  getCenterY();
-    
-    float  getHalfWidth();
-    float  getHalfHeight();
-    
-    ofPoint getCenter();
-    
-    ofVec2f getMaxBounds();
-    ofVec2f getMinBounds();
-    float   getMaxX();
-    float   getMaxY();
-    float   getMinX();
-    float   getMinY();
     void setMinBounds(ofVec2f _minBounds);
     void setMaxBounds(ofVec2f _maxBounds);
     void setMaxX(float _maxX);
@@ -178,14 +143,14 @@ public:
     
     // sometimes objects need to be able to report a zero w/h
     // if there is nothing in them (i.e. label);
-    virtual float getWidth();
-    virtual float getHeight();
+    virtual float getWidth() const;
+    virtual float getHeight() const;
 
     void setFixedWidth(bool _fixedWidth);
     void setFixedHeight(bool _fixedHeight);
     
-    bool isFixedWidth();
-    bool isFixedHeight();
+    bool isFixedWidth() const;
+    bool isFixedHeight() const;
     
     //--------------------------------------------------------------
     // BORDER BOX //////////////////////////////////////////////////
@@ -193,57 +158,57 @@ public:
     
     // all are relative to the box position
     // i.e. getBorderBox().x == getBorderOffset().x
-    ofRectangle getBorderBox();
-    ofVec2f     getBorderBoxOffset();
-    float       getBorderBoxSideOffset(ofxGuiBoxSide side);
-    float       getBorderBoxWidth();
-    float       getBorderBoxHeight();
+    ofRectangle getBorderBox() const;
+    ofVec2f     getBorderBoxOffset() const;
+    float       getBorderBoxSideOffset(const ofxGuiBoxSide& side) const;
+    float       getBorderBoxWidth() const;
+    float       getBorderBoxHeight() const;
     
-    float       getBorderBoxHalfWidth();
-    float       getBorderBoxHalfHeight();
-    ofVec2f     getBorderBoxCenter();
-    float       getBorderBoxCenterX();
-    float       getBorderBoxCenterY();
+    float       getBorderBoxHalfWidth() const;
+    float       getBorderBoxHalfHeight() const;
+    ofVec2f     getBorderBoxCenter() const;
+    float       getBorderBoxCenterX() const;
+    float       getBorderBoxCenterY() const;
     
-    bool        insideBorderBox(ofPoint _point);
+    bool        insideBorderBox(const ofPoint& _point) const;
     
     //--------------------------------------------------------------
     // PADDING BOX /////////////////////////////////////////////////
     //--------------------------------------------------------------
     
-    ofRectangle getPaddingBox();
-    ofVec2f     getPaddingBoxOffset();
-    float       getPaddingBoxSideOffset(ofxGuiBoxSide side);
-    float       getPaddingBoxWidth();
-    float       getPaddingBoxHeight();
+    ofRectangle getPaddingBox() const;
+    ofVec2f     getPaddingBoxOffset() const;
+    float       getPaddingBoxSideOffset(const ofxGuiBoxSide& side) const;
+    float       getPaddingBoxWidth() const;
+    float       getPaddingBoxHeight() const;
 
-    float       getPaddingBoxHalfWidth();
-    float       getPaddingBoxHalfHeight();
-    ofVec2f     getPaddingBoxCenter();
-    float       getPaddingBoxCenterX();
-    float       getPaddingBoxCenterY();
+    float       getPaddingBoxHalfWidth() const;
+    float       getPaddingBoxHalfHeight() const;
+    ofVec2f     getPaddingBoxCenter() const;
+    float       getPaddingBoxCenterX() const;
+    float       getPaddingBoxCenterY() const;
 
     
-    bool        insidePaddingBox(ofPoint _point);
+    bool        insidePaddingBox(const ofPoint& _point) const;
     
     //--------------------------------------------------------------
     // CONTENT BOX /////////////////////////////////////////////////
     //--------------------------------------------------------------
 
-    ofRectangle getContentBox();
-    ofRectangle* getContentBoxRef();
-    ofVec2f     getContentBoxOffset();
+    ofRectangle  getContentBox() const;
+    ofRectangle& getContentBoxRef();
+    ofVec2f      getContentBoxOffset() const;
     
-    float       getContentBoxSideOffset(ofxGuiBoxSide side);
+    float       getContentBoxSideOffset(const ofxGuiBoxSide& side) const;
 
-    float       getContentBoxWidth();
-    float       getContentBoxHeight();
+    float       getContentBoxWidth() const;
+    float       getContentBoxHeight() const;
 
-    float       getContentBoxHalfWidth();
-    float       getContentBoxHalfHeight();
-    ofVec2f     getContentBoxCenter();
-    float       getContentBoxCenterX();
-    float       getContentBoxCenterY();
+    float       getContentBoxHalfWidth() const;
+    float       getContentBoxHalfHeight() const;
+    ofVec2f     getContentBoxCenter() const;
+    float       getContentBoxCenterX() const;
+    float       getContentBoxCenterY() const;
 
     void        setContentBoxWidth(float _width);
     void        setContentBoxHeight(float _height);
@@ -251,34 +216,34 @@ public:
     //bool        insideContentBox(ofPoint _point);
 
     // for setting the content box when the width and/or height are fixed
-    float getMaxAllowableContentBoxWidth();
-    float getMaxAllowableContentBoxHeight();
+    float getMaxAllowableContentBoxWidth() const;
+    float getMaxAllowableContentBoxHeight() const;
     
     //--------------------------------------------------------------
     // HIT BOX //////////////////////////////////////////////////
     //--------------------------------------------------------------
 
-    ofRectangle  getHitBox();
-    ofRectangle* getHitBoxRef();
-    ofVec2f     getHitBoxOffset();
+    ofRectangle  getHitBox() const;
+    ofRectangle& getHitBoxRef();
+    ofVec2f      getHitBoxOffset() const;
     
-    ofVec2f     getHitBoxPosition();
-    float       getHitBoxX();
-    float       getHitBoxY();
-    float       getHitBoxWidth();
-    float       getHitBoxHeight();
+    ofVec2f     getHitBoxPosition() const;
+    float       getHitBoxX() const;
+    float       getHitBoxY() const;
+    float       getHitBoxWidth() const;
+    float       getHitBoxHeight() const;
     
-    float       getHitBoxHalfWidth();
-    float       getHitBoxHalfHeight();
-    ofVec2f     getHitBoxCenter();
-    float       getHitBoxCenterX();
-    float       getHitBoxCenterY();
+    float       getHitBoxHalfWidth() const;
+    float       getHitBoxHalfHeight() const;
+    ofVec2f     getHitBoxCenter() const;
+    float       getHitBoxCenterX() const;
+    float       getHitBoxCenterY() const;
     
     // TODO we don't constrain this hit area (width/height) to the content box
     // when the box width/height are fixed ...  this affects
     // the hit test and any subclassed hit tests.  thus, a hit
     // is no GUARANTEED to be inside the content box ... but we can hope 
-    void        setHitBox(ofRectangle _rect);
+    void        setHitBox(const ofRectangle& _rect);
     void        setHitBox(float _x, float _y, float _width, float _height);
     void        setHitBoxX(float _x);
     void        setHitBoxY(float _y);
@@ -287,24 +252,24 @@ public:
     
     //bool        insideHitBox(ofPoint _point);
     
-    bool        isCustomHitBox();
+    bool        isCustomHitBox() const;
     
     //--------------------------------------------------------------
     // SCREEN MAPPING //////////////////////////////////////////////
     //--------------------------------------------------------------
     
-    ofVec2f screenToBox(ofVec2f p);
-    ofVec2f screenToBorderBox(ofVec2f p);
-    ofVec2f screenToPaddingBox(ofVec2f p);
-    ofVec2f screenToContentBox(ofVec2f p);
-    ofVec2f screenToHitBox(ofVec2f p);
+    ofVec2f screenToBox(const ofVec2f& p) const;
+    ofVec2f screenToBorderBox(const ofVec2f& p) const;
+    ofVec2f screenToPaddingBox(const ofVec2f& p) const;
+    ofVec2f screenToContentBox(const ofVec2f& p) const;
+    ofVec2f screenToHitBox(const ofVec2f& p) const;
     
     // virtual to respect parent
-    virtual ofVec2f getBoxScreenPosition();
-    ofVec2f getBorderScreenPosition();    
-    ofVec2f getPaddingScreenPosition();
-    ofVec2f getContentScreenPosition();
-    ofVec2f getHitBoxScreenPosition();
+    virtual ofVec2f getBoxScreenPosition() const;
+    ofVec2f getBorderScreenPosition() const;
+    ofVec2f getPaddingScreenPosition() const;
+    ofVec2f getContentScreenPosition() const;
+    ofVec2f getHitBoxScreenPosition() const;
     
     //--------------------------------------------------------------
     // THE HIT TEST ////////////////////////////////////////////////
@@ -318,8 +283,8 @@ public:
     
     // this will not be called if the click is not in the content box 
     
-    bool hitTest(ofPoint contentBoxX);
-    virtual bool hitTest(float contentBoxX, float contentBoxY);
+    bool hitTest(const ofPoint& contentBoxX) const;
+    virtual bool hitTest(float contentBoxX, float contentBoxY) const;
     
     //--------------------------------------------------------------
     // LAYOUT //////////////////////////////////////////////////////
@@ -328,13 +293,13 @@ public:
     // during auto layout flow times, this will manage new-line 
     // enforcement
     void setNeedsNewLine(bool _needsNewLine);
-    bool getNeedsNewLine();
+    bool getNeedsNewLine() const;
     
     void setParentNeedsLayoutUpdate(bool _parentNeedsLayout = true);
-    bool getParentNeedsLayoutUpdate();
+    bool getParentNeedsLayoutUpdate() const;
     
     void setNeedsLayoutUpdate(bool _needsLayout = true);
-    bool getNeedsLayoutUpdate();
+    bool getNeedsLayoutUpdate() const;
     
     void requestBoxLayout();
     
@@ -344,11 +309,11 @@ public:
     
 
     // content alignment for fixt box situations
-    void setHorizontalAlign(ofxGuiAlign _hAlign);
-    void setVerticalAlign(ofxGuiAlign _vAlign);
+    void setContentAlignHorz(const ofAlignHorz& _hAlign);
+    void setContentAlignVert(const ofAlignVert& _vAlign);
     
-    ofxGuiAlign getHorizontalAlign();
-    ofxGuiAlign getVerticalAlign();
+    ofAlignHorz getContentAlignHorz() const;
+    ofAlignVert getContentAlignVert() const;
 
     
 protected:
@@ -387,8 +352,8 @@ private:
     ofxGuiRange xRange;
     ofxGuiRange yRange;
     
-    ofxGuiAlign hContentAlign;
-    ofxGuiAlign vContentAlign;
+    ofAlignHorz hContentAlign;
+    ofAlignVert vContentAlign;
     
 };
 

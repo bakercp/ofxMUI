@@ -151,7 +151,7 @@ void ofxGuiColorPicker::draw() {
         ofPopMatrix();
      
     } else {
-        ofSetColor(getValue().getInverted().getBrightness());
+        //ofSetColor(getValue().getInverted().getBrightness());
         ofCircle(cursor.x-2, cursor.y-2, 4);
     }
     
@@ -174,14 +174,14 @@ void ofxGuiColorPicker::draw() {
 void ofxGuiColorPicker::onPress() {
     showEyeDroperPreview = false;
     cursor = screenToHitBox(mousePosition);
-    setValue(picker.getColor(cursor.x,cursor.y));
+    //setValue(picker.getColor(cursor.x,cursor.y));
 }
 
 //--------------------------------------------------------------
 void ofxGuiColorPicker::onDragOver() {
     showEyeDroperPreview = false;
     cursor = screenToHitBox(mousePosition);
-    setValue(picker.getColor(cursor.x,cursor.y));
+    //setValue(picker.getColor(cursor.x,cursor.y));
 }
 
 //--------------------------------------------------------------
@@ -211,30 +211,30 @@ void ofxGuiColorPicker::saveToXml()
 
 //--------------------------------------------------------------
 void ofxGuiColorPicker::doContentBoxLayout() {
-
-    
-    // regenerate the picker image
-    picker.allocate(hitBox.width, hitBox.height, OF_IMAGE_COLOR);
-    generatePicker(hitBox.width, hitBox.height);
-    picker.update();
-    
-    // label to the right
-    label->setX(0); // label to the right
-    label->setY(0);
-
-    hitBox.x = 0;
-    hitBox.y = label->getHeight();
-    
-    // TODO: this doesn't account for auto widths ...
-
-    colorPickerPreview.x = hitBox.x;
-    colorPickerPreview.y = hitBox.height;
-    // height set during init
-    colorPickerPreview.width = hitBox.width;
-
-    contentBox.width = hitBox.width;
-    contentBox.height = hitBox.height + label->getHeight() + colorPickerPreview.height;
-
+//
+//    
+//    // regenerate the picker image
+//    picker.allocate(hitBox.width, hitBox.height, OF_IMAGE_COLOR);
+//    generatePicker(hitBox.width, hitBox.height);
+//    picker.update();
+//    
+//    // label to the right
+//    label->setX(0); // label to the right
+//    label->setY(0);
+//
+//    hitBox.x = 0;
+//    hitBox.y = label->getHeight();
+//    
+//    // TODO: this doesn't account for auto widths ...
+//
+//    colorPickerPreview.x = hitBox.x;
+//    colorPickerPreview.y = hitBox.height;
+//    // height set during init
+//    colorPickerPreview.width = hitBox.width;
+//
+//    contentBox.width = hitBox.width;
+//    contentBox.height = hitBox.height + label->getHeight() + colorPickerPreview.height;
+//
     
     
 }

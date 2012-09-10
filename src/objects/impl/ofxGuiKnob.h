@@ -8,9 +8,9 @@
 class ofxGuiKnob : public ofxGuiLabelledObject, public ofxGuiNumberData {
 public:
 
-    ofxGuiKnob(string _name, int _x, int _y, int _width, int _height, bool _enabled = true);
-    ofxGuiKnob(string _name, int _x, int _y,bool _enabled = true);
-    ofxGuiKnob(string _name, bool _enabled = true);
+    ofxGuiKnob(const string& _name, int _x, int _y, int _width, int _height, bool _enabled = true);
+    ofxGuiKnob(const string& _name, int _x, int _y,bool _enabled = true);
+    ofxGuiKnob(const string& _name, bool _enabled = true);
     ofxGuiKnob(bool _enabled = true);
     virtual ~ofxGuiKnob();
 
@@ -39,7 +39,7 @@ public:
     // GETTERS AND SETTERS /////////////////////////////////////////
     //--------------------------------------------------------------
     
-    bool getSmartRotate();
+    bool getSmartRotate() const;
     void setSmartRotate(bool v);
     
 protected:

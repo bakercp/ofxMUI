@@ -10,7 +10,7 @@
 #include "ofxGuiTooltip.h"
 
 //--------------------------------------------------------------
-ofxGuiTooltip::ofxGuiTooltip(string _name, bool _enabled) : ofxGuiLabel(_name, _enabled) {
+ofxGuiTooltip::ofxGuiTooltip(const string& _name, bool _enabled) : ofxGuiLabel(_name, _enabled) {
     init();
 }
 
@@ -131,7 +131,7 @@ void ofxGuiTooltip::cancel() {
 }
 
 //--------------------------------------------------------------
-void ofxGuiTooltip::touchOn(ofVec2f mousePosition) {
+void ofxGuiTooltip::touchOn(const ofVec2f& mousePosition) {
 
     if(!isTouching) {
         isTouching = true;
@@ -152,20 +152,20 @@ void ofxGuiTooltip::touchOff() {
 }
 
 //--------------------------------------------------------------
-void ofxGuiTooltip::setFadeOut(bool _fadeOut) {
-    fadeOut = _fadeOut;
-}
-//--------------------------------------------------------------
-bool ofxGuiTooltip::getFadeOut() {
+bool ofxGuiTooltip::getFadeOut() const {
     return fadeOut;
 }
 
+//--------------------------------------------------------------
+void ofxGuiTooltip::setFadeOut(bool _fadeOut) {
+    fadeOut = _fadeOut;
+}
 
+//--------------------------------------------------------------
+int  ofxGuiTooltip::getFadeDelay() const {return fadeDelay;}
 //--------------------------------------------------------------
 void ofxGuiTooltip::setFadeDelay(int millis) {fadeDelay = millis;}
 //--------------------------------------------------------------
-int  ofxGuiTooltip::getFadeDelay() {return fadeDelay;}
+int  ofxGuiTooltip::getWaitDelay() const {return fadeDelay;}
 //--------------------------------------------------------------
 void ofxGuiTooltip::setWaitDelay(int millis) {waitDelay = millis;}
-//--------------------------------------------------------------
-int  ofxGuiTooltip::getWaitDelay() {return fadeDelay;}

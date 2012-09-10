@@ -57,8 +57,11 @@ void ofxGuiLabelledObject::init() {
     valueLabel->setIsMouseHandler(false);
     valueLabel->setIsKeyboardHandler(false);
 
-    labelPosition = ALIGN_RIGHT;
-    valueLabelPosition = ALIGN_RIGHT;
+    labelPositionHorz = OF_ALIGN_HORZ_RIGHT;
+    labelPositionVert = OF_ALIGN_VERT_CENTER;
+
+    valueLabelPositionHorz = OF_ALIGN_HORZ_RIGHT;
+    valueLabelPositionVert = OF_ALIGN_VERT_CENTER;
 
     /*
     valueLabel->setFixedWidth(false);
@@ -120,23 +123,47 @@ void ofxGuiLabelledObject::disableLabel() {
 }
 
 //--------------------------------------------------------------
-void ofxGuiLabelledObject::setLabelPosition(ofxGuiAlign pos) {
-    labelPosition = pos;
-    requestBoxLayout();
-}
-//--------------------------------------------------------------
-void ofxGuiLabelledObject::setValueLabelPosition(ofxGuiAlign pos) {
-    valueLabelPosition = pos;
+void ofxGuiLabelledObject::setLabelPositionHorz(const ofAlignHorz& hPos) {
+    labelPositionHorz = hPos;
     requestBoxLayout();
 }
 
 //--------------------------------------------------------------
-ofxGuiAlign ofxGuiLabelledObject::getLabelPosition() {
-    return labelPosition;
+void ofxGuiLabelledObject::setLabelPositionVert(const ofAlignVert& vPos) {
+    labelPositionVert = vPos;
+    requestBoxLayout();
 }
+
 //--------------------------------------------------------------
-ofxGuiAlign ofxGuiLabelledObject::getValueLabelPosition() {
-    return valueLabelPosition;
+void ofxGuiLabelledObject::setValueLabelPositionHorz(const ofAlignHorz& hPos) {
+    valueLabelPositionHorz = hPos;
+    requestBoxLayout();
+}
+
+//--------------------------------------------------------------
+void ofxGuiLabelledObject::setValueLabelPositionVert(const ofAlignVert& vPos) {
+    valueLabelPositionVert = vPos;
+    requestBoxLayout();
+}
+
+//--------------------------------------------------------------
+ofAlignHorz ofxGuiLabelledObject::getLabelPositionHorz() const {
+    return labelPositionHorz;
+}
+
+//--------------------------------------------------------------
+ofAlignVert ofxGuiLabelledObject::getLabelPositionVert() const {
+    return labelPositionVert;
+}
+
+//--------------------------------------------------------------
+ofAlignHorz ofxGuiLabelledObject::getValueLabelPositionHorz() const {
+    return valueLabelPositionHorz;
+}
+
+//--------------------------------------------------------------
+ofAlignVert ofxGuiLabelledObject::getValueLabelPositionVert() const {
+    return valueLabelPositionVert;
 }
 
 

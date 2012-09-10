@@ -3,21 +3,21 @@
 
 
 //--------------------------------------------------------------
-ofxGuiNumberBox::ofxGuiNumberBox(string _name, int _x, int _y, int _width, int _height, bool _enabled) : 
+ofxGuiNumberBox::ofxGuiNumberBox(const string& _name, int _x, int _y, int _width, int _height, bool _enabled) : 
 ofxGuiLabelledObject(_name, _x, _y, _width, _height, _enabled),
 ofxGuiNumberData() {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiNumberBox::ofxGuiNumberBox(string _name, int _x, int _y,bool _enabled) : 
+ofxGuiNumberBox::ofxGuiNumberBox(const string& _name, int _x, int _y,bool _enabled) :
 ofxGuiLabelledObject(_name, _x, _y, _enabled),
 ofxGuiNumberData() {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiNumberBox::ofxGuiNumberBox(string _name,bool _enabled) :
+ofxGuiNumberBox::ofxGuiNumberBox(const string& _name,bool _enabled) :
 ofxGuiLabelledObject(_name, _enabled),
 ofxGuiNumberData() {
     init();

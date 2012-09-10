@@ -21,9 +21,9 @@ using Poco::toLowerInPlace;
 class ofxGuiLabel : public ofxGuiObject {
 public:
 
-    ofxGuiLabel(string _name, int _x, int _y, int _width, int _height, bool _enabled = true);
-    ofxGuiLabel(string _name, int _x, int _y, bool _enabled = true);
-    ofxGuiLabel(string _name, bool _enabled = true);
+    ofxGuiLabel(const string& _name, int _x, int _y, int _width, int _height, bool _enabled = true);
+    ofxGuiLabel(const string& _name, int _x, int _y, bool _enabled = true);
+    ofxGuiLabel(const string& _name, bool _enabled = true);
     ofxGuiLabel(bool _enabled = true);
     virtual ~ofxGuiLabel();
     
@@ -43,25 +43,25 @@ public:
     // GETTERS AND SETTERS /////////////////////////////////////////
     //--------------------------------------------------------------
     
-    void setText(string text);
-    string getText();
+    void setText(const string& text);
+    string getText() const;
     
-    string getDisplayText();
+    string getDisplayText() const;
     
-    void setFontSize(ofxGuiSize _fontSize);
-    ofxGuiSize getFontSize();
+    void setFontSize(const ofxGuiSize& _fontSize);
+    ofxGuiSize getFontSize() const;
     
-    void setCapsStyle(ofxGuiCapsMode _capsStyle);
-    ofxGuiCapsMode getCapsStyle();
+    void setCapsStyle(const ofxGuiCapsMode& _capsStyle);
+    ofxGuiCapsMode getCapsStyle() const;
 
-    void setLineBreakMode(ofxGuiLineBreakMode _lineBreakMode);
-    ofxGuiLineBreakMode getLineBreakMode();
+    void setLineBreakMode(const ofxGuiLineBreakMode& _lineBreakMode);
+    ofxGuiLineBreakMode getLineBreakMode() const;
     
-    void setTruncationString(string _truncationString);
-    string getTruncationString();
+    void setTruncationString(const string& _truncationString);
+    string getTruncationString() const;
 
     
-    bool empty();
+    bool empty() const;
 
     /*
     float getWidth();

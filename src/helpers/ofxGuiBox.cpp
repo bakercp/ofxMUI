@@ -8,8 +8,8 @@ ofxGuiBox::ofxGuiBox(ofRectangle _rect) :
     needsLayout(false),
     parentNeedsLayout(false),
     isLayoutSetupComplete(false),
-    hContentAlign(ALIGN_LEFT),
-    vContentAlign(ALIGN_TOP)
+    hContentAlign(OF_ALIGN_HORZ_LEFT),
+    vContentAlign(OF_ALIGN_VERT_TOP)
 {
     set(_rect);
     hitBox = ofRectangle();
@@ -23,8 +23,8 @@ ofxGuiBox::ofxGuiBox(float _x, float _y, float _w, float _h) :
     needsLayout(false),
     parentNeedsLayout(false),
     isLayoutSetupComplete(false),
-    hContentAlign(ALIGN_LEFT),
-    vContentAlign(ALIGN_TOP)
+    hContentAlign(OF_ALIGN_HORZ_LEFT),
+    vContentAlign(OF_ALIGN_VERT_TOP)
 {
     set(_x,_y,_w,_h);
     hitBox = ofRectangle();
@@ -39,8 +39,8 @@ ofxGuiBox::ofxGuiBox(float _x, float _y) :
 	needsLayout(false),
     parentNeedsLayout(false),
     isLayoutSetupComplete(false),
-    hContentAlign(ALIGN_LEFT),
-    vContentAlign(ALIGN_TOP)
+    hContentAlign(OF_ALIGN_HORZ_LEFT),
+    vContentAlign(OF_ALIGN_VERT_TOP)
 {
     set(_x,_y,0,0);
     hitBox = ofRectangle();
@@ -57,8 +57,8 @@ ofxGuiBox::ofxGuiBox() :
     needsLayout(false),
     parentNeedsLayout(false),
     isLayoutSetupComplete(false),
-    hContentAlign(ALIGN_LEFT),
-    vContentAlign(ALIGN_TOP)
+    hContentAlign(OF_ALIGN_HORZ_LEFT),
+    vContentAlign(OF_ALIGN_VERT_TOP)
 {
     set(ofRectangle(0,0,0,0));
     hitBox = ofRectangle();
@@ -179,168 +179,19 @@ ofRectangle ofxGuiBox::getBox() {
     return ofRectangle(*this);
 }
 
-//--------------------------------------------------------------
-ofVec2f ofxGuiBox::getPosition() {
-    return ofVec2f(x,y);
-}
-
-//--------------------------------------------------------------
-void ofxGuiBox::setPosition(float _x, float _y, bool _updateParent) {
-    setX(_x, _updateParent);
-    setY(_y, _updateParent);
-}
-
-//--------------------------------------------------------------
-void ofxGuiBox::set(ofRectangle const & rect) {
-    setX(rect.x);
-    setY(rect.y);
-    setWidth(rect.width);
-    setHeight(rect.height);
-}
-
-//--------------------------------------------------------------
-void ofxGuiBox::set(float px, float py, float w, float h) {
-    setX(px);
-    setY(py);
-    setWidth(w);
-    setHeight(h);
-}
-//--------------------------------------------------------------
-void ofxGuiBox::set(ofPoint pos, float w, float h) {
-    setX(pos.x);
-    setY(pos.y);
-    setWidth(w);
-    setHeight(h);
-}
-//--------------------------------------------------------------
-void ofxGuiBox::setFromCenter (float px, float py, float w, float h) {
-    setX(px - w*0.5f);
-    setY(py - h*0.5f);
-    setWidth(w);
-    setHeight(h);
-}
-//--------------------------------------------------------------
-void ofxGuiBox::setFromCenter (ofPoint pos, float w, float h) {
-    setX(pos.x - w*0.5f);
-    setY(pos.y - h*0.5f);
-    setWidth(w);
-    setHeight(h);
-}
-
-//--------------------------------------------------------------
-void ofxGuiBox::setX(float _x, bool _updateParent) {
-    x = _x;
-    checkBoundsX();
-    setParentNeedsLayoutUpdate(_updateParent);
-}
-
-//--------------------------------------------------------------
-void ofxGuiBox::setY(float _y, bool _updateParent) {
-    y = _y;
-    checkBoundsY();
-    setParentNeedsLayoutUpdate(_updateParent);
-}
-
-//--------------------------------------------------------------
-void ofxGuiBox::addX(float _x) {
-    setX(x+_x);
-}
-
-//--------------------------------------------------------------
-void ofxGuiBox::addY(float _y) {
-    setY(y+_y);
-}
-
-//--------------------------------------------------------------
-float ofxGuiBox::getX() {
-    return x;
-}
-
-//--------------------------------------------------------------
-float ofxGuiBox::getY() {
-    return y;
-}
-//--------------------------------------------------------------
-float ofxGuiBox::getX1() {
-    return x + width;
-}
-//--------------------------------------------------------------
-float ofxGuiBox::getY1() {
-    return y + height;
-}
-
-//--------------------------------------------------------------
-float ofxGuiBox::getLeft() {
-    return getX1();
-}
-//--------------------------------------------------------------
-float ofxGuiBox::getTop() {
-    return getY();
-}
-//--------------------------------------------------------------
-float ofxGuiBox::getRight() {
-    return getX();
-}
-//--------------------------------------------------------------
-float ofxGuiBox::getBottom() {
-    return getY1();
-}
-
-//--------------------------------------------------------------
-float ofxGuiBox::getCenterX() {
-    return x + getHalfWidth();
-}
-
-//--------------------------------------------------------------
-float ofxGuiBox::getCenterY() {
-    return y + getHalfHeight();
-}
-
-//--------------------------------------------------------------
-float ofxGuiBox::getHalfWidth() {
-    return width * 0.5f;
-}
-
-//--------------------------------------------------------------
-float ofxGuiBox::getHalfHeight() {
-    return height * 0.5f;
-}
-
-//--------------------------------------------------------------
-ofPoint ofxGuiBox::getCenter() {
-    return ofPoint(getCenterX(),getCenterY());
-}
-
-//--------------------------------------------------------------
-ofVec2f ofxGuiBox::getMaxBounds() {
-    return ofVec2f(xRange.getMax(), yRange.getMax());
-}
-
-//--------------------------------------------------------------
-ofVec2f ofxGuiBox::getMinBounds() {
-    return ofVec2f(xRange.getMin(), yRange.getMin());
-}
-
-//--------------------------------------------------------------
-float ofxGuiBox::getMaxX() {
-    return xRange.getMax();
-}
-
-//--------------------------------------------------------------
-float ofxGuiBox::getMaxY() {
-    return yRange.getMax();
-}
-
-//--------------------------------------------------------------
-float ofxGuiBox::getMinX() {
-    return xRange.getMin();
-}
-
-//--------------------------------------------------------------
-float ofxGuiBox::getMinY() {
-    return yRange.getMin();
-}
-
+////--------------------------------------------------------------
+//void ofxGuiBox::setX(float _x, bool _updateParent) {
+//    x = _x;
+//    checkBoundsX();
+//    setParentNeedsLayoutUpdate(_updateParent);
+//}
+//
+////--------------------------------------------------------------
+//void ofxGuiBox::setY(float _y, bool _updateParent) {
+//    y = _y;
+//    checkBoundsY();
+//    setParentNeedsLayoutUpdate(_updateParent);
+//}
 //--------------------------------------------------------------
 void ofxGuiBox::setMinBounds(ofVec2f _minBounds) {
     xRange.setMin(_minBounds.x);
@@ -450,12 +301,12 @@ void ofxGuiBox::setHeight(float _height) {
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getWidth() {
+float ofxGuiBox::getWidth() const {
     return width;
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getHeight() {
+float ofxGuiBox::getHeight() const {
     return height;
 }
 
@@ -476,172 +327,172 @@ void ofxGuiBox::setFixedHeight(bool _fixedHeight) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiBox::isFixedHeight() {
+bool ofxGuiBox::isFixedHeight() const {
     return fixedHeight;
 }
 //--------------------------------------------------------------
-bool ofxGuiBox::isFixedWidth() {
+bool ofxGuiBox::isFixedWidth() const {
     return fixedWidth;
 }
 
 //--------------------------------------------------------------
-ofRectangle ofxGuiBox::getBorderBox() {
+ofRectangle ofxGuiBox::getBorderBox() const {
     return ofRectangle(getBorderBoxOffset(), 
                        getBorderBoxWidth(), 
                        getBorderBoxHeight());
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getBorderBoxOffset() {
+ofVec2f ofxGuiBox::getBorderBoxOffset() const {
     return ofVec2f(getBorderBoxSideOffset(SIDE_LEFT), 
                    getBorderBoxSideOffset(SIDE_TOP));
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getBorderBoxSideOffset(ofxGuiBoxSide side) {
+float ofxGuiBox::getBorderBoxSideOffset(const ofxGuiBoxSide& side) const {
     return margin.get(side);
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getBorderBoxWidth() {
+float ofxGuiBox::getBorderBoxWidth() const {
     return width - (margin.right + margin.left);
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getBorderBoxHeight() {
+float ofxGuiBox::getBorderBoxHeight() const {
     return height - (margin.top + margin.bottom);
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getBorderBoxHalfWidth() {
+float ofxGuiBox::getBorderBoxHalfWidth() const {
     return getBorderBoxWidth() * 0.5f;
 }
 //--------------------------------------------------------------
-float ofxGuiBox::getBorderBoxHalfHeight() {
+float ofxGuiBox::getBorderBoxHalfHeight() const {
     return getBorderBoxHeight() * 0.5f;
 }
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getBorderBoxCenter() {
+ofVec2f ofxGuiBox::getBorderBoxCenter() const {
     return ofPoint(getBorderBoxCenterX(),getBorderBoxCenterY());
 }
 //--------------------------------------------------------------
-float ofxGuiBox::getBorderBoxCenterX() {
+float ofxGuiBox::getBorderBoxCenterX() const {
     return getBorderBoxHalfWidth();
 }
 //--------------------------------------------------------------
-float ofxGuiBox::getBorderBoxCenterY() {
+float ofxGuiBox::getBorderBoxCenterY() const {
     return getBorderBoxHalfHeight();
 }
 
 //--------------------------------------------------------------
-ofRectangle ofxGuiBox::getPaddingBox() {
+ofRectangle ofxGuiBox::getPaddingBox() const {
     return ofRectangle(getPaddingBoxOffset(), 
                        getPaddingBoxWidth(), 
                        getPaddingBoxHeight());
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getPaddingBoxOffset() {
+ofVec2f ofxGuiBox::getPaddingBoxOffset() const {
     return ofVec2f(getPaddingBoxSideOffset(SIDE_LEFT), 
                    getPaddingBoxSideOffset(SIDE_TOP));
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getPaddingBoxSideOffset(ofxGuiBoxSide side) {
+float ofxGuiBox::getPaddingBoxSideOffset(const ofxGuiBoxSide& side) const {
     return margin.get(side) + border.get(side);
 }
 
 
 //--------------------------------------------------------------
-float ofxGuiBox::getPaddingBoxWidth() {
+float ofxGuiBox::getPaddingBoxWidth() const {
     return width - (border.right + border.left) - (margin.right + margin.left);
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getPaddingBoxHeight() {
+float ofxGuiBox::getPaddingBoxHeight() const {
     return height - (border.top + border.bottom) - (margin.top + margin.bottom);
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getPaddingBoxHalfWidth() {
+float ofxGuiBox::getPaddingBoxHalfWidth() const {
     return getPaddingBoxWidth() * 0.5f;
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getPaddingBoxHalfHeight() {
+float ofxGuiBox::getPaddingBoxHalfHeight() const {
     return getPaddingBoxHeight() * 0.5f;
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getPaddingBoxCenter() {
+ofVec2f ofxGuiBox::getPaddingBoxCenter() const {
     return ofVec2f(getPaddingBoxCenterX(),getPaddingBoxCenterY());
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getPaddingBoxCenterX() {
+float ofxGuiBox::getPaddingBoxCenterX() const {
     return getPaddingBoxHalfHeight();
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getPaddingBoxCenterY() {
+float ofxGuiBox::getPaddingBoxCenterY() const {
     return getPaddingBoxHalfHeight();
 }
 
 //--------------------------------------------------------------
-bool ofxGuiBox::insidePaddingBox(ofPoint _point) {
+bool ofxGuiBox::insidePaddingBox(const ofPoint& _point) const {
     // this function assumes that the point has already been offset to the padding box
     // thus it sees if the point is between x 0/width and y 0/height
     return _point.x > 0 && _point.y > 0 && _point.x < getPaddingBoxWidth() && _point.y < getPaddingBoxHeight();
 }
 
 //--------------------------------------------------------------
-ofRectangle ofxGuiBox::getContentBox() {
+ofRectangle ofxGuiBox::getContentBox() const {
     return contentBox;
 }
 
 //--------------------------------------------------------------
-ofRectangle* ofxGuiBox::getContentBoxRef() {
-    return &contentBox;
+ofRectangle& ofxGuiBox::getContentBoxRef() {
+    return contentBox;
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getContentBoxOffset() {
+ofVec2f ofxGuiBox::getContentBoxOffset() const {
     return ofVec2f(getContentBoxSideOffset(SIDE_LEFT),
                    getContentBoxSideOffset(SIDE_TOP));
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getContentBoxSideOffset(ofxGuiBoxSide side) {
+float ofxGuiBox::getContentBoxSideOffset(const ofxGuiBoxSide& side) const {
     return margin.get(side) + border.get(side) + padding.get(side);
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getContentBoxWidth() {
+float ofxGuiBox::getContentBoxWidth() const{
     return getContentBox().width;
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getContentBoxHeight() {
+float ofxGuiBox::getContentBoxHeight() const {
     return getContentBox().height;
 }
 //--------------------------------------------------------------
-float ofxGuiBox::getContentBoxHalfWidth() {
+float ofxGuiBox::getContentBoxHalfWidth() const {
     return getContentBoxWidth() * 0.5f;
 }
 //--------------------------------------------------------------
-float ofxGuiBox::getContentBoxHalfHeight() {
+float ofxGuiBox::getContentBoxHalfHeight() const {
     return getContentBoxHeight() * 0.5f;
 }
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getContentBoxCenter() {
+ofVec2f ofxGuiBox::getContentBoxCenter() const {
     return ofVec2f(getContentBoxCenterX(), getContentBoxCenterY());
 }
 //--------------------------------------------------------------
-float ofxGuiBox::getContentBoxCenterX() {
+float ofxGuiBox::getContentBoxCenterX() const {
     return getContentBoxHalfWidth();
 }
 //--------------------------------------------------------------
-float ofxGuiBox::getContentBoxCenterY() {
+float ofxGuiBox::getContentBoxCenterY() const {
     return getContentBoxHalfHeight();
 }
 
@@ -675,7 +526,7 @@ void ofxGuiBox::setContentBoxHeight(float _height) {
 
 //--------------------------------------------------------------
 // for setting the content box when the width and/or height are fixed
-float ofxGuiBox::getMaxAllowableContentBoxWidth() {
+float ofxGuiBox::getMaxAllowableContentBoxWidth() const {
     if(isFixedWidth()) {
         return getWidth() - getContentBoxSideOffset(SIDE_LEFT) - getContentBoxSideOffset(SIDE_RIGHT);
     } else {
@@ -683,7 +534,7 @@ float ofxGuiBox::getMaxAllowableContentBoxWidth() {
     }
 }
 //--------------------------------------------------------------
-float ofxGuiBox::getMaxAllowableContentBoxHeight() {
+float ofxGuiBox::getMaxAllowableContentBoxHeight() const {
     if(isFixedHeight()) {
         return getHeight() - getContentBoxSideOffset(SIDE_TOP) - getContentBoxSideOffset(SIDE_BOTTOM);
     } else {
@@ -701,7 +552,7 @@ bool ofxGuiBox::insideContentBox(ofPoint _point) {
  */
 
 //--------------------------------------------------------------
-ofRectangle ofxGuiBox::getHitBox() {
+ofRectangle ofxGuiBox::getHitBox() const {
 	if(isCustomHitBox()) {
 		return hitBox;
 	} else {
@@ -711,9 +562,9 @@ ofRectangle ofxGuiBox::getHitBox() {
 }
 
 //--------------------------------------------------------------
-ofRectangle* ofxGuiBox::getHitBoxRef() {
+ofRectangle& ofxGuiBox::getHitBoxRef() {
 	if(isCustomHitBox()) {
-		return &hitBox;
+		return hitBox;
 	} else {
         // if no hit box, then just pass the content box
         return getContentBoxRef();
@@ -722,13 +573,13 @@ ofRectangle* ofxGuiBox::getHitBoxRef() {
 
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getHitBoxOffset() {
+ofVec2f ofxGuiBox::getHitBoxOffset() const {
     return getContentBoxOffset() + ofVec2f(getHitBoxX(), getHitBoxY());
 }
 
 
 //--------------------------------------------------------------
-void ofxGuiBox::setHitBox(ofRectangle _hitBox) {
+void ofxGuiBox::setHitBox(const ofRectangle& _hitBox) {
 	
     //cout << "SETHITBOX     ="<< _hitBox.x << "|" << _hitBox.y << "|" << _hitBox.width << "|" << _hitBox.height << endl;
     
@@ -839,128 +690,128 @@ bool ofxGuiBox::insideHitBox(ofPoint _point) {
 }
 */
 //--------------------------------------------------------------
-bool ofxGuiBox::isCustomHitBox() {
+bool ofxGuiBox::isCustomHitBox() const {
     return hasCustomHitBox;
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getHitBoxWidth() {
+float ofxGuiBox::getHitBoxWidth() const {
 	return getHitBox().width;
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getHitBoxHeight() {
+float ofxGuiBox::getHitBoxHeight() const {
 	return getHitBox().height;
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getHitBoxHalfWidth() {
+float ofxGuiBox::getHitBoxHalfWidth() const {
     return getHitBoxWidth() * 0.5f;
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getHitBoxHalfHeight() {
+float ofxGuiBox::getHitBoxHalfHeight() const {
     return getHitBoxHeight() * 0.5f;
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getHitBoxCenter() {
+ofVec2f ofxGuiBox::getHitBoxCenter() const {
     return ofVec2f(getHitBoxCenterX(),getHitBoxCenterY());
 }
 //--------------------------------------------------------------
-float ofxGuiBox::getHitBoxCenterX() {
+float ofxGuiBox::getHitBoxCenterX() const {
     return getHitBoxHalfWidth();
 }
 //--------------------------------------------------------------
-float ofxGuiBox::getHitBoxCenterY() {
+float ofxGuiBox::getHitBoxCenterY() const {
     return getHitBoxHalfHeight();
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getHitBoxPosition() {
+ofVec2f ofxGuiBox::getHitBoxPosition() const {
     return ofVec2f(getHitBoxX(), getHitBoxY());
 }
 
 //--------------------------------------------------------------
-float ofxGuiBox::getHitBoxX() {
+float ofxGuiBox::getHitBoxX() const {
     return getHitBox().x;
 }
 //--------------------------------------------------------------
-float ofxGuiBox::getHitBoxY() {
+float ofxGuiBox::getHitBoxY() const {
     return getHitBox().y;
 }
 
 //--------------------------------------------------------------
-bool ofxGuiBox::insideBorderBox(ofPoint _point) {
+bool ofxGuiBox::insideBorderBox(const ofPoint& _point) const {
     // this function assumes that the point has already been offset to the border box
     // thus it sees if the point is between x 0/width and y 0/height
     return _point.x > 0 && _point.y > 0 && _point.x < getBorderBoxWidth() && _point.y < getBorderBoxHeight();
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::screenToBox(ofVec2f p) {
+ofVec2f ofxGuiBox::screenToBox(const ofVec2f& p) const {
     return p - getBoxScreenPosition();
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::screenToBorderBox(ofVec2f p) {
+ofVec2f ofxGuiBox::screenToBorderBox(const ofVec2f& p) const {
     return p - (getBoxScreenPosition() +  getBorderBoxOffset());
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::screenToPaddingBox(ofVec2f p) {
+ofVec2f ofxGuiBox::screenToPaddingBox(const ofVec2f& p) const {
     return p - (getBoxScreenPosition() +  getPaddingBoxOffset());
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::screenToContentBox(ofVec2f p) {
+ofVec2f ofxGuiBox::screenToContentBox(const ofVec2f& p) const {
     return p - (getBoxScreenPosition() +  getContentBoxOffset());
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::screenToHitBox(ofVec2f p) {
+ofVec2f ofxGuiBox::screenToHitBox(const ofVec2f& p) const {
     return p - (getBoxScreenPosition() +  getHitBoxOffset());
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getBoxScreenPosition() {
+ofVec2f ofxGuiBox::getBoxScreenPosition() const {
     return getPosition();
 }
 
 //--------------------------------------------------------------
-bool ofxGuiBox::insideBox(ofPoint _point) {
+bool ofxGuiBox::insideBox(const ofPoint& _point) const {
     // this function assumes that the point has already been offset to the border box
     // thus it sees if the point is between x 0/width and y 0/height
     return _point.x > 0 && _point.y > 0 && _point.x < getWidth() && _point.y < getHeight();
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getBorderScreenPosition() {
+ofVec2f ofxGuiBox::getBorderScreenPosition() const {
     return getBoxScreenPosition() + getBorderBoxOffset();
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getPaddingScreenPosition() {
+ofVec2f ofxGuiBox::getPaddingScreenPosition() const {
     return getBoxScreenPosition() + getPaddingBoxOffset();
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getContentScreenPosition() {
+ofVec2f ofxGuiBox::getContentScreenPosition() const {
     return getBoxScreenPosition() + getContentBoxOffset();
 }
 
 //--------------------------------------------------------------
-ofVec2f ofxGuiBox::getHitBoxScreenPosition() {
+ofVec2f ofxGuiBox::getHitBoxScreenPosition() const {
     return getBoxScreenPosition() + getHitBoxOffset();
 }
 
 //--------------------------------------------------------------
-bool ofxGuiBox::hitTest(ofPoint screenMousePos) { 
+bool ofxGuiBox::hitTest(const ofPoint& screenMousePos) const {
     return hitTest(screenMousePos.x,screenMousePos.y);
 }
 
 //--------------------------------------------------------------
-bool ofxGuiBox::hitTest(float screenX, float screenY) { 
+bool ofxGuiBox::hitTest(float screenX, float screenY) const {
     // this function could be overriden w/ via the virtual declaration
     // hitRect is always described in with respect to the content frame 
     ofVec2f contentMousePos = screenToContentBox(ofVec2f(screenX, screenY));
@@ -983,7 +834,7 @@ void ofxGuiBox::setNeedsNewLine(bool _needsNewLine) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiBox::getNeedsNewLine() {
+bool ofxGuiBox::getNeedsNewLine() const {
     return needsNewLine;
 }
 
@@ -993,7 +844,7 @@ void ofxGuiBox::setNeedsLayoutUpdate(bool _needsLayout) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiBox::getNeedsLayoutUpdate() {
+bool ofxGuiBox::getNeedsLayoutUpdate() const {
     return needsLayout;
 }
 
@@ -1003,7 +854,7 @@ void ofxGuiBox::setParentNeedsLayoutUpdate(bool _parentNeedsLayout) {
 }
 
 //--------------------------------------------------------------
-bool ofxGuiBox::getParentNeedsLayoutUpdate() {
+bool ofxGuiBox::getParentNeedsLayoutUpdate() const {
     return parentNeedsLayout;
 }
 
@@ -1060,22 +911,22 @@ void ofxGuiBox::doLayout() {
 
 // content alignment for fixt box situations
 //--------------------------------------------------------------
-void ofxGuiBox::setHorizontalAlign(ofxGuiAlign _hAlign) {
+void ofxGuiBox::setContentAlignHorz(const ofAlignHorz& _hAlign) {
     hContentAlign = _hAlign;
     requestBoxLayout();
 }
 //--------------------------------------------------------------
-void ofxGuiBox::setVerticalAlign(ofxGuiAlign _vAlign) {
+void ofxGuiBox::setContentAlignVert(const ofAlignVert& _vAlign) {
     vContentAlign = _vAlign;
     requestBoxLayout();
 }
 
 //--------------------------------------------------------------
-ofxGuiAlign ofxGuiBox::getHorizontalAlign() {
+ofAlignHorz ofxGuiBox::getContentAlignHorz() const {
     return hContentAlign;
 }
 //--------------------------------------------------------------
-ofxGuiAlign ofxGuiBox::getVerticalAlign() {
+ofAlignVert ofxGuiBox::getContentAlignVert() const {
     return vContentAlign;
 }
 

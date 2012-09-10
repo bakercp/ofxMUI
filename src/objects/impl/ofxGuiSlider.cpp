@@ -3,21 +3,21 @@
 #include "ofxGuiSlider.h"
 
 //--------------------------------------------------------------
-ofxGuiSlider::ofxGuiSlider(string _name, int _x, int _y, int _width, int _height, bool _enabled) : 
+ofxGuiSlider::ofxGuiSlider(const string& _name, int _x, int _y, int _width, int _height, bool _enabled) : 
     ofxGuiLabelledObject(_name, _x, _y, _width, _height, _enabled),
     ofxGuiNumberData() {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiSlider::ofxGuiSlider(string _name, int _x, int _y,bool _enabled) : 
+ofxGuiSlider::ofxGuiSlider(const string& _name, int _x, int _y,bool _enabled) : 
     ofxGuiLabelledObject(_name, _x, _y, _enabled),
     ofxGuiNumberData() {
     init();
 }
 
 //--------------------------------------------------------------
-ofxGuiSlider::ofxGuiSlider(string _name,bool _enabled) :
+ofxGuiSlider::ofxGuiSlider(const string& _name,bool _enabled) :
     ofxGuiLabelledObject(_name, _enabled),
     ofxGuiNumberData() {
     init();
@@ -87,19 +87,15 @@ void ofxGuiSlider::update() {
         case OF_ORIENTATION_UNKNOWN:
         case OF_ORIENTATION_DEFAULT:	
         case OF_ORIENTATION_180:
-            ofxGuiRectUtils::align(valueLabel,
-                                   ALIGN_LEFT,
-                                   ALIGN_CENTER_Y,
-                                   getHitBox(),
-                                   ofPoint(0,valueLabel->getHalfHeight()));
+            valueLabel->alignTo(getHitBox(),
+                                OF_ALIGN_HORZ_LEFT,
+                                OF_ALIGN_VERT_CENTER);
             break;
         case OF_ORIENTATION_90_RIGHT:
         case OF_ORIENTATION_90_LEFT:
-            ofxGuiRectUtils::align(valueLabel,
-                                   ALIGN_CENTER_X,
-                                   ALIGN_BOTTOM,
-                                   getHitBox(),
-                                   ofPoint(valueLabel->getHalfWidth(),valueLabel->getHeight()));
+            valueLabel->alignTo(getHitBox(),
+                                OF_ALIGN_HORZ_CENTER,
+                                OF_ALIGN_VERT_BOTTOM);
             break;
     }
 }
@@ -210,7 +206,7 @@ void ofxGuiSlider::buildFromXml() {}
 void ofxGuiSlider::saveToXml() {}
 
 //--------------------------------------------------------------
-void ofxGuiSlider::setOrientation(ofOrientation _orientation) {
+void ofxGuiSlider::setOrientation(const ofOrientation& _orientation) {
     if(_orientation != orientation) {
         //cout << orientation << " ORIENTATION IS NOW " << name << endl; 
         int currentWidth = getHitBoxWidth();
@@ -227,18 +223,15 @@ void ofxGuiSlider::setOrientation(ofOrientation _orientation) {
         if(isOrientationHorizontal()) {
             //label->setFlip(false);
             //valueLabel->setFlip(false);
-            setLabelPosition(ALIGN_RIGHT);
+            setLabelPositionHorz(OF_ALIGN_HORZ_RIGHT);
+            setLabelPositionVert(OF_ALIGN_VERT_CENTER);
         } else {
             //label->setFlip(true);
             //valueLabel->setFlip(true);
-            setLabelPosition(ALIGN_TOP);
+            setLabelPositionHorz(OF_ALIGN_HORZ_CENTER);
+            setLabelPositionVert(OF_ALIGN_VERT_TOP);
         }
     }
-}
-
-//--------------------------------------------------------------
-ofOrientation ofxGuiSlider::getOrientation() {
-    return orientation;
 }
 
 //--------------------------------------------------------------
@@ -248,19 +241,24 @@ void ofxGuiSlider::setSliderWidth(int _width) {
 }
 
 //--------------------------------------------------------------
-int ofxGuiSlider::getSliderWidth() {
+ofOrientation ofxGuiSlider::getOrientation() const {
+    return orientation;
+}
+
+//--------------------------------------------------------------
+int ofxGuiSlider::getSliderWidth() const {
     return getHitBoxWidth();
+}
+
+//--------------------------------------------------------------
+int ofxGuiSlider::getSliderHeight() const {
+    return getHitBoxHeight();
 }
 
 //--------------------------------------------------------------
 void ofxGuiSlider::setSliderHeight(int _height) {
     setHitBoxHeight(_height);
     requestBoxLayout();
-}
-
-//--------------------------------------------------------------
-int ofxGuiSlider::getSliderHeight() {
-    return getHitBoxHeight();
 }
 
 //--------------------------------------------------------------
@@ -360,29 +358,30 @@ void ofxGuiSlider::doContentBoxLayout() {
 
     // TODO get rid of redundant push_backs and use the reverse order params of stack
     
-    if(isOrientationHorizontal()) {
-        if(labelPosition == ALIGN_RIGHT) {
-            rects.push_back(getHitBoxRef());
-            rects.push_back(label);
-            ofxGuiRectUtils::stack(rects,ALIGN_CENTER_Y,ALIGN_LEFT,ALIGN_BOTTOM,0,ofPoint(0,0),false);
-        } else if(labelPosition == ALIGN_TOP) {
-            rects.push_back(label);
-            rects.push_back(getHitBoxRef());
-            ofxGuiRectUtils::stack(rects,ALIGN_CENTER_X,ALIGN_LEFT,ALIGN_BOTTOM,0,ofPoint(0,0),false);
-        }
-    } else {
-        if(labelPosition == ALIGN_RIGHT) {
-            rects.push_back(getHitBoxRef());
-            rects.push_back(label);
-            ofxGuiRectUtils::stack(rects,ALIGN_CENTER_Y,ALIGN_LEFT,ALIGN_BOTTOM,0,ofPoint(0,0),false);
-        } else if (labelPosition == ALIGN_TOP) {
-            rects.push_back(label);
-            rects.push_back(getHitBoxRef());
-            ofxGuiRectUtils::stack(rects,ALIGN_CENTER_X,ALIGN_LEFT,ALIGN_BOTTOM,0,ofPoint(0,0),false);
-        }
-    }
+//    if(isOrientationHorizontal()) {
+//        if(labelPosition == ALIGN_RIGHT) {
+//            rects.push_back(getHitBoxRef());
+//            rects.push_back(label);
+//            ofxGuiRectUtils::stack(rects,ALIGN_CENTER_Y,ALIGN_LEFT,ALIGN_BOTTOM,0,ofPoint(0,0),false);
+//        } else if(labelPosition == ALIGN_TOP) {
+//            rects.push_back(label);
+//            rects.push_back(getHitBoxRef());
+//            ofxGuiRectUtils::stack(rects,ALIGN_CENTER_X,ALIGN_LEFT,ALIGN_BOTTOM,0,ofPoint(0,0),false);
+//        }
+//    } else {
+//        if(labelPosition == ALIGN_RIGHT) {
+//            rects.push_back(getHitBoxRef());
+//            rects.push_back(label);
+//            ofxGuiRectUtils::stack(rects,ALIGN_CENTER_Y,ALIGN_LEFT,ALIGN_BOTTOM,0,ofPoint(0,0),false);
+//        } else if (labelPosition == ALIGN_TOP) {
+//            rects.push_back(label);
+//            rects.push_back(getHitBoxRef());
+//            ofxGuiRectUtils::stack(rects,ALIGN_CENTER_X,ALIGN_LEFT,ALIGN_BOTTOM,0,ofPoint(0,0),false);
+//        }
+//    }
     
-    ofxGuiRectUtils::getBoundingBox(rects,bb);
+    bb = ofGetBoundingBox(rects);
+    
     setContentBoxWidth(bb.width);
     setContentBoxHeight(bb.height);
    

@@ -100,44 +100,44 @@ static string ofxGuiGetPositionString(ofxGuiPosition param) {
 }
  */
 
-enum ofxGuiAlign {
-    ALIGN_NONE = 0,
-    ALIGN_LEFT,
-    ALIGN_CENTER_X,
-    ALIGN_CENTER_Y,
-    ALIGN_RIGHT,
-    ALIGN_TOP,
-    ALIGN_BOTTOM,
-    ALIGN_BASELINE,
-    ALIGN_JUSTIFY_X,
-    ALIGN_JUSTIFY_Y,
-};
-
-
-static string ofxGuiGetAlignString(ofxGuiAlign param) {
-    switch(param) {
-        case ALIGN_NONE:
-            return "ALIGN_NONE";
-        case ALIGN_LEFT:
-            return "ALIGN_LEFT";
-        case ALIGN_CENTER_X:
-            return "ALIGN_CENTER_X";
-        case ALIGN_CENTER_Y:
-            return "ALIGN_CENTER_Y";
-        case ALIGN_RIGHT:
-            return "ALIGN_RIGHT";
-        case ALIGN_TOP:
-            return "ALIGN_TOP"; 
-        case ALIGN_BOTTOM:
-            return "ALIGN_BOTTOM";
-        case ALIGN_BASELINE:
-            return "ALIGN_BASELINE";
-        case ALIGN_JUSTIFY_X:
-            return "ALIGN_JUSTIFY_X";
-        case ALIGN_JUSTIFY_Y:
-            return "ALIGN_JUSTIFY_Y";
-    }
-}
+//enum ofxGuiAlign {
+//    ALIGN_NONE = 0,
+//    ALIGN_LEFT,
+//    ALIGN_CENTER_X,
+//    ALIGN_CENTER_Y,
+//    ALIGN_RIGHT,
+//    ALIGN_TOP,
+//    ALIGN_BOTTOM,
+//    ALIGN_BASELINE,
+//    ALIGN_JUSTIFY_X,
+//    ALIGN_JUSTIFY_Y,
+//};
+//
+//
+//static string ofxGuiGetAlignString(ofxGuiAlign param) {
+//    switch(param) {
+//        case ALIGN_NONE:
+//            return "ALIGN_NONE";
+//        case ALIGN_LEFT:
+//            return "ALIGN_LEFT";
+//        case ALIGN_CENTER_X:
+//            return "ALIGN_CENTER_X";
+//        case ALIGN_CENTER_Y:
+//            return "ALIGN_CENTER_Y";
+//        case ALIGN_RIGHT:
+//            return "ALIGN_RIGHT";
+//        case ALIGN_TOP:
+//            return "ALIGN_TOP"; 
+//        case ALIGN_BOTTOM:
+//            return "ALIGN_BOTTOM";
+//        case ALIGN_BASELINE:
+//            return "ALIGN_BASELINE";
+//        case ALIGN_JUSTIFY_X:
+//            return "ALIGN_JUSTIFY_X";
+//        case ALIGN_JUSTIFY_Y:
+//            return "ALIGN_JUSTIFY_Y";
+//    }
+//}
 
 enum ofxGuiAlignTo {
     ALIGN_TO_NONE = 0,

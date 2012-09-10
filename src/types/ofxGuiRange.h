@@ -26,38 +26,38 @@ public:
     
     void expandToFit(float _val);
     
-    bool intersects(ofxGuiRange _range);
+    bool intersects(ofxGuiRange _range) const;
     
     
     // the same thing
-    ofxGuiRange intersect(ofxGuiRange _range);
-    ofxGuiRange constrain(ofxGuiRange _range);
+    ofxGuiRange intersect(ofxGuiRange _range) const;
+    ofxGuiRange constrain(ofxGuiRange _range) const;
 
-    float constrain(float _value);
+    float constrain(float _value) const;
 
-    bool contains(float _value);
+    bool contains(float _value) const;
     
-    float mean();
-    float lerp(float _value);
-    float normalize(float _value);
-    float denormalize(float _nValue);
+    float mean() const;
+    float lerp(float _value) const;
+    float normalize(float _value) const;
+    float denormalize(float _nValue) const;
     
-    float getMin();
-    float getMax();
+    float getMin() const;
+    float getMax() const;
     
     void clearMin();
     void clearMax();
     
     void clear();
     
-    bool isMinSet();
-    bool isMaxSet();
+    bool isMinSet() const;
+    bool isMaxSet() const;
     
-    bool isBounded();
+    bool isBounded() const;
     
     void invertExtrema();
     
-    float delta();
+    float delta() const;
     
     static ofxGuiRange fromArray(float* array, int cnt);
     static ofxGuiRange fromArray(vector<float> array);
@@ -79,7 +79,7 @@ public:
     //bool isQuantizing();
     //void disableQuantization();
     
-    string toString();
+    string toString() const;
     
 private:
     float min, max;
