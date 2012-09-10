@@ -22,71 +22,73 @@
  
  ==============================================================================*/
 
-#include "ofxMuiLabelledObject.h"
-#include "ofxMuiNumberData.h"
+#pragma once
 
 //--------------------------------------------------------------
-class ofxMuiNumberBox : public ofxMuiLabelledObject, public ofxMuiNumberData {
+#include "ofxMuiLabelledObject.h"
+
+class ofxMuiQuad : public ofxMuiObject {
+    
 public:
     
-    ofxMuiNumberBox(const string& _name, int _x, int _y, int _width, int _height, bool _enabled = true);
-    ofxMuiNumberBox(const string& _name, int _x, int _y,bool _enabled = true);
-    ofxMuiNumberBox(const string& _name, bool _enabled = true);
-    ofxMuiNumberBox(bool _enabled = true);
-    virtual ~ofxMuiNumberBox();
+    ofxMuiQuad(const string& _name, int _x, int _y, int _width, int _height, bool _enabled = true);
+    ofxMuiQuad(const string& _name, int _x, int _y,bool _enabled = true);
+    ofxMuiQuad(const string& _name, bool _enabled = true);
+    ofxMuiQuad(bool _enabled = true);
+    virtual ~ofxMuiQuad();
     
     //--------------------------------------------------------------
     // INHERITED FROM SUPERCLASS ///////////////////////////////////
     //--------------------------------------------------------------
     
-    void update();
     void draw();
     
     //--------------------------------------------------------------
     // PERSISTENCE /////////////////////////////////////////////////
     //--------------------------------------------------------------
     
-    void loadFromXml(ofxXmlSettings& xml);
-    void saveToXml(ofxXmlSettings& xml);
+	void loadFromXml(ofxXmlSettings& xml);
+	void saveToXml(ofxXmlSettings& xml);
     
     //--------------------------------------------------------------
     // KEYBINDING //////////////////////////////////////////////////
     //--------------------------------------------------------------
     
-    void keyBind_increaseValue(int key);
-    void keyBind_decreaseValue(int key);
+//    void keyBind_toggleValue(int key);
     
     //--------------------------------------------------------------
     // GETTERS AND SETTERS /////////////////////////////////////////
     //--------------------------------------------------------------
     
+    //--------------------------------------------------------------
+    // EVENTS //////////////////////////////////////////////////////
+    //--------------------------------------------------------------
+        
 protected:
     
-    void init();
-        
+    void init(); // local init for convenience
+    void dataChanged(int index);
+    
     //--------------------------------------------------------------
     // INHERITED FROM SUPERCLASS ///////////////////////////////////
     //--------------------------------------------------------------
     
-    void onPress();
-    void onDrag();
-    
-    float getDragDigit();
+    // mouse action
+	void onPress();
+	void onRelease();
+	void onReleaseOutside();
     
     void doContentBoxLayout();
     
-    //--------------------------------------------------------------
+	//--------------------------------------------------------------
     // VARIABLES ///////////////////////////////////////////////////
     //--------------------------------------------------------------
     
-    int numPosition;
+    ofAlignHorz             labelPositionHorz;
+    ofAlignVert             labelPositionVert;
+    ofAlignVert             vAlign;
     
-    //--------------------------------------------------------------
-    // EVENTS //////////////////////////////////////////////////////
-    //--------------------------------------------------------------
-    
-    ofEvent<float> ofxMuiNumberBoxEvent;
-    
+    bool                    roundFrame;
     
 };
 

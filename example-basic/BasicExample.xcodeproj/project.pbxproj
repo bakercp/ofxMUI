@@ -51,6 +51,7 @@
 		FDC27AEA14BB9A3C00BB6C99 /* ofxMuiNumberData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC27AE814BB9A3A00BB6C99 /* ofxMuiNumberData.cpp */; };
 		FDC5067C152A3F0B00FE8B45 /* ofxMuiFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDC5067A152A3F0B00FE8B45 /* ofxMuiFont.cpp */; };
 		FDD17E1D15FDB569000144C1 /* ofxRectangleUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDD17E1115FDB569000144C1 /* ofxRectangleUtils.cpp */; };
+		FDFC9DF415FE9C7B00EDD797 /* ofxMuiQuad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDFC9DF315FE9C7B00EDD797 /* ofxMuiQuad.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +163,8 @@
 		FDC5067B152A3F0B00FE8B45 /* ofxMuiFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMuiFont.h; sourceTree = "<group>"; };
 		FDD17E1115FDB569000144C1 /* ofxRectangleUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxRectangleUtils.cpp; sourceTree = "<group>"; };
 		FDD17E1215FDB569000144C1 /* ofxRectangleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxRectangleUtils.h; sourceTree = "<group>"; };
+		FDFC9DF215FE9C6A00EDD797 /* ofxMuiQuad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxMuiQuad.h; sourceTree = "<group>"; };
+		FDFC9DF315FE9C7B00EDD797 /* ofxMuiQuad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxMuiQuad.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -359,6 +362,8 @@
 				FD1D68CF13DDDD4D0096FAB8 /* ofxMuiNumberBox.h */,
 				FDB57E7D13F9BF9B002EF33E /* ofxMuiWindow.cpp */,
 				FDB57E7F13F9BFC3002EF33E /* ofxMuiWindow.h */,
+				FDFC9DF215FE9C6A00EDD797 /* ofxMuiQuad.h */,
+				FDFC9DF315FE9C7B00EDD797 /* ofxMuiQuad.cpp */,
 			);
 			path = impl;
 			sourceTree = "<group>";
@@ -552,6 +557,7 @@
 				FD217A7514E0E50C00E48401 /* ofxMuiTrueTypeFont.cpp in Sources */,
 				FDC5067C152A3F0B00FE8B45 /* ofxMuiFont.cpp in Sources */,
 				FDD17E1D15FDB569000144C1 /* ofxRectangleUtils.cpp in Sources */,
+				FDFC9DF415FE9C7B00EDD797 /* ofxMuiQuad.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

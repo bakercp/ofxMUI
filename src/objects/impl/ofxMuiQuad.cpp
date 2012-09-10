@@ -22,22 +22,4 @@
  
  ==============================================================================*/
 
-#pragma once
-
-#include "ofxMuiFont.h"
-
-
-class ofxMuiTrueTypeFont : public ofxMuiFont {
-    
-public:
-/*
-    // 			-- default (without dpi), non-full char set, anti aliased, 96 dpi:
-	bool 		loadFont(string filename, int fontsize, bool _bAntiAliased=true, bool _bFullCharacterSet=false, bool makeContours=false, float simplifyAmt=0.3, int dpi=0, bool forceAutoHinting=false);
-
-    vector<charProps> getCharacterProperties();
-*/
-protected:
-    
-private:
-    
-};
+#include "ofxMuiQuad.h"
