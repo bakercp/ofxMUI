@@ -26,25 +26,25 @@
 
 //--------------------------------------------------------------
 ofxMuiPanel::ofxMuiPanel(const string& _name, int _x, int _y, int _width, int _height, bool _enabled) : 
-ofxMuiLabelledObject(_name, _x, _y, _width, _height, _enabled) {
+ofxMuiObject(/*_name, */_x, _y, _width, _height, _enabled) {
     init();
 }
 
 //--------------------------------------------------------------
 ofxMuiPanel::ofxMuiPanel(const string& _name, int _x, int _y,bool _enabled) : 
-ofxMuiLabelledObject(_name, _x, _y, _enabled) {
+ofxMuiObject(/*_name, */ _x, _y, _enabled) {
     init();
 }
 
 //--------------------------------------------------------------
 ofxMuiPanel::ofxMuiPanel(const string& _name,bool _enabled) :
-ofxMuiLabelledObject(_name, _enabled) {
+ofxMuiObject(/*_name, */ _enabled) {
     init();
 }
 
 //--------------------------------------------------------------
 ofxMuiPanel::ofxMuiPanel(bool _enabled) : 
-ofxMuiLabelledObject(_enabled) {
+ofxMuiObject(_enabled) {
     init();
 }
 
@@ -54,19 +54,24 @@ ofxMuiPanel::~ofxMuiPanel() {}
 //--------------------------------------------------------------
 void ofxMuiPanel::init() {
     setObjectType("PANEL");
-    setTooltip("");
+//    setTooltip("");
     requestBoxLayout();
 }
 
 //--------------------------------------------------------------
 void ofxMuiPanel::draw() {
     
+    cout << ">>PANEL" << getBox().x << "/" << getBox().y << "/" << getBox().width << "/" << getBox().height << endl;
+
+    
     ofPushStyle();
 	ofPushMatrix(); // initial push
     
     ofTranslate(getHitBoxPosition());
 
-    ofxRect(0, 0, width, height);
+    ofSetColor(255,80);
+    
+    ofxRect(getBox());
     ofNoFill();	
 	
 	ofPopMatrix();
@@ -79,22 +84,22 @@ ofxMuiButton* ofxMuiPanel::addButton(string name) {
     addChild(button);
     return button;
 }
-
-//--------------------------------------------------------------
-ofxMuiButton* ofxMuiPanel::addTrigger(string name) {
-    ofxMuiButton* button = new ofxMuiButton(name);
-    button->setButtonType(TYPE_TRIGGER);
-    addChild(button);
-    return button;
-}
-
-//--------------------------------------------------------------
-ofxMuiButton* ofxMuiPanel::addSwitch(string name) {
-    ofxMuiButton* button = new ofxMuiButton(name);
-    button->setButtonType(TYPE_SWITCH);
-    addChild(button);
-    return button;
-}
+//
+////--------------------------------------------------------------
+//ofxMuiButton* ofxMuiPanel::addBang(string name) {
+//    ofxMuiButton* button = new ofxMuiButton(name);
+//    button->setButtonType(BUTTON_TYPE_BANG);
+//    addChild(button);
+//    return button;
+//}
+//
+////--------------------------------------------------------------
+//ofxMuiButton* ofxMuiPanel::addToggle(string name) {
+//    ofxMuiButton* button = new ofxMuiButton(name);
+//    button->setButtonType(BUTTON_TYPE_TOGGLE);
+//    addChild(button);
+//    return button;
+//}
 
 
 ////--------------------------------------------------------------
@@ -104,27 +109,27 @@ ofxMuiButton* ofxMuiPanel::addSwitch(string name) {
 //    return picker;
 //}
  
-//--------------------------------------------------------------
-ofxMuiSlider* ofxMuiPanel::addSlider(string name) {
-    ofxMuiSlider* slider = new ofxMuiSlider(name);
-    addChild(slider);
-    return slider;
-}
-
-//--------------------------------------------------------------
-ofxMuiKnob* ofxMuiPanel::addKnob(string name) {
-    ofxMuiKnob* knob = new ofxMuiKnob(name);
-    addChild(knob);
-    return knob;
-}
-
-//--------------------------------------------------------------
-ofxMuiNumberBox* ofxMuiPanel::addNumberBox(string name) {
-    ofxMuiNumberBox* numberBox = new ofxMuiNumberBox(name);
-    addChild(numberBox);
-    return numberBox;
-}
-
+////--------------------------------------------------------------
+//ofxMuiSlider* ofxMuiPanel::addSlider(string name) {
+//    ofxMuiSlider* slider = new ofxMuiSlider(name);
+//    addChild(slider);
+//    return slider;
+//}
+//
+////--------------------------------------------------------------
+//ofxMuiKnob* ofxMuiPanel::addKnob(string name) {
+//    ofxMuiKnob* knob = new ofxMuiKnob(name);
+//    addChild(knob);
+//    return knob;
+//}
+//
+////--------------------------------------------------------------
+//ofxMuiNumberBox* ofxMuiPanel::addNumberBox(string name) {
+//    ofxMuiNumberBox* numberBox = new ofxMuiNumberBox(name);
+//    addChild(numberBox);
+//    return numberBox;
+//}
+//
 
 /*
 ofxMuiSlider* ofxMuiPanel::addSlider(string _name, 
@@ -302,23 +307,23 @@ void ofxMuiPanel::doContentBoxLayout() {
         
     // TODO: center this
     int labelY = 0;
-    label->setPosition(currentX, labelY);
+//    label->setPosition(currentX, labelY);
     
-    maxX = MAX(maxX, label->getPosition().x + label->getWidth());
-
-    currentY+=label->getHeight();
+//    maxX = MAX(maxX, label->getPosition().x + label->getWidth());
+//
+//    currentY+=label->getHeight();
      
     currentX = 0;
 
 
    for(int i = 0; i < childObjects.size(); i++) {
-         if(childObjects[i] != label &&
-             childObjects[i] != valueLabel) {
+//         if(childObjects[i] != label &&
+//             childObjects[i] != valueLabel) {
             currentX = 0;
              childObjects[i]->setPosition(currentX,currentY);
             currentY += childObjects[i]->getHeight();
              maxX = MAX(maxX,childObjects[i]->getWidth());
-        }
+//        }
     
     }
     

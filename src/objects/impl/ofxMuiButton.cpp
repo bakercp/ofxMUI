@@ -25,28 +25,28 @@
 #include "ofxMuiButton.h"
 
 ofxMuiButton::ofxMuiButton(const string& _name, int _x, int _y, int _width, int _height, bool _enabled) : 
-ofxMuiLabelledObject(_name, _x, _y, _width, _height, _enabled),
+ofxMuiObject(/*_name, */_x, _y, _width, _height, _enabled),
 ofxMuiNumberData(ofxMui_BOOL) {
     init();
 }
 
 //--------------------------------------------------------------
 ofxMuiButton::ofxMuiButton(const string& _name, int _x, int _y,bool _enabled) : 
-ofxMuiLabelledObject(_name, _x, _y, _enabled),
+ofxMuiObject(/*_name, */ _x, _y, _enabled),
 ofxMuiNumberData(ofxMui_BOOL) {
     init();
 }
 
 //--------------------------------------------------------------
 ofxMuiButton::ofxMuiButton(const string& _name,bool _enabled) :
-ofxMuiLabelledObject(_name, _enabled),
+ofxMuiObject(/*_name, */ _enabled),
 ofxMuiNumberData(ofxMui_BOOL) {
     init();
 }
 
 //--------------------------------------------------------------
 ofxMuiButton::ofxMuiButton(bool _enabled) : 
-ofxMuiLabelledObject(_enabled),
+ofxMuiObject(_enabled),
 ofxMuiNumberData(ofxMui_BOOL) {
     init();
 }
@@ -63,8 +63,7 @@ void ofxMuiButton::init() {
     
     // override the superclass
     setBoxProperties(defaults->buttonBoxProperties);    
-    buttonType = TYPE_SWITCH;
-    
+    buttonType = BUTTON_TYPE_TOGGLE;
     
     setButtonIcon(ICON_DEFAULT);
     
@@ -76,10 +75,10 @@ void ofxMuiButton::init() {
     // custom, just for the button itself (i.e. no clicking on the label)
 	setHitBox(0, 0, defaults->buttonWidth, defaults->buttonHeight);
 
-    label->setText(name);
-    label->enable();
+//    label->setText(name);
+//    label->enable();
     
-    requestBoxLayout();
+  //  requestBoxLayout();
     
 }
 
@@ -97,7 +96,7 @@ void ofxMuiButton::dataChanged(int index) {
 //--------------------------------------------------------------
 void ofxMuiButton::draw()
 {
-
+    
     ofPushStyle();
 	ofPushMatrix(); // initial push
     
@@ -106,7 +105,7 @@ void ofxMuiButton::draw()
     //--------- DRAW THE BUTTON BACKGROUND
     // default
     ofFill();
-    ofSetColor(cActiveAreaBackground.get(isMouseOver(),isMouseDown(),isEnabled(),alphaScale));
+    ofSetColor(cActiveAreaBackground.get(isTouchOver(),isTouchDown(),isEnabled(),alphaScale));
     if(roundFrame) {
         // assuming that the icon is square ...
         ofCircle(getHitBoxWidth()/2, getHitBoxHeight()/2, getHitBoxWidth()/2);
@@ -115,7 +114,7 @@ void ofxMuiButton::draw()
     }
     
     ofNoFill();
-    ofSetColor(cActiveAreaForeground.get(isMouseOver(),isMouseDown(),isEnabled(),alphaScale));
+    ofSetColor(cActiveAreaForeground.get(isTouchOver(),isTouchDown(),isEnabled(),alphaScale));
 
     if(useIcon) {
         int iconWidth = icon->getIcon(getValue())->getWidth();
@@ -156,7 +155,7 @@ void ofxMuiButton::draw()
     }
     
     ofNoFill();
-    ofSetColor(cActiveAreaFrame.get(isMouseOver(),isMouseDown(),isEnabled(),alphaScale));
+    ofSetColor(cActiveAreaFrame.get(isTouchOver(),isTouchDown(),isEnabled(),alphaScale));
     if(roundFrame) {
         // assuming that the icon is square ...
         ofCircle(getHitBoxWidth()/2, getHitBoxHeight()/2, getHitBoxWidth()/2);
@@ -171,13 +170,15 @@ void ofxMuiButton::draw()
 }
 
 //--------------------------------------------------------------
-void ofxMuiButton::onPress()
-{
-	if(mouseButton == 0) {
+void ofxMuiButton::onPress() {
+
+    cout << "onpress!" << endl;
+	
+    if(mouseButton == 0) {
 		// left click
-		if (buttonType == TYPE_SWITCH) {
+		if (buttonType == BUTTON_TYPE_TOGGLE) {
 			toggle();
-		} else if(buttonType == TYPE_TRIGGER) {
+		} else if(buttonType == BUTTON_TYPE_BANG) {
             setValue(true); // turn on
 		}
 	}
@@ -188,7 +189,7 @@ void ofxMuiButton::onRelease()
 {
 	if(mouseButton == 0) {
 		// left click
-		if(buttonType == TYPE_TRIGGER) {
+		if(buttonType == BUTTON_TYPE_BANG) {
             setValue(false); // turn of
 		}
 	}
@@ -199,7 +200,7 @@ void ofxMuiButton::onReleaseOutside()
 {
 	if(mouseDown && mouseButton == 0) {
 		// left click
-		if(buttonType == TYPE_TRIGGER) {
+		if(buttonType == BUTTON_TYPE_BANG) {
 			setValue(false); // turn on
 		}
 	}
@@ -215,7 +216,7 @@ void ofxMuiButton::loadFromXml(ofxXmlSettings& xml)
 void ofxMuiButton::saveToXml(ofxXmlSettings& xml)
 {
 	int		id		= saveObjectData();
-	bool	value	= (buttonType == TYPE_TRIGGER) ? false : (value == true);
+	bool	value	= (buttonType == BUTTON_TYPE_BANG) ? false : (value == true);
 
 	//props->mXml.setValue("OBJECT:VALUE", value, id);
 }
@@ -305,6 +306,10 @@ bool ofxMuiButton::getRoundFrame() {
 //--------------------------------------------------------------
 void ofxMuiButton::doContentBoxLayout() {
     
+    //cout << "0: ofxMuiButton::doContentBoxLayout=>" << endl << boxToString() << endl;
+
+    
+    /*
     // TODO: handle the case where the label is EMPTY
     
     // vertical ofxMuiLabelCaps
@@ -320,11 +325,17 @@ void ofxMuiButton::doContentBoxLayout() {
     
     // label to the right
     label->setX(getHitBoxWidth()); // label to the right
-    setHitBoxX(0);
-    
+     */
+//    setHitBoxX(0);
+
+
     // TODO: this doesn't account for auto widths ...
-    setContentBoxWidth(getHitBoxWidth() + label->getWidth());
+    setContentBoxHeight(getHitBoxHeight());
+    setContentBoxWidth(getHitBoxWidth());// + label->getWidth());
+ 
     
+    //cout << "1: ofxMuiButton::doContentBoxLayout=>" << endl << boxToString() << endl;
+
 }
 
 

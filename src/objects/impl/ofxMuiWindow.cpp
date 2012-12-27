@@ -64,27 +64,29 @@ void ofxMuiWindow::init() {
 	isMinimized		= false;
     _isDragMoveable	= true;
     
-    setTooltip("");
+//    setTooltip("");
     
     setBoxProperties(defaults->windowBoxProperties);
-    
+
 	// draw the min max/ active inactive buttons
 	enableDisableButton = new ofxMuiButton();
+
     enableDisableButton->setButtonIcon(defaults->windowBoxEnableDisableIcon);
     enableDisableButton->keyBind_toggleValue(defaults->keyboardEnableDisable);
-    enableDisableButton->setTooltip("Enable/Disable (" + ofToString(defaults->keyboardEnableDisable) + ")");
-    enableDisableButton->setTooltipEnabled(true);
-	addChild(enableDisableButton);
+//    enableDisableButton->setTooltip("Enable/Disable (" + ofToString(defaults->keyboardEnableDisable) + ")");
+//    enableDisableButton->setTooltipEnabled(true);
+	
+    addChild(enableDisableButton);
 	
 	minMaxButton = new ofxMuiButton();
     minMaxButton->setButtonIcon(defaults->windowBoxMinMaxIcon);
     minMaxButton->keyBind_toggleValue(defaults->keyboardMinMax);
-    minMaxButton->setTooltip("Minimize/Maximize (" + ofToString(defaults->keyboardMinMax) + ")");
-    minMaxButton->setTooltipEnabled(true);
+//    minMaxButton->setTooltip("Minimize/Maximize (" + ofToString(defaults->keyboardMinMax) + ")");
+//    minMaxButton->setTooltipEnabled(true);
     addChild(minMaxButton);
-	
+
     requestBoxLayout();
-    
+
 }
 
 //--------------------------------------------------------------
@@ -162,7 +164,7 @@ void ofxMuiWindow::draw() {
      }
      
      
-     
+    
      */
 	
 	
@@ -190,9 +192,9 @@ void ofxMuiWindow::maximize() {
     
     for(int i = 0; i < childObjects.size(); i++) {
         if(childObjects[i] != enableDisableButton &&
-           childObjects[i] != minMaxButton &&
+           childObjects[i] != minMaxButton /*&&
            childObjects[i] != label &&
-           childObjects[i] != valueLabel) {
+           childObjects[i] != valueLabel*/) {
             childObjects[i]->show();
         }
 	}
@@ -208,9 +210,9 @@ void ofxMuiWindow::minimize() {
     // disallow mouse / keyboard input when hidden
     for(int i = 0; i < childObjects.size(); i++) {
         if(childObjects[i] != enableDisableButton &&
-           childObjects[i] != minMaxButton &&
-           childObjects[i] != label &&
-           childObjects[i] != valueLabel) {
+           childObjects[i] != minMaxButton/*&&
+                                           childObjects[i] != label &&
+                                           childObjects[i] != valueLabel*/) {
             childObjects[i]->hide();
         }
 	}
@@ -247,7 +249,7 @@ void ofxMuiWindow::saveToXml(ofxXmlSettings& xml)
 
 //--------------------------------------------------------------
 void ofxMuiWindow::doContentBoxLayout() {
-    
+    cout << "doing content box layout " << endl;
     int currentX = 0;
     int currentY = 0;
     
@@ -263,18 +265,18 @@ void ofxMuiWindow::doContentBoxLayout() {
     // position the label
     
     // TODO: center this
-    int labelY = (minMaxButton->getY() + minMaxButton->getHeight()) / 2.0 -label->getHeight() / 2.0 ;
-    label->setPosition(currentX, labelY);
-    
-    
-    maxX = MAX(maxX, label->getPosition().x + label->getWidth());
-    
-    currentY+=MAX(MAX(enableDisableButton->getHeight(),
-                      minMaxButton->getHeight()),
-                    label->getHeight());
-    
-    
-    currentX = 0;
+//    int labelY = (minMaxButton->getY() + minMaxButton->getHeight()) / 2.0 -label->getHeight() / 2.0 ;
+//    label->setPosition(currentX, labelY);
+//    
+//    
+//    maxX = MAX(maxX, label->getPosition().x + label->getWidth());
+//    
+//    currentY+=MAX(MAX(enableDisableButton->getHeight(),
+//                      minMaxButton->getHeight()),
+//                    label->getHeight());
+//    
+//    
+//    currentX = 0;
     
     minimizedRect.x = 0;
 	minimizedRect.y = 0;
@@ -289,9 +291,9 @@ void ofxMuiWindow::doContentBoxLayout() {
     } else {
         for(int i = 0; i < childObjects.size(); i++) {
             if(childObjects[i] != enableDisableButton &&
-               childObjects[i] != minMaxButton &&
-               childObjects[i] != label &&
-               childObjects[i] != valueLabel) {
+               childObjects[i] != minMaxButton/*&&
+                                               childObjects[i] != label &&
+                                               childObjects[i] != valueLabel*/) {
                 currentX = 0;
                 childObjects[i]->setPosition(currentX,currentY);
                 currentY += childObjects[i]->getHeight();

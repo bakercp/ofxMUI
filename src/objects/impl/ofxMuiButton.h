@@ -28,16 +28,17 @@
 #include "ofxMuiLabelledObject.h"
 #include "ofxMuiIcon.h"
 #include "ofxMuiNumberData.h"
-
+#include "ofxRectangleUtils.h"
 
 enum ofxMuiButtonType
 {
-	TYPE_SWITCH,
-	TYPE_TRIGGER /* like a bang */
+	BUTTON_TYPE_TOGGLE,
+	BUTTON_TYPE_BANG /* like a bang */
 };
 
-class ofxMuiButton : public ofxMuiLabelledObject, public ofxMuiNumberData {
-    
+class ofxMuiButton : public ofxMuiObject,
+                     public ofxMuiNumberData
+{
 public:
 
     ofxMuiButton(const string& _name, int _x, int _y, int _width, int _height, bool _enabled = true);
@@ -87,9 +88,6 @@ public:
     void setRoundFrame(bool _roundFrame);
     bool getRoundFrame();
     
-
-    
-    
     //--------------------------------------------------------------
     // EVENTS //////////////////////////////////////////////////////
     //--------------------------------------------------------------
@@ -109,7 +107,6 @@ protected:
 	void onPress();			
 	void onRelease();		
 	void onReleaseOutside();
-
     void doContentBoxLayout();
 
 	//--------------------------------------------------------------

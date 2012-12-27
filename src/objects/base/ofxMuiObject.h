@@ -34,17 +34,23 @@
 #include "ofxMuiKeyMapper.h"
 
 
-class ofxMuiObject : public ofxMuiBox, public ofxMuiEnabler, public ofxMuiKeyMapper  {
+class ofxMuiObject : public ofxMuiBox,
+                     public ofxMuiEnabler,
+                     public ofxMuiKeyMapper
+{
 public:
     
     //--------------------------------------------------------------
     // CONSTRUCTORS+DESTRUCTORS ////////////////////////////////////
     //--------------------------------------------------------------
 
-    ofxMuiObject(const string& _name, int _x, int _y, int _width, int _height, bool _enabled = true);
-    ofxMuiObject(const string& _name, int _x, int _y, bool _enabled = true);
-    ofxMuiObject(const string& _name, bool _enabled = true);
     ofxMuiObject(bool _enabled = true);
+    ofxMuiObject(float  _x, float _y, bool _enabled = true);
+    ofxMuiObject(float  _x, float _y, float _width, float _height, bool _enabled = true);
+    
+//    ofxMuiObject(const string& _name, float _x, float _y, float _width, float _height, bool _enabled = true);
+//    ofxMuiObject(const string& _name, float _x, float _y, bool _enabled = true);
+//    ofxMuiObject(const string& _name, bool _enabled = true);
     
     virtual ~ofxMuiObject();
     
@@ -92,7 +98,7 @@ public:
     
     virtual void    drawContentBox();   // draw Content Box
     
-    virtual void	draw() = 0;         // draw the contents of content box
+    virtual void	draw();         // draw the contents of content box
     
 	virtual void	exit() {}
 
@@ -114,12 +120,12 @@ public:
 
     void doSetEnabled(bool _enabled);
 
-    //--------------------------------------------------------------
-    // LABELS //////////////////////////////////////////////////////
-    //--------------------------------------------------------------
-
-    void    setName(string _label);
-    string  getName();
+//    //--------------------------------------------------------------
+//    // LABELS //////////////////////////////////////////////////////
+//    //--------------------------------------------------------------
+//
+//    void    setName(string _label);
+//    string  getName();
 
     //--------------------------------------------------------------
     // DRAGGING+DROPPING ///////////////////////////////////////////
@@ -128,6 +134,11 @@ public:
 	
     void    setIsDragMoveable(bool _val); // can we drag this thing around
     bool    isDragMoveable() const;
+    
+    void    setIsSelectable(bool _val);
+    bool    isSelectable() const;
+    
+    
     
     bool    isDragging() const;
     
@@ -147,18 +158,18 @@ public:
     // INTERACTIVE INPUT ///////////////////////////////////////////
     //--------------------------------------------------------------
 
-    bool    isMouseDown() const;
-    bool    isMouseOver() const;
+    bool    isTouchDown() const;
+    bool    isTouchOver() const;
     
     //--------------------------------------------------------------
     // TOOLTIP /////////////////////////////////////////////////////
     //--------------------------------------------------------------
 
-    string  getTooltip() const;
-    void    setTooltip(const string& _tooltip);
-    
-    bool    isTooltipEnabled() const;
-    void    setTooltipEnabled(bool _enable);
+//    string  getTooltip() const;
+//    void    setTooltip(const string& _tooltip);
+//    
+//    bool    isTooltipEnabled() const;
+//    void    setTooltipEnabled(bool _enable);
     
     //--------------------------------------------------------------
     // OBJECT TREE AND FAMILY //////////////////////////////////////
@@ -233,8 +244,8 @@ protected:
     //--------------------------------------------------------------
 
     
-    bool    tooltipEnabled;
-    string  tooltip;
+//    bool    bTooltipEnabled;
+//    string  tooltip;
     
     
     
@@ -259,30 +270,31 @@ protected:
     float getActiveTimer();
     
     //--------------------------------------------------------------
-    // MOUSE MOVEMENT CALLBACKS ////////////////////////////////////
+    // HOVER MOVEMENT CALLBACKS ////////////////////////////////////
     //--------------------------------------------------------------
+    // these will generally not be called with touch-based systems
     
-    // onRollOver: called when mouse enters object x, y, width, height
-	virtual void onRollOver() {}
-    // onRollOut: called when mouse leaves object x, y, width, height
-	virtual void onRollOut() {}
-    // onMouseMove: called when mouse moves while over object x, y, width, height
-    virtual void onMouseMove() {}			
+    // onHoverIn: called when mouse/touch hover/rolls enters object x, y, width, height
+	virtual void onHoverIn() {}
+    // onHoverOut: called when mouse/touch hover/rolls exits object x, y, width, height
+	virtual void onHoverOut() {}
+    // onHoverOn: called when mouse/touch hover/rolls moves while over object x, y, width, height
+    virtual void onHoverOn() {}
 
     //--------------------------------------------------------------
-    // MOUSE PRESS CALLBACKS ///////////////////////////////////////
+    // TOUCH PRESS CALLBACKS ///////////////////////////////////////
     //--------------------------------------------------------------
     
-    // onPress: called when mouse presses while over object
+    // onPress: called when touch presses while over object
     virtual void onPress() {}		
     
-    // onDoublePress: called when mouse is double-clicked while over object
+    // onDoublePress: called when double-touched over object
     virtual void onDoublePress() {}
     
-    // onPressOutside: called when mouse presses while outside object
+    // onPressOutside: called when touch presses while outside object
 	virtual void onPressOutside() {}		
     
-    // onRelease: called when mouse releases while over object
+    // onRelease: called when touch releases while over object
 	virtual void onRelease() {}
 	
     // onReleaseOutside: called when mouse releases outside 
@@ -290,7 +302,7 @@ protected:
     virtual void onReleaseOutside()	{}		
 
     //--------------------------------------------------------------
-    // MOUSE DRAG CALLBACKS ////////////////////////////////////////
+    // TOUCH DRAG CALLBACKS ////////////////////////////////////////
     //--------------------------------------------------------------
     
     // onDrag: called on the handling object ANYTIME the mouse is 
@@ -310,10 +322,10 @@ protected:
     // onDragMoving: this is called when the object is being moved via dragging
     virtual void onDragMoving() {};
     
-    // onDragOver: called when mouse moves while over object 
+    // onDragOver: called when touch moves while over object 
     //             and button is down (but not dragging object)
 	virtual void onDragOver() {}			
-    // onDragOutside: called when mouse moves while outside 
+    // onDragOutside: called when touch moves while outside 
     //             the object after being clicked on it
     virtual void onDragOutside() {}
     
@@ -361,9 +373,9 @@ protected:
     //--------------------------------------------------------------
 
     // onKeyPressed: called when a key is pressed with the object in focus
-	virtual void onKeyPressed() {}		
+	virtual void onKeyPressed(int key) {}
     // onKeyReleased: called when a key is released with the obejct in focus
-    virtual void onKeyReleased() {}		
+    virtual void onKeyReleased(int key) {}		
     
     //--------------------------------------------------------------
     // COLORS/SHADOWS //////////////////////////////////////////////
@@ -410,9 +422,9 @@ protected:
     // LABELS/TEXT /////////////////////////////////////////////////
     //--------------------------------------------------------------
     
-	string name; // the name of this paramater
-                 // serves as the default for tooltips and 
-                 // (in some cases) display text
+//	string name; // the name of this paramater
+//                 // serves as the default for tooltips and 
+//                 // (in some cases) display text
 
     string objectType;
     
@@ -427,11 +439,12 @@ protected:
     int     pKey;
 	bool    keyboardOnPress;
     
-    // mouse states
-	bool    _isMouseDown;
-    bool    _isMouseOver;
+    // touch states
+	bool    _isTouchDown;
+    bool    _isTouchOver;
 	
-    // mouse positions
+    // touch positions
+    // TODO this needs to be a vector
     ofVec2f mousePosition;
     ofVec2f pMousePosition;
     
@@ -448,17 +461,31 @@ protected:
     // allow for easy fading in and out and other 
     float isActiveTimer;
     float isActiveTimerRate;
-        
+    
+    
     //--------------------------------------------------------------
     // DRAGGING+DROPPING ///////////////////////////////////////////
     //--------------------------------------------------------------
 
+    
+    
 	bool			_isDragMoveable; // can we drag this thing around
 	bool			_isDragging;		// is dragging
 	
-    // for times when we start a drag inside of a hit
+    // for times when we start a drag inside of a hit box
     bool            _isHitDragable;
     bool            _isHitDragOrigin;
+    
+    bool            _isSelectable;
+    bool            _isSelectDragable;
+    
+    
+    
+    
+    
+    
+    
+    
     
 	ofVec2f         dragStartPosition; // where we were before the dragging started
     ofVec2f         totalDragDelta; // the total delta diff between dragstart 

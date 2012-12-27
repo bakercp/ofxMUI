@@ -26,11 +26,20 @@
 
 #include "ofMain.h"
 
+
+// TODO: this can now be replaced by combinations of ofAlignVert & ofAlignHorz
 enum ofxMuiBoxSide {
     SIDE_LEFT = 0,
     SIDE_TOP,
     SIDE_RIGHT,
     SIDE_BOTTOM
+};
+
+enum ofxMuiBoxCorner {
+    TOP_LEFT = 0,
+    TOP_RIGHT,
+    BOTTOM_RIGHT,
+    BOTTOM_LEFT
 };
 
 
@@ -116,7 +125,6 @@ public:
 };
 
 class ofxMuiBoxProperties {
-    
 public:
     
     //--------------------------------------------------------------
@@ -146,6 +154,16 @@ public:
     
 
     //--------------------------------------------------------------
+    
+//    float getTotalVerticalPadding() const;
+//    float getTotalHorizontalPadding() const;
+//
+//    float getTotalVerticalMargin() const;
+//    float getTotalHorizontalMargin() const;
+//
+//    float getTotalVerticalBorder() const;
+//    float getTotalHorizontalBorder() const;
+
     
     // get po
     ofxMuiBoxPropertyQuad* getPadding();

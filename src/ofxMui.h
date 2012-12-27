@@ -24,11 +24,15 @@
 
 #pragma once
 
+#include <set>
+
 //--------------------------------------------------------------
 #include "ofxMuiUtils.h"
 #include "ofxMuiObject.h"
-#include "ofxMuiTooltip.h"
+#include "ofxMuiTouch.h"
+//#include "ofxMuiTooltip.h"
 #include "ofxMuiWindow.h"
+
 
 #define ofxMui_VERSION			"1.0" //
 
@@ -39,9 +43,10 @@ class ofxMuiObject;
 class ofxMui : public ofxMuiEnabler, public ofxMuiKeyMapper {
 	
 public:
+    
 	
 	ofxMui();      
-    ofxMui(int w, int h);
+    ofxMui(int w, int h); // auto resize
 	virtual ~ofxMui();
 	
     // core oF event suite
@@ -53,12 +58,29 @@ public:
     void    fileDragEvent(ofDragInfo &e);
     void    gotMessage(ofMessage &e);
 	
+    // input events
 	void	keyPressed(ofKeyEventArgs &e);
 	void	keyReleased(ofKeyEventArgs &e);
+
 	void	mouseMoved(ofMouseEventArgs &e);
 	void	mouseDragged(ofMouseEventArgs &e);
 	void	mousePressed(ofMouseEventArgs &e);
 	void	mouseReleased(ofMouseEventArgs &e);
+    
+    void    touchDown(ofTouchEventArgs & touch);
+    void    touchMoved(ofTouchEventArgs& touch);
+	void    touchUp(ofTouchEventArgs& touch);
+	void    touchDoubleTap(ofTouchEventArgs& touch);
+	void    touchCancelled(ofTouchEventArgs& touch);
+
+    
+    
+    
+    
+    
+    
+    
+    /// TODO: ALL OF THE BABOVE MOUSE FUNCTIONS SHOULD BE FUNNELED INTO THE TOUCH HANDLERS
 
 	ofxMuiWindow*	addWindow(string name, int x, int y);
 	bool			removePanel(ofxMuiPanel* panel);
@@ -70,8 +92,15 @@ public:
 	vector			<ofxMuiObject*>				mObjects;
 	vector			<ofxMuiObject*>::iterator	mObjectsIter;
 	
+    
+    vector          <ofxMuiObject*>             selectedMObjects;
+
+    
     ofxMuiObject*   handled;   // is the current active object (mouse over)
-	ofVec2f         dragPreviousPosition;
+    
+    //set<ofxMuiObject*> handled; // for multi-touch
+    
+	//ofVec2f         dragPreviousPosition;
 	
     // Panel layer operations
 	void			bringToFront(int index);
@@ -79,12 +108,15 @@ public:
 	void			sendToBack(int index);
 	void			sendBackward(int index);
 	
-	ofxMuiTooltip   tooltip;
+	//ofxMuiTooltip   tooltip;
     
     ofxMuiObject*	addGuiObject(ofxMuiObject* obj);
 	bool			removeGuiObject(ofxMuiObject* obj);
 
-    ofFbo* getFboRef();
+    //ofFbo& getFboRef();
+    
+    
+    map<int,ofxMuiTouch> activeTouches;
     
 private:
 	
@@ -99,6 +131,7 @@ private:
     bool isMousePressed;
     bool isMouseDragging;
     
+    bool autoResize;
     int width;
     int height;
     
@@ -106,3 +139,4 @@ private:
 
 //--------------------------------------------------------------
 
+typedef ofPtr<ofxMui> ofxSharedMui;

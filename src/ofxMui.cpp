@@ -29,15 +29,15 @@
 ofxMui::ofxMui() : ofxMuiEnabler() {
     width = ofGetWidth();
     height = ofGetHeight();
+    autoResize = true;
     init();
-
-
 }
 
 //--------------------------------------------------------------
 ofxMui::ofxMui(int _w, int _h) : ofxMuiEnabler() {
     width = _w;
     height = _h;
+    autoResize = false;
     init();
 }
 
@@ -60,6 +60,14 @@ ofxMui::~ofxMui() {
 	ofRemoveListener(ofEvents().mouseReleased, this, &ofxMui::mouseReleased);
 	ofRemoveListener(ofEvents().mousePressed, this, &ofxMui::mousePressed);
 
+    
+//#ifdef defined(TARGET_OF_IPHONE) || defined(TARGET_ANDROID)
+    ofRemoveListener(ofEvents().touchDown, this, &ofxMui::touchDown);
+    ofRemoveListener(ofEvents().touchMoved, this, &ofxMui::touchMoved);
+    ofRemoveListener(ofEvents().touchUp, this, &ofxMui::touchUp);
+    ofRemoveListener(ofEvents().touchDoubleTap, this, &ofxMui::touchDoubleTap);
+    ofRemoveListener(ofEvents().touchCancelled, this, &ofxMui::touchCancelled);
+//#ifdef
     for(int i = 0; i < mObjects.size(); i++) {
         delete mObjects[i];   
     }
@@ -86,12 +94,18 @@ void ofxMui::init() {
 	ofAddListener(ofEvents().mouseReleased, this, &ofxMui::mouseReleased);
 	ofAddListener(ofEvents().mousePressed, this, &ofxMui::mousePressed);
     
+    ofAddListener(ofEvents().touchDown, this, &ofxMui::touchDown);
+    ofAddListener(ofEvents().touchMoved, this, &ofxMui::touchMoved);
+    ofAddListener(ofEvents().touchUp, this, &ofxMui::touchUp);
+    ofAddListener(ofEvents().touchDoubleTap, this, &ofxMui::touchDoubleTap);
+    ofAddListener(ofEvents().touchCancelled, this, &ofxMui::touchCancelled);
+    
 	mXmlDone			= true;
 	
 	// dragging
-	dragPreviousPosition = ofVec2f(-FLT_MAX, -FLT_MAX); // the last poistion in the drag world
+	//dragPreviousPosition = ofVec2f(-FLT_MAX, -FLT_MAX); // the last poistion in the drag world
     
-    tooltip.setText("tooltip!");
+    //tooltip.setText("tooltip!");
     
     handled = NULL;
     
@@ -104,6 +118,8 @@ void ofxMui::init() {
     
     // prepare the fbo for
     fbo.allocate(width, height);
+
+    autoResize = true;
 }
 
 //--------------------------------------------------------------
@@ -127,12 +143,11 @@ void ofxMui::update(ofEventArgs &e) {
 		}
 	}
 
-    tooltip._update(e);
+    //tooltip._update(e);
 }
 
 //--------------------------------------------------------------
-void ofxMui::draw(ofEventArgs &e)
-{  
+void ofxMui::draw(ofEventArgs &e) {  
     fbo.begin();
     {
         ofPushStyle();
@@ -145,7 +160,7 @@ void ofxMui::draw(ofEventArgs &e)
                 mObjects[i]->_draw(e);
                 ofxMuiPopObject();
             }
-            tooltip._draw(e);
+            //tooltip._draw(e);
             ofDisableAlphaBlending();
         }
         ofPopStyle();
@@ -159,8 +174,7 @@ void ofxMui::draw(ofEventArgs &e)
 }
 
 //--------------------------------------------------------------
-void ofxMui::exit(ofEventArgs &e)
-{
+void ofxMui::exit(ofEventArgs &e) {
 	if(isEnabled()) {
 		for(int i = 0; i < mObjects.size(); i++) {
             ofxMuiPushObject(mObjects[i]);
@@ -171,8 +185,17 @@ void ofxMui::exit(ofEventArgs &e)
 }
 
 //--------------------------------------------------------------
-void ofxMui::windowResized(ofResizeEventArgs &e)
-{
+void ofxMui::windowResized(ofResizeEventArgs &e) {
+    
+    if(autoResize) {
+        width = e.width;
+        height = e.height;
+        
+        if(e.width != fbo.getWidth() || e.height != fbo.getHeight()) {
+            fbo.allocate(e.width, e.height);
+        }
+    }
+    
  	if(isEnabled()) {
 		for(int i = 0; i < mObjects.size(); i++) {
             ofxMuiPushObject(mObjects[i]);
@@ -181,7 +204,6 @@ void ofxMui::windowResized(ofResizeEventArgs &e)
 		}
 	}
 }
-
 
 //--------------------------------------------------------------
 void ofxMui::fileDragEvent(ofDragInfo &e) {
@@ -234,6 +256,7 @@ void ofxMui::keyReleased(ofKeyEventArgs &e) {
 		}
 	}
 }
+
 //--------------------------------------------------------------
 void ofxMui::mouseMoved(ofMouseEventArgs &e) {
 
@@ -246,7 +269,7 @@ void ofxMui::mouseMoved(ofMouseEventArgs &e) {
             ofxMuiPopObject();
 		}
 		
-        tooltip.setObject(handled, e);
+        //tooltip.setObject(handled, e);
     
     }
 	
@@ -259,8 +282,8 @@ void ofxMui::mouseDragged(ofMouseEventArgs &e) {
     
     isMouseDragging = true;
     
-    tooltip.setObject(NULL, e);
-    tooltip.cancel();
+    //tooltip.setObject(NULL, e);
+    //tooltip.cancel();
 
     
 	if(isEnabled()) {
@@ -293,8 +316,8 @@ void ofxMui::mousePressed(ofMouseEventArgs &e) {
     isMousePressed = true;
     handled = NULL; // must be unhadled
 
-    tooltip.setObject(NULL, e);
-    tooltip.cancel();
+    //tooltip.setObject(NULL, e);
+    //tooltip.cancel();
 
     if(isEnabled()) {
 		ofxMuiObject* newHandler = NULL;
@@ -330,13 +353,39 @@ void ofxMui::mouseReleased(ofMouseEventArgs &e) {
 		}
         
         
-        tooltip.setObject(handled, e);
+        //tooltip.setObject(handled, e);
 
 	}
 
     handled = NULL;
 	
 }
+
+//--------------------------------------------------------------
+void ofxMui::touchDown(ofTouchEventArgs & touch) {
+    cout << "down" << endl;
+}
+
+//--------------------------------------------------------------
+void ofxMui::touchMoved(ofTouchEventArgs& touch) {
+    cout << "move" << endl;
+}
+//--------------------------------------------------------------
+
+void ofxMui::touchUp(ofTouchEventArgs& touch) {
+    cout << "up" << endl;
+}
+
+//--------------------------------------------------------------
+void ofxMui::touchDoubleTap(ofTouchEventArgs& touch) {
+    cout << "double tap" << endl;
+}
+
+//--------------------------------------------------------------
+void ofxMui::touchCancelled(ofTouchEventArgs& touch) {
+    cout << "cancel" << endl;
+}
+
 
 //--------------------------------------------------------------
 void ofxMui::bringToFront(int index)  {
@@ -360,7 +409,7 @@ void ofxMui::bringForward(int index) {
 		if(index < (mObjects.size() - 1)) {
 			swap(mObjects[index], mObjects[index+1]);
 		} else {
-			ofLog(OF_LOG_VERBOSE, "Already at the front.");
+			ofLogVerbose("ofxMui") << "Already at the front.";
 		}
 	} else {
 		ofLog(OF_LOG_ERROR, "Index out of range.");

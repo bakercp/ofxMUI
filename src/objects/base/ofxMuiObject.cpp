@@ -25,36 +25,28 @@
 #include "ofxMuiObject.h"
 
 //--------------------------------------------------------------
-ofxMuiObject::ofxMuiObject(const string& _name, int _x, int _y, int _width, int _height, bool _enabled) : 
+ofxMuiObject::ofxMuiObject(/*const string& _name, */float _x, float _y, float _width, float _height, bool _enabled) :
     ofxMuiBox(_x,_y,_width,_height), 
     ofxMuiEnabler(_enabled), 
-    ofxMuiKeyMapper(),
-    name(_name) {
-        init();
-}
-//--------------------------------------------------------------
-ofxMuiObject::ofxMuiObject(const string& _name, int _x, int _y, bool _enabled) : 
-    ofxMuiBox(_x,_y), 
-    ofxMuiEnabler(_enabled), 
-    ofxMuiKeyMapper(),
-    name(_name) {
-        init();
-}
-//--------------------------------------------------------------
-ofxMuiObject::ofxMuiObject(const string& _name, bool _enabled) : 
-    ofxMuiBox(), 
-    ofxMuiEnabler(_enabled), 
-    ofxMuiKeyMapper(),
-    name(_name) {
+ofxMuiKeyMapper(){//,
+//    name(_name) {
         init();
 }
 
 //--------------------------------------------------------------
-ofxMuiObject::ofxMuiObject(bool _enabled) : 
+ofxMuiObject::ofxMuiObject(/*const string& _name, */ float _x, float _y, bool _enabled) : 
+    ofxMuiBox(_x,_y), 
+    ofxMuiEnabler(_enabled), 
+ofxMuiKeyMapper(){//,
+//    name(_name) {
+        init();
+}
+//--------------------------------------------------------------
+ofxMuiObject::ofxMuiObject(/*const string& _name, */bool _enabled) : 
     ofxMuiBox(), 
     ofxMuiEnabler(_enabled), 
-    ofxMuiKeyMapper(),
-    name("NULL") {
+ofxMuiKeyMapper() {//,
+//    name(_name) {
         init();
 }
 
@@ -69,13 +61,13 @@ ofxMuiObject::~ofxMuiObject() {
 void ofxMuiObject::init() {
     defaults = &ofxMuiDefaults::getInstance(); // get a link to the singleton
     
-    tooltip             = name;
-    tooltipEnabled      = false;
+    //tooltip             = name;
+    //bTooltipEnabled      = false;
     
 	parent              = NULL;
 
-	_isMouseDown        = false;
-	_isMouseOver        = false;
+	_isTouchDown        = false;
+	_isTouchOver        = false;
 	
 	// drag'n'drop
 	_isDragMoveable		= false;
@@ -84,6 +76,11 @@ void ofxMuiObject::init() {
     _isHitDragable   = true;
     _isHitDragOrigin = false;
 
+    
+    _isSelectable       = false;
+    _isSelectDragable   = false;
+
+    
 	_isDropSender		= false; // can we drop this thing on something
 	_isDropReceiver		= false; // can we receive a dropped object
 	
@@ -169,7 +166,7 @@ void ofxMuiObject::_update(ofEventArgs &e) {
     
     if(isUpdateHandler()) {
         // do the local update
-        if (isMouseOver() || isMouseDown() || isDragging()) {
+        if (isTouchOver() || isTouchDown() || isDragging()) {
             isActiveTimer += isActiveTimerRate;
         } else {
             isActiveTimer -= isActiveTimerRate;
@@ -372,7 +369,7 @@ ofxMuiObject* ofxMuiObject::_keyPressed(ofKeyEventArgs &e, ofxMuiObject* handled
     }
     
     if(isKeyboardHandler() && canHandleIt(handled) && executeKeyMappedFunc(key)) {
-        onKeyPressed(); // just an alert (should be earlier?)
+        onKeyPressed(key); // just an alert (should be earlier?)
         handled = this;
     }
 
@@ -402,7 +399,7 @@ ofxMuiObject* ofxMuiObject::_keyReleased(ofKeyEventArgs &e, ofxMuiObject* handle
     }
 	
     if(isKeyboardHandler() && canHandleIt(handled) && executeKeyMappedFunc(key)) {
-        onKeyReleased();
+        onKeyReleased(key);
         handled = this;
     }
 	
@@ -417,7 +414,7 @@ ofxMuiObject* ofxMuiObject::_mouseMoved(ofMouseEventArgs &e, ofxMuiObject* handl
 
     saveMouseEvent(e);
     
-    if(propagateMouseEvents()) {
+    if(propagateTouchEvents()) {
         ofxMuiObject* newHandler = NULL;
         for(int i = (childObjects.size()-1); i >= 0; i--) {
             ofxMuiPushObject(childObjects[i]);
@@ -432,22 +429,22 @@ ofxMuiObject* ofxMuiObject::_mouseMoved(ofMouseEventArgs &e, ofxMuiObject* handl
 	
     bool didHit = hitTest(mousePosition); // if mouse is over the object
 
-	if(isMouseHandler() && canHandleIt(handled) && didHit) { 
+	if(isTouchHandler() && canHandleIt(handled) && didHit) {
 
 		// if the mouse wasn't over it already
-		if(!isMouseOver()) {
-			onRollOver();	// call onRollOver
-			_isMouseOver = true;				// update flag
+		if(!isTouchOver()) {
+			onHoverIn();
+			_isTouchOver = true;				// update flag
 		} else {
 			// we were already on it!
-			onMouseMove();	// and trigger onMouseMove
+			onHoverOn();	// and trigger 
 		}
 
 		handled = this; // this is the handler now!
         
-	} else if(isMouseOver()) {		// if mouse is not over the object, but the flag is true (From previous frame)
-		_isMouseOver = false;		// update flag
-		onRollOut();			// call onRollOut
+	} else if(isTouchOver()) {		// if mouse is not over the object, but the flag is true (From previous frame)
+		_isTouchOver = false;		// update flag
+		onHoverOut();			// call
 	} else {
 		// unaffected
 	}
@@ -459,12 +456,12 @@ ofxMuiObject* ofxMuiObject::_mouseMoved(ofMouseEventArgs &e, ofxMuiObject* handl
 
 ofxMuiObject* ofxMuiObject::_mouseDragged(ofMouseEventArgs &e, ofxMuiObject* handled) {
 	
-
+    cout << "_____DRAGGING_____ isDragging()=" << isDragging() << endl;
 	if(!isEnabled() || isHidden()) return NULL;
 	
 	saveMouseEvent(e);
 
-    if(propagateMouseEvents()) {
+    if(propagateTouchEvents()) {
         ofxMuiObject* newHandler = NULL;
         for(int i = (childObjects.size()-1); i >= 0; i--) {
             ofxMuiPushObject(childObjects[i]);
@@ -476,34 +473,50 @@ ofxMuiObject* ofxMuiObject::_mouseDragged(ofMouseEventArgs &e, ofxMuiObject* han
             }
         }
     }
-		
+
 	bool didHit = hitTest(mousePosition);
 	
-    if(isMouseHandler() && (isDragging() || (canHandleIt(handled) && didHit && isMouseDown()))) {				
+    cout << "_____DIDHIT=" << didHit << "_____" << endl;
+
+    if(isTouchHandler() && (isDragging() || (canHandleIt(handled) && didHit && isTouchDown()))) {
+        cout << "1" << endl;
 
         if(!isDragging()) {
+            cout << "1a" << endl;
+
             _isDragging = true;
             dragStartPosition = mousePosition;
             
 //            if (isHitDragable() && insideHitBox(screenToHitBox(mousePosition))) {
             if (isHitDragable() && hitTest(mousePosition)) {
+                cout << "1b" << endl;
 
+                cout << "hit drag origin = true" << endl;;
                 _isHitDragOrigin = true;
             } else {
+                cout << "1c" << endl;
+                cout << "hit drag origin = false" << endl;;
                 _isHitDragOrigin = false;
             }
             
             onDragStart();
         } else {
+            cout << "XXXX" << endl;
             totalDragDelta = mousePosition - dragStartPosition;
             onDrag();
         }
         
-        if(isDragMoveable() && (!isHitDragable() && isHitDragOrigin())) {
+        cout << "2 isDragMoveable=" << isDragMoveable() << endl;
+        cout << "2 isHitDragable=" << isHitDragable() << endl;
+        cout << "2 isHitDragOrigin=" << isHitDragOrigin() << endl;
+
+        if(isDragMoveable() && isHitDragOrigin() && isHitDragable()) {
             
+            cout << "2a" << endl;
+
             ofVec2f pos = getPosition();
-            ofVec2f maxB = getMax();
-            ofVec2f minB = getMin();
+            ofVec2f maxB = getBox().getMax();
+            ofVec2f minB = getBox().getMin();
             
             ofVec2f inWPos;
             if(hasParent()) {
@@ -512,6 +525,9 @@ ofxMuiObject* ofxMuiObject::_mouseDragged(ofMouseEventArgs &e, ofxMuiObject* han
                 inWPos = screenToHitBox(mousePosition);
             }
             
+            cout << "YYY" << endl;
+            
+            //cout << "2b" << endl;
 
             
           //  (inWPos.x > minB.x && deltaMousePosition.x > 0)
@@ -519,16 +535,14 @@ ofxMuiObject* ofxMuiObject::_mouseDragged(ofMouseEventArgs &e, ofxMuiObject* han
           //  (inWPos.x < (maxB.x + hitBox.width) && deltaMousePosition.x < 0)) {
             
             
+            //if((inWPos.x > minB.x && deltaMousePosition.x > 0) ||
+            //   (inWPos.x < maxB.x && deltaMousePosition.x < 0)) {
+//                getBox().translateX(deltaMousePosition.x);
+            //}
+  
+            ofRectangle& boxRef = getBoxRef();
+            boxRef.translate(deltaMousePosition);
             
-            
-            
-            if((inWPos.x > minB.x && deltaMousePosition.x > 0) ||
-               (inWPos.x < maxB.x && deltaMousePosition.x < 0)) {
-                translateX(deltaMousePosition.x);
-            }
-            
-            
-                translateY(deltaMousePosition.y);
 
             onDragMoving();
         } 
@@ -566,7 +580,7 @@ ofxMuiObject* ofxMuiObject::_mousePressed(ofMouseEventArgs &e, ofxMuiObject* han
 	
 	saveMouseEvent(e);
 
-    if(propagateMouseEvents()) {
+    if(propagateTouchEvents()) {
         ofxMuiObject* newHandler = NULL;
         for(int i = (childObjects.size()-1); i >= 0; i--) {
             ofxMuiPushObject(childObjects[i]);
@@ -582,9 +596,9 @@ ofxMuiObject* ofxMuiObject::_mousePressed(ofMouseEventArgs &e, ofxMuiObject* han
     
     bool didHit = hitTest(mousePosition);
     
-	if(isMouseHandler() && canHandleIt(handled) && didHit) { 				
-		if(!isMouseDown()) {				
-			_isMouseDown = true;						 
+	if(isTouchHandler() && canHandleIt(handled) && didHit) {
+		if(!isTouchDown()) {				
+			_isTouchDown = true;
 			onPress();
             if(numClicks == 2 && pMousePosition == mousePosition) {
                 onDoublePress();
@@ -592,7 +606,7 @@ ofxMuiObject* ofxMuiObject::_mousePressed(ofMouseEventArgs &e, ofxMuiObject* han
 		}
 		handled = this;					// set this as handled
 	} else {							// if mouse is not over
-		_isMouseDown = false;
+		_isTouchDown = false;
 		onPressOutside(); // someone else was pressed
 	}
 
@@ -606,7 +620,7 @@ ofxMuiObject* ofxMuiObject::_mouseReleased(ofMouseEventArgs &e, ofxMuiObject* ha
 
 	saveMouseEvent(e);
     
-    if(propagateMouseEvents()) {
+    if(propagateTouchEvents()) {
         ofxMuiObject* newHandler = NULL;
         for(int i = (childObjects.size()-1); i >= 0; i--) {
             ofxMuiPushObject(childObjects[i]);
@@ -622,7 +636,7 @@ ofxMuiObject* ofxMuiObject::_mouseReleased(ofMouseEventArgs &e, ofxMuiObject* ha
 	// hit test
 	bool didHit = hitTest(mousePosition);
 	
-	if(isMouseHandler() && (isDragging() || didHit)) {		
+	if(isTouchHandler() && (isDragging() || didHit)) {
 		// this is either the object being dragged or an object being dropped upon
 		
 		if(isDragging()) {
@@ -650,8 +664,8 @@ ofxMuiObject* ofxMuiObject::_mouseReleased(ofMouseEventArgs &e, ofxMuiObject* ha
 	
 	// in any case, the mouse is no longer down
     _isDragging = false;
-	_isMouseDown = false;
-    _isMouseOver = isMouseHandler() && didHit;
+	_isTouchDown = false;
+    _isTouchOver = isTouchHandler() && didHit;
 	
 	return handled;
 }
@@ -720,13 +734,13 @@ bool ofxMuiObject::isDropReceiver() const {
 }
 
 //--------------------------------------------------------------
-bool ofxMuiObject::isMouseDown() const {
-    return _isMouseDown;
+bool ofxMuiObject::isTouchDown() const {
+    return _isTouchDown;
 }
 
 //--------------------------------------------------------------
-bool ofxMuiObject::isMouseOver() const {
-    return _isMouseOver;
+bool ofxMuiObject::isTouchOver() const {
+    return _isTouchOver;
 }
 
 
@@ -839,10 +853,10 @@ ofVec2f ofxMuiObject::getContentBoxScreenPosition() {
 string ofxMuiObject::getDebugString() {
     ostringstream out;
 	
-    out << name << " ";
-    out << "mX/mY: " << mousePosition << endl;  
+//out << name << " ";
+    out << "mX/mY: " << mousePosition << endl;
     out << "dX/dY: " << deltaMousePosition << endl;
-    out << "mouseOver: " << isMouseOver() << " mouseDown: " << isMouseDown() << " isDragging: " << isDragging() << endl;
+    out << "mouseOver: " << isTouchOver() << " mouseDown: " << isTouchDown() << " isDragging: " << isDragging() << endl;
     
     if(isDragging()) {
         out << dragStartPosition << endl;
@@ -853,15 +867,15 @@ string ofxMuiObject::getDebugString() {
 }
 
 
-//--------------------------------------------------------------
-void ofxMuiObject::setName(string _name) {
-    name = _name;
-}
-
-//--------------------------------------------------------------
-string ofxMuiObject::getName() {
-    return name;
-}
+////--------------------------------------------------------------
+//void ofxMuiObject::setName(string _name) {
+//    name = _name;
+//}
+//
+////--------------------------------------------------------------
+//string ofxMuiObject::getName() {
+//    return name;
+//}
 
 //--------------------------------------------------------------
 string ofxMuiObject::getObjectType() {
@@ -902,25 +916,25 @@ bool ofxMuiObject::isOrientationHorizontal() {
 
 
 
-//--------------------------------------------------------------
-string ofxMuiObject::getTooltip() const {
-    return tooltip;
-}
-
-//--------------------------------------------------------------
-void ofxMuiObject::setTooltip(const string& _tooltip) {
-    tooltip = _tooltip;
-}
-
-//--------------------------------------------------------------
-bool ofxMuiObject::isTooltipEnabled() const {
-    return tooltipEnabled;
-}
-
-//--------------------------------------------------------------
-void ofxMuiObject::setTooltipEnabled(bool _enabled) {
-    tooltipEnabled = _enabled;
-}
+////--------------------------------------------------------------
+//string ofxMuiObject::getTooltip() const {
+//    return tooltip;
+//}
+//
+////--------------------------------------------------------------
+//void ofxMuiObject::setTooltip(const string& _tooltip) {
+//    tooltip = _tooltip;
+//}
+//
+////--------------------------------------------------------------
+//bool ofxMuiObject::isTooltipEnabled() const {
+//    return bTooltipEnabled;
+//}
+//
+////--------------------------------------------------------------
+//void ofxMuiObject::setTooltipEnabled(bool _enabled) {
+//    bTooltipEnabled = _enabled;
+//}
 
 //--------------------------------------------------------------
 ofxMuiObject* ofxMuiObject::getParent() {
@@ -935,8 +949,14 @@ void ofxMuiObject::setParent(ofxMuiObject* _parent) {
 
 //--------------------------------------------------------------
 void ofxMuiObject::addChild(ofxMuiObject* child) {
+    if(child == NULL) {
+        ofLogWarning("ofxMuiObject") << "addChild() : child is NULL.";
+        return;
+    }
+    
     if(child->hasParent()) {
-        ofLog(OF_LOG_WARNING, "ofxMuiObject::addChild() : child already has parent ... not advised.");
+        ofLogWarning("ofxMuiObject") << "addChild() : child already has parent.  Failing.";
+        return;
     }
 
     child->setParent(this);
@@ -986,7 +1006,7 @@ bool ofxMuiObject::removeChild(ofxMuiObject* child) {
 
 //--------------------------------------------------------------
 void ofxMuiObject::drawBox() {
-    ofColor boxColor = cBox.get(isMouseOver(),isMouseDown(),isEnabled(),alphaScale);
+    ofColor boxColor = cBox.get(isTouchOver(),isTouchDown(),isEnabled(),alphaScale);
     if(boxColor.a > 0) {
         ofFill();
         ofSetColor(boxColor);
@@ -996,17 +1016,17 @@ void ofxMuiObject::drawBox() {
 
 //--------------------------------------------------------------
 void ofxMuiObject::drawBorder() {
-    ofColor borderColor = cBorder.get(isMouseOver(),isMouseDown(),isEnabled(),alphaScale);
+    ofColor borderColor = cBorder.get(isTouchOver(),isTouchDown(),isEnabled(),alphaScale);
     if(borderColor.a > 0) {
         ofFill();
         ofSetColor(borderColor);
-        ofxFrame(0,0,getBorderBoxWidth(),getBorderBoxHeight(),border);
+        ofxFrame(0,0,getBorderBoxWidth(),getBorderBoxHeight(),getBoxProperties().border);
     }
 }
 
 //--------------------------------------------------------------
 void ofxMuiObject::drawPaddingBox() {
-    ofColor paddingColor = cPadding.get(isMouseOver(),isMouseDown(),isEnabled(),alphaScale);
+    ofColor paddingColor = cPadding.get(isTouchOver(),isTouchDown(),isEnabled(),alphaScale);
     if(paddingColor.a > 0) {
         ofFill();
         ofSetColor(paddingColor);
@@ -1016,7 +1036,7 @@ void ofxMuiObject::drawPaddingBox() {
 
 //--------------------------------------------------------------
 void ofxMuiObject::drawContentBox() {
-    ofColor contentColor = cContent.get(isMouseOver(),isMouseDown(),isEnabled(),alphaScale);
+    ofColor contentColor = cContent.get(isTouchOver(),isTouchDown(),isEnabled(),alphaScale);
     if(contentColor.a > 0) {
         ofFill();
         ofSetColor(contentColor);
@@ -1028,7 +1048,7 @@ void ofxMuiObject::drawContentBox() {
 void ofxMuiObject::drawShadowBox() {
     // DRAW THE SHADOW if alpha is set above 0
     if(doShadow) {
-        ofColor shadowColor = cShadow.get(isMouseOver(),isMouseDown(),isEnabled(),alphaScale);
+        ofColor shadowColor = cShadow.get(isTouchOver(),isTouchDown(),isEnabled(),alphaScale);
         if(shadowColor.a > 0) {
             ofPushMatrix();
             ofTranslate(shadowOffset);
@@ -1040,6 +1060,15 @@ void ofxMuiObject::drawShadowBox() {
     }
 }
 
+//-------------------------------------------------------------
+void ofxMuiObject::draw() {
+    ofColor hitColor = cHit.get(isTouchOver(),isTouchDown(),isEnabled(),alphaScale);
+    if(hitColor.a > 0) {
+        ofFill();
+        ofSetColor(hitColor);
+        ofxRect(0,0,getHitBoxWidth(),getHitBoxHeight());
+    }
+}
 
 //--------------------------------------------------------------
 float ofxMuiObject::getAlphaScale() const {

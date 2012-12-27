@@ -24,15 +24,15 @@
 
 #pragma once
 
-#include "ofxMuiLabelledObject.h"
+//#include "ofxMuiLabelledObject.h"
 #include "ofxMuiButton.h"
 //#include "ofxMuiColorPicker.h"
-#include "ofxMuiSlider.h"
-#include "ofxMuiKnob.h"
-#include "ofxMuiNumberBox.h"
+//#include "ofxMuiSlider.h"
+//#include "ofxMuiKnob.h"
+//#include "ofxMuiNumberBox.h"
 
 //--------------------------------------------------------------
-class ofxMuiPanel : public ofxMuiLabelledObject
+class ofxMuiPanel : public ofxMuiObject
 {
 
 public:
@@ -47,14 +47,14 @@ public:
     
     
     ofxMuiButton*	addButton(string name = "");
-    ofxMuiButton*	addSwitch(string name = "");
-    ofxMuiButton*	addTrigger(string name = "");
+//    ofxMuiButton*	addToggle(string name = "");
+//    ofxMuiButton*	addBang(string name = "");
     
   //  ofxMuiColorPicker*  addColorPicker(string name = "");
-    ofxMuiSlider*       addSlider(string name = "");
+//    ofxMuiSlider*   addSlider(string name = "");
     
-    ofxMuiKnob*      addKnob(string name = "");
-    ofxMuiNumberBox* addNumberBox(string name = "");
+//    ofxMuiKnob*      addKnob(string name = "");
+//    ofxMuiNumberBox* addNumberBox(string name = "");
     
     /*
     ofxMuiLabelledButton*	addButtonTrigger(string name);
@@ -100,6 +100,3 @@ protected:
     
     		
 };
-
-//--------------------------------------------------------------
-

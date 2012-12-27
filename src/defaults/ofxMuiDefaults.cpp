@@ -24,6 +24,7 @@
 
 #include "ofxMuiDefaults.h"
 
+
 static int ofxMuiDebugIndentLevel = 0;
 
 // handy colors
@@ -113,70 +114,101 @@ void ofxMuiDefaults::initShared() {
     //  sharedLabelBoxProperties
     //  sharedLabelCleanBoxProperties
 
-    hitBoxProperties = ofxMuiBoxProperties(0);
+    if(layoutDebug) {
+        hitBoxProperties = ofxMuiBoxProperties(10,15,20);
+        
+        boxProperties = ofxMuiBoxProperties(10,15,20);
+        
+        
+        sharedLabelBoxProperties = boxProperties;
+        
+        sharedLabelCleanBoxProperties = ofxMuiBoxProperties(10);
+        
+        valueLabelBoxProperties = ofxMuiBoxProperties(10);
+    } else {
+        hitBoxProperties = ofxMuiBoxProperties(0);
+        
+        boxProperties = ofxMuiBoxProperties(2,2,2,2,
+                                            4,4,4,4,
+                                            2,2,2,2);
+        
+        
+        sharedLabelBoxProperties = boxProperties;
+        
+        sharedLabelCleanBoxProperties = ofxMuiBoxProperties(3,3,3,3,
+                                                            1,1,1,1,
+                                                            0,0,0,0);
+        
+        valueLabelBoxProperties = ofxMuiBoxProperties(4,4,4,4,
+                                                      4,4,4,4,
+                                                      0,0,0,0);
+    }
     
-    boxProperties = ofxMuiBoxProperties(2,2,2,2,
-                                        4,4,4,4,
-                                        2,2,2,2);
-    
-     
-    sharedLabelBoxProperties = boxProperties;
- 
-    sharedLabelCleanBoxProperties = ofxMuiBoxProperties(3,3,3,3,
-                                                        1,1,1,1,
-                                                        0,0,0,0);
-    
-    valueLabelBoxProperties = ofxMuiBoxProperties(4,4,4,4,
-                                                  4,4,4,4,
-                                                  0,0,0,0);
-    
-    // default colors
-    cBox      = ofxMuiColor(ofColor(255,0,0,50));//,ALPHA_OFF));
-    //cBox      = ofxMuiColor(ofColor(255,ALPHA_OFF));
-    
-    //cBorder      = ofxMuiColor(COLOR_MEDIUM_GRAY);
-    cBorder      = ofxMuiColor(ofColor(255,0,0,200));
-    
-    //cPadding  = ofxMuiColor(DEFAULT_COLOR_NORMAL);
-    cPadding  = ofxMuiColor(DEFAULT_COLOR_NORMAL);
+    if(layoutDebug) {
+        // default colors
+        cBox      = ofxMuiColor(ofColor(255,0,0));
+        cBorder   = ofxMuiColor(ofColor(0,255,0));
+        cPadding  = ofxMuiColor(ofColor(0,0,255));
+        cContent  = ofxMuiColor(ofColor(255,255,0));
+        cHit      = ofxMuiColor(ofColor(255,0,255));
+        
+        cText = ofxMuiColor(ofColor(0,255,255));
+        
+        cShadow  = ofxMuiColor(ofColor(255,127));
+        
+        cActiveAreaForeground = ofxMuiColor(ofColor(127,127,0));
+        cActiveAreaBackground = ofxMuiColor(ofColor(127,0,127));
+        cActiveAreaFrame      = ofxMuiColor(ofColor(0,127,255));
 
-    // cContent  = ofxMuiColor(ofColor(COLOR_BLACK,ALPHA_OFF));
-    cContent   = ofxMuiColor(ofColor(255,ALPHA_OFF));
-    
-    cHit   = ofxMuiColor(ofColor(255,ALPHA_OFF));
-    
-    cText = ofxMuiColor(COLOR_WHITE,
-                          COLOR_WHITE, // hover
-                          COLOR_WHITE, // active
-                          DEFAULT_COLOR_DISABLED  // disabled
-                          );
-    
-    cShadow  = ofxMuiColor(DEFAULT_COLOR_NORMAL, // normal
-                           DEFAULT_COLOR_NORMAL, // hover
-                           DEFAULT_COLOR_NORMAL, // active
-                           DEFAULT_COLOR_DISABLED  // disabled
-                           );
+    } else {
+        
+        // default colors
+        cBox      = ofxMuiColor(ofColor(255,0,0,50));//,ALPHA_OFF));
+        //cBox      = ofxMuiColor(ofColor(255,ALPHA_OFF));
+        
+        //cBorder      = ofxMuiColor(COLOR_MEDIUM_GRAY);
+        cBorder      = ofxMuiColor(ofColor(255,0,0,200));
+        
+        //cPadding  = ofxMuiColor(DEFAULT_COLOR_NORMAL);
+        cPadding  = ofxMuiColor(DEFAULT_COLOR_NORMAL);
 
-    cActiveAreaForeground = ofxMuiColor(COLOR_YELLOW);
-    cActiveAreaBackground = ofxMuiColor(COLOR_MEDIUM_BLUE);
-    cActiveAreaFrame      = ofxMuiColor(COLOR_LIGHT_BLUE);
-    
-    /*
-    cActiveAreaForeground = ofxMuiColor(COLOR_MEDIUM_BLUE, // normal
-                                          COLOR_LIGHT_BLUE, // hover
-                                          COLOR_LIGHT_RED, // active
-                                          DEFAULT_COLOR_DISABLED  // disabled
-                                          );
-    
-    cActiveAreaBackground = ofxMuiColor(COLOR_MEDIUM_GRAY);
-    
-    cActiveAreaFrame = ofxMuiColor(COLOR_MEDIUM_GRAY, // normal
-                                     COLOR_MEDIUM_BLUE, // hover
-                                     COLOR_LIGHT_BLUE, // active
-                                     DEFAULT_COLOR_DISABLED  // disabled
-                                     );
-     */
-     
+        // cContent  = ofxMuiColor(ofColor(COLOR_BLACK,ALPHA_OFF));
+        cContent   = ofxMuiColor(ofColor(255,ALPHA_OFF));
+        
+        cHit   = ofxMuiColor(ofColor(255,ALPHA_OFF));
+        
+        cText = ofxMuiColor(COLOR_WHITE,
+                              COLOR_WHITE, // hover
+                              COLOR_WHITE, // active
+                              DEFAULT_COLOR_DISABLED  // disabled
+                              );
+        
+        cShadow  = ofxMuiColor(DEFAULT_COLOR_NORMAL, // normal
+                               DEFAULT_COLOR_NORMAL, // hover
+                               DEFAULT_COLOR_NORMAL, // active
+                               DEFAULT_COLOR_DISABLED  // disabled
+                               );
+
+        cActiveAreaForeground = ofxMuiColor(COLOR_YELLOW);
+        cActiveAreaBackground = ofxMuiColor(COLOR_MEDIUM_BLUE);
+        cActiveAreaFrame      = ofxMuiColor(COLOR_LIGHT_BLUE);
+        
+        /*
+        cActiveAreaForeground = ofxMuiColor(COLOR_MEDIUM_BLUE, // normal
+                                              COLOR_LIGHT_BLUE, // hover
+                                              COLOR_LIGHT_RED, // active
+                                              DEFAULT_COLOR_DISABLED  // disabled
+                                              );
+        
+        cActiveAreaBackground = ofxMuiColor(COLOR_MEDIUM_GRAY);
+        
+        cActiveAreaFrame = ofxMuiColor(COLOR_MEDIUM_GRAY, // normal
+                                         COLOR_MEDIUM_BLUE, // hover
+                                         COLOR_LIGHT_BLUE, // active
+                                         DEFAULT_COLOR_DISABLED  // disabled
+                                         );
+         */
+    }
     doShadow = false;
     shadowOffset  = ofVec2f(2,2);
     alphaScale = 1.0;
@@ -330,8 +362,6 @@ void ofxMuiDefaults::initFonts() {
     string largeFontFile = fontsDir + "Lucida Grande.ttf";
     string xLargeFontFile = fontsDir + "Lucida Grande.ttf";
     string xxLargeFontFile = fontsDir + "Lucida Grande.ttf";
-
-    
     
     //cout << smallFontFile << endl;
     
@@ -346,67 +376,68 @@ void ofxMuiDefaults::initFonts() {
     
     cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
     
-    ofxMuiFont::Settings settings;
-    
-    settings.bAntiAliased = false;
-    settings.bForceAutoHinting = true;
-    settings.bUseKerning = true;
-
-    settings.fontFilename = xxSmallFontFile;
-    settings.fontSize = 6;
-    
-    if(!xxSmallFont.loadFont(settings))
-        ofLogError("ofxMuiDefaults::initFonts(): failed to load xxSmallFontFile="+xxSmallFontFile);
-    
-    settings.fontFilename = xSmallFontFile;
-    settings.fontSize = 8;
-    settings.bAntiAliased = false;
-    settings.bForceAutoHinting = true;
-    
-    if(!xSmallFont.loadFont(settings))
-        ofLogError("ofxMuiDefaults::initFonts(): failed to load xSmallFontFile="+xSmallFontFile);
-
-    settings.fontFilename = smallFontFile;
-    settings.fontSize = 10;
-    settings.bAntiAliased = false;
-    settings.bForceAutoHinting = true;
-
-    if(!smallFont.loadFont(settings))
-        ofLogError("ofxMuiDefaults::initFonts(): failed to load smallFontFile="+smallFontFile);
-    //smallFont.loadFont(smallFontFile,6,true,true);
-    
-    settings.fontFilename = mediumFontFile;
-    settings.fontSize = 12;
-    settings.bAntiAliased = false;
-    settings.bForceAutoHinting = true;
-    
-    if(!mediumFont.loadFont(settings))
-        ofLogError("ofxMuiDefaults::initFonts(): failed to load mediumFontFile="+mediumFontFile);
-    
-    settings.fontFilename = largeFontFile;
-    settings.fontSize = 14;
-    settings.bAntiAliased = true;
-    settings.bForceAutoHinting = false;
-    
-    if(!largeFont.loadFont(settings))
-        ofLogError("ofxMuiDefaults::initFonts(): failed to load largeFontFile="+largeFontFile);
-    
-    settings.fontFilename = xLargeFontFile;
-    settings.fontSize = 16;
-    settings.bAntiAliased = true;
-    settings.bForceAutoHinting = false;
-
-    if(!xLargeFont.loadFont(settings))
-        ofLogError("ofxMuiDefaults::initFonts(): failed to load xLargeFontFile="+xLargeFontFile);
-
-    settings.fontFilename = xxLargeFontFile;
-    settings.fontSize = 20;
-    settings.bAntiAliased = true;
-    settings.bForceAutoHinting = false;
-
-    if(!xxLargeFont.loadFont(settings))
-        ofLogError("ofxMuiDefaults::initFonts(): failed to load xxLargeFontFile="+xxLargeFontFile);
-   }
+//    ofxMuiFont::Settings settings;
+//    
+//    settings.bAntiAliased = false;
+//    settings.bForceAutoHinting = true;
+//    settings.bUseKerning = true;
+//
+//    settings.fontFilename = xxSmallFontFile;
+//    settings.fontSize = 6;
+//    
+//    if(!xxSmallFont.loadFont(settings))
+//        ofLogError("ofxMuiDefaults::initFonts(): failed to load xxSmallFontFile="+xxSmallFontFile);
+//    
+//    settings.fontFilename = xSmallFontFile;
+//    settings.fontSize = 8;
+//    settings.bAntiAliased = false;
+//    settings.bForceAutoHinting = true;
+//    
+//    if(!xSmallFont.loadFont(settings))
+//        ofLogError("ofxMuiDefaults::initFonts(): failed to load xSmallFontFile="+xSmallFontFile);
+//
+//    settings.fontFilename = smallFontFile;
+//    settings.fontSize = 10;
+//    settings.bAntiAliased = false;
+//    settings.bForceAutoHinting = true;
+//
+//    if(!smallFont.loadFont(settings))
+//        ofLogError("ofxMuiDefaults::initFonts(): failed to load smallFontFile="+smallFontFile);
+//    //smallFont.loadFont(smallFontFile,6,true,true);
+//    
+//    settings.fontFilename = mediumFontFile;
+//    settings.fontSize = 12;
+//    settings.bAntiAliased = false;
+//    settings.bForceAutoHinting = true;
+//    
+//    if(!mediumFont.loadFont(settings))
+//        ofLogError("ofxMuiDefaults::initFonts(): failed to load mediumFontFile="+mediumFontFile);
+//    
+//    settings.fontFilename = largeFontFile;
+//    settings.fontSize = 14;
+//    settings.bAntiAliased = true;
+//    settings.bForceAutoHinting = false;
+//    
+//    if(!largeFont.loadFont(settings))
+//        ofLogError("ofxMuiDefaults::initFonts(): failed to load largeFontFile="+largeFontFile);
+//    
+//    settings.fontFilename = xLargeFontFile;
+//    settings.fontSize = 16;
+//    settings.bAntiAliased = true;
+//    settings.bForceAutoHinting = false;
+//
+//    if(!xLargeFont.loadFont(settings))
+//        ofLogError("ofxMuiDefaults::initFonts(): failed to load xLargeFontFile="+xLargeFontFile);
+//
+//    settings.fontFilename = xxLargeFontFile;
+//    settings.fontSize = 20;
+//    settings.bAntiAliased = true;
+//    settings.bForceAutoHinting = false;
+//
+//    if(!xxLargeFont.loadFont(settings))
+//        ofLogError("ofxMuiDefaults::initFonts(): failed to load xxLargeFontFile="+xxLargeFontFile);
+//
+}
 
 //--------------------------------------------------------------
 void ofxMuiDefaults::initIcons() {
@@ -414,12 +445,11 @@ void ofxMuiDefaults::initIcons() {
     loadCustomIcon(ICON_X,          iconsDir+"close.gif",   iconsDir+"blank.gif");
     loadCustomIcon(ICON_PLUSMINUS,  iconsDir+"add.gif",     iconsDir+"subtract.gif");
     loadCustomIcon(ICON_CHECK,      iconsDir+"check.gif",   iconsDir+"blank.gif");
-    loadCustomIcon(ICON_TARGET,      iconsDir+"target.gif",   iconsDir+"blank.gif");
+    loadCustomIcon(ICON_TARGET,     iconsDir+"target.gif",   iconsDir+"blank.gif");
 }
 
-
 //--------------------------------------------------------------
-ofxMuiTrueTypeFont* ofxMuiDefaults::getFont(ofxMuiSize fontSize) {
+ofxMuiFont* ofxMuiDefaults::getFont(ofxMuiSize fontSize) {
     switch(fontSize) {
         case SIZE_XXSMALL:
             return getXXSmallFont();
@@ -439,31 +469,31 @@ ofxMuiTrueTypeFont* ofxMuiDefaults::getFont(ofxMuiSize fontSize) {
     }
 }
 //--------------------------------------------------------------
-ofxMuiTrueTypeFont* ofxMuiDefaults::getXXSmallFont() {
+ofxMuiFont* ofxMuiDefaults::getXXSmallFont() {
     return &xxSmallFont;
 }
 //--------------------------------------------------------------
-ofxMuiTrueTypeFont* ofxMuiDefaults::getXSmallFont() {
+ofxMuiFont* ofxMuiDefaults::getXSmallFont() {
     return &xSmallFont;
 }
 //--------------------------------------------------------------
-ofxMuiTrueTypeFont* ofxMuiDefaults::getSmallFont() {
+ofxMuiFont* ofxMuiDefaults::getSmallFont() {
     return &smallFont;
 }
 //--------------------------------------------------------------
-ofxMuiTrueTypeFont* ofxMuiDefaults::getMediumFont() {
+ofxMuiFont* ofxMuiDefaults::getMediumFont() {
     return &mediumFont;
 }
 //--------------------------------------------------------------
-ofxMuiTrueTypeFont* ofxMuiDefaults::getLargeFont() {
+ofxMuiFont* ofxMuiDefaults::getLargeFont() {
     return &largeFont;
 }
 //--------------------------------------------------------------
-ofxMuiTrueTypeFont* ofxMuiDefaults::getXLargeFont() {
+ofxMuiFont* ofxMuiDefaults::getXLargeFont() {
     return &xLargeFont;
 }
 //--------------------------------------------------------------
-ofxMuiTrueTypeFont* ofxMuiDefaults::getXXLargeFont() {
+ofxMuiFont* ofxMuiDefaults::getXXLargeFont() {
     return &xxLargeFont;
 }
 

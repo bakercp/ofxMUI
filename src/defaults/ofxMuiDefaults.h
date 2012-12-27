@@ -25,11 +25,12 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxMuiFont.h"
 #include "ofxMuiConstants.h"
 #include "ofxMuiColor.h"
 #include "ofxMuiIcon.h"
 #include "ofxMuiBoxProperties.h"
-#include "ofxMuiTrueTypeFont.h"
+
 
 // The goal of this class is to provide an easy way for people to 
 // set their own skins / default values for the gui.  It uses a standard
@@ -90,14 +91,14 @@ public:
 
     // FONTS
     
-    ofxMuiTrueTypeFont* getFont(ofxMuiSize fontSize);
-    ofxMuiTrueTypeFont* getXXSmallFont();
-    ofxMuiTrueTypeFont* getXSmallFont();
-    ofxMuiTrueTypeFont* getSmallFont();
-    ofxMuiTrueTypeFont* getMediumFont();
-    ofxMuiTrueTypeFont* getLargeFont();
-    ofxMuiTrueTypeFont* getXLargeFont();
-    ofxMuiTrueTypeFont* getXXLargeFont();
+    ofxMuiFont* getFont(ofxMuiSize fontSize);
+    ofxMuiFont* getXXSmallFont();
+    ofxMuiFont* getXSmallFont();
+    ofxMuiFont* getSmallFont();
+    ofxMuiFont* getMediumFont();
+    ofxMuiFont* getLargeFont();
+    ofxMuiFont* getXLargeFont();
+    ofxMuiFont* getXXLargeFont();
     
     // SHARED
     ofxMuiBoxProperties sharedLabelBoxProperties;
@@ -215,13 +216,13 @@ public:
     }
     
     // FONTS
-    ofxMuiTrueTypeFont xxSmallFont;
-    ofxMuiTrueTypeFont xSmallFont;
-    ofxMuiTrueTypeFont smallFont;
-    ofxMuiTrueTypeFont mediumFont;
-    ofxMuiTrueTypeFont largeFont;
-    ofxMuiTrueTypeFont xLargeFont;
-    ofxMuiTrueTypeFont xxLargeFont;
+    ofxMuiFont xxSmallFont;
+    ofxMuiFont xSmallFont;
+    ofxMuiFont smallFont;
+    ofxMuiFont mediumFont;
+    ofxMuiFont largeFont;
+    ofxMuiFont xLargeFont;
+    ofxMuiFont xxLargeFont;
     
     
 private:
