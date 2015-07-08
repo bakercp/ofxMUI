@@ -54,9 +54,9 @@ public:
     {
         toString(e);
 
-        if (e.pointer().getButtons())
+        if (e.pointer().buttons())
         {
-            cout << "\tbuttons pressed! " << ofToBinary(e.pointer().getButtons()) << endl;;
+            cout << "\tbuttons pressed! " << ofToBinary(e.pointer().buttons()) << endl;;
         }
 
         e.stopPropagation();
@@ -65,7 +65,7 @@ public:
 
     void onPointerDown(DOM::PointerEvent& e) override
     {
-        setPointerCapture(e.pointer().getID());
+        setPointerCapture(e.pointer().id());
 
         toString(e);
 
@@ -75,7 +75,7 @@ public:
 
     void onPointerUp(DOM::PointerEvent& e) override
     {
-        releasePointerCapture(e.pointer().getID());
+        releasePointerCapture(e.pointer().id());
 
         toString(e);
 
@@ -85,7 +85,7 @@ public:
 
     void toString(DOM::PointerEvent& e)
     {
-        cout << toString(e.getPhase()) << " " << getId() << " got " << e.type() << " @ " << e.pointer().getPoint() << " id = " << e.pointer().getPointerID() << endl;
+        cout << toString(e.getPhase()) << " " << getId() << " got " << e.type() << " @ " << e.pointer().point() << " id = " << e.pointer().id() << endl;
     }
 
     std::string toString(DOM::Event::Phase phase)
