@@ -33,6 +33,7 @@ void ofApp::setup()
     ofSetLogLevel(OF_LOG_VERBOSE);
 
     mui = std::make_unique<DOM::Document>();
+
     auto panelA = mui->attachChild(std::make_unique<Panel>("A", 100, 100, 400, 400));
     auto panelB = panelA->attachChild(std::make_unique<Panel>("B", 50, 50, 300, 300));
     panelB->attachChild(std::make_unique<Panel>("C", 50, 50, 200, 200));

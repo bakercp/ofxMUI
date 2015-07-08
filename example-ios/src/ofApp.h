@@ -18,7 +18,12 @@ public:
     void setup();
     void draw();
 
-    std::unique_ptr<Layout::Document> mui;
+    void onPointerUp(ofx::PointerEventArgs& evt);
+    void onPointerDown(ofx::PointerEventArgs& evt);
+    void onPointerMove(ofx::PointerEventArgs& evt);
+    void onPointerCancel(ofx::PointerEventArgs& evt);
+
+    std::unique_ptr<DOM::Document> mui;
 
 };
 

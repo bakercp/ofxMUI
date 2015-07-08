@@ -3,41 +3,42 @@
 
 void ofApp::setup()
 {
+    ofx::RegisterPointerEvents(this);
+
     ofSetLogLevel(OF_LOG_VERBOSE);
 
-    mui = std::make_unique<Layout::Document>();
-    mui->addPointerDeviceFilter(ofx::PointerEventArgs::TYPE_MOUSE);
-
-    float width = 100;
-    float height = 100;
-    float halfWidth = width / 2;
-    float halfHeight = height / 2;
-    float padding = 4;
-    float halfPadding = padding / 2;
-
-    auto panelA0 = std::make_unique<Panel>(64, 64, 512, 512);
-    panelA0->setId("A0");
-//
-//    auto panelB0 = std::make_unique<Panel>(16, 16, 256, 256);
-//    panelB0->setId("B0");
-//
-//    auto panelB1 = std::make_unique<Panel>(256, 0, 100, 100);
-//    panelB1->setId("B1");
-//
-//    auto panelC0 = std::make_unique<Panel>(75, 75, 50, 50);
-//    panelC0->setId("C0");
-//
-//    panelB1->attachChild(std::move(panelC0));
-//    panelA0->attachChild(std::move(panelB0));
-//    panelA0->attachChild(std::move(panelB1));
-    mui->attachChild(std::move(panelA0));
-
-    std::cout << ofToString(1, 3, '0') << endl;
-    //    mui->doLayout();
+    mui = std::make_unique<DOM::Document>();
+    auto panelA = mui->attachChild(std::make_unique<Panel>("A", 100, 100, 400, 400));
+    auto panelB = panelA->attachChild(std::make_unique<Panel>("B", 50, 50, 300, 300));
+    panelB->attachChild(std::make_unique<Panel>("C", 50, 50, 200, 200));
 }
 
 
 void ofApp::draw()
 {
     ofBackground(0);
+}
+
+
+void ofApp::onPointerUp(ofx::PointerEventArgs& evt)
+{
+    ofLogVerbose("ofApp::onPointerUp") << evt.toString();
+}
+
+
+void ofApp::onPointerDown(ofx::PointerEventArgs& evt)
+{
+    ofLogVerbose("ofApp::onPointerDown") << evt.toString();
+}
+
+
+void ofApp::onPointerMove(ofx::PointerEventArgs& evt)
+{
+    //    ofLogVerbose("ofApp::onPointerMove") << evt.toString();
+}
+
+
+void ofApp::onPointerCancel(ofx::PointerEventArgs& evt)
+{
+    //    ofLogVerbose("ofApp::onPointerCancel") << evt.toString();
 }
