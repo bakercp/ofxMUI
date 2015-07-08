@@ -65,7 +65,7 @@ public:
 
     void onPointerDown(DOM::PointerEvent& e) override
     {
-        setPointerCapture(e.pointer().getPointerID());
+        setPointerCapture(e.pointer().getID());
 
         toString(e);
 
@@ -75,7 +75,7 @@ public:
 
     void onPointerUp(DOM::PointerEvent& e) override
     {
-        releasePointerCapture(e.pointer().getPointerID());
+        releasePointerCapture(e.pointer().getID());
 
         toString(e);
 
