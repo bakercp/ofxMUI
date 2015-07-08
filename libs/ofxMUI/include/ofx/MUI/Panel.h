@@ -85,7 +85,7 @@ public:
 
     void toString(DOM::PointerEvent& e)
     {
-        cout << toString(e.getPhase()) << " " << getId() << " got " << e.type() << " @ " << e.pointer().point() << " id = " << e.pointer().id() << endl;
+        std::cout << toString(e.getPhase()) << " " << getId() << " got " << e.type() << " @ " << e.pointer().point() << " id = " << e.pointer().id() << e.pointer().deviceType() << std::endl;
     }
 
     std::string toString(DOM::Event::Phase phase)
