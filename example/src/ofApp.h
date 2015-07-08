@@ -27,7 +27,6 @@
 
 
 #include "ofMain.h"
-#include "ofxPointer.h"
 #include "ofxMUI.h"
 
 

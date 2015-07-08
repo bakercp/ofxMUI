@@ -97,6 +97,7 @@ public:
             case DOM::Event::Phase::AT_TARGET: return "AT_TARGET";
             case DOM::Event::Phase::BUBBLING_PHASE: return "BUBBLING_PHASE";
         }
+        return "UNKNOWN"; 
     }
 
 };

@@ -35,7 +35,7 @@ void ofApp::setup()
     mui = std::make_unique<DOM::Document>();
     auto panelA = mui->attachChild(std::make_unique<Panel>("A", 100, 100, 400, 400));
     auto panelB = panelA->attachChild(std::make_unique<Panel>("B", 50, 50, 300, 300));
-    auto panelC = panelB->attachChild(std::make_unique<Panel>("C", 50, 50, 200, 200));
+    panelB->attachChild(std::make_unique<Panel>("C", 50, 50, 200, 200));
 }
 
 
