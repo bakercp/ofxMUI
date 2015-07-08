@@ -26,5 +26,26 @@
 #pragma once
 
 
-#include "ofxDOM.h"
-#include "ofx/MUI/Panel.h"
+#include "ofMain.h"
+#include "ofxPointer.h"
+#include "ofxMUI.h"
+
+
+using namespace ofx;
+using namespace ofx::MUI;
+
+
+class ofApp: public ofBaseApp
+{
+public:
+    void setup();
+    void draw();
+
+    void onPointerUp(ofx::PointerEventArgs& evt);
+    void onPointerDown(ofx::PointerEventArgs& evt);
+    void onPointerMove(ofx::PointerEventArgs& evt);
+    void onPointerCancel(ofx::PointerEventArgs& evt);
+
+    std::unique_ptr<DOM::Document> mui;
+
+};

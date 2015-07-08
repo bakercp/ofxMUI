@@ -1,6 +1,6 @@
 // =============================================================================
 //
-// Copyright (c) 2009-2014 Christopher Baker <http://christopherbaker.net>
+// Copyright (c) 2009-2013 Christopher Baker <http://christopherbaker.net>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,25 @@
 
 
 #pragma once
+	
+
+#include "ofx/DOM/Element.h"
 
 
-#include "ofxDOM.h"
-#include "ofx/MUI/Panel.h"
+namespace ofx {
+namespace MUI {
+
+
+class Widget: public DOM::Element
+{
+public:
+    using DOM::Element::Element;
+
+    virtual ~Widget();
+
+    virtual void onDraw();
+
+};
+
+
+} } // ofx::MUI

@@ -23,8 +23,12 @@
 // =============================================================================
 
 
-#pragma once
+
+#include "ofApp.h"
 
 
-#include "ofxDOM.h"
-#include "ofx/MUI/Panel.h"
+int main()
+{
+	ofSetupOpenGL(1024, 768, OF_WINDOW);
+	ofRunApp(new ofApp());
+}

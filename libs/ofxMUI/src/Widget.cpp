@@ -23,8 +23,35 @@
 // =============================================================================
 
 
-#pragma once
+#include "ofx/MUI/Widget.h"
+#include "ofGraphics.h"
 
 
-#include "ofxDOM.h"
-#include "ofx/MUI/Panel.h"
+namespace ofx {
+namespace MUI {
+
+
+Widget::~Widget()
+{
+}
+
+
+void Widget::onDraw()
+{
+    ofSetColor(255, 127);
+    ofDrawBitmapString(getId(), 2, 12);
+
+    ofFill();
+    ofSetColor(255, 15);
+    ofDrawRectangle(0, 0, getSize().x, getSize().y);
+
+    ofNoFill();
+    ofSetColor(255, 60);
+    ofDrawRectangle(0, 0, getSize().x, getSize().y);
+}
+
+
+} } // namespace ofx::MUI
+
+
+

@@ -23,8 +23,16 @@
 // =============================================================================
 
 
-#pragma once
-
-
-#include "ofxDOM.h"
 #include "ofx/MUI/Panel.h"
+#include "ofGraphics.h"
+
+
+namespace ofx {
+namespace MUI {
+
+
+
+} } // namespace ofx::MUI
+
+
+
