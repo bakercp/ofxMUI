@@ -28,15 +28,17 @@
 
 void ofApp::setup()
 {
+    ofSetFrameRate(60);
+
     ofx::RegisterPointerEvents(this);
     
     ofSetLogLevel(OF_LOG_VERBOSE);
 
-    mui = std::make_unique<DOM::Document>();
+    mui = std::make_unique<ofx::DOM::Document>();
 
-    auto panelA = mui->attachChild(std::make_unique<Panel>("A", 100, 100, 400, 400));
-    auto panelB = panelA->attachChild(std::make_unique<Panel>("B", 50, 50, 300, 300));
-    panelB->attachChild(std::make_unique<Panel>("C", 50, 50, 200, 200));
+    auto panelA = mui->attachChild(std::make_unique<ofx::MUI::Panel>("A", 50, 50, 400, 400));
+    auto panelB = panelA->attachChild(std::make_unique<ofx::MUI::Panel>("B", 50, 50, 300, 300));
+    panelB->attachChild(std::make_unique<ofx::MUI::Panel>("C", 50, 50, 200, 200));
 }
 
 

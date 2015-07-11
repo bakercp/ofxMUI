@@ -30,10 +30,6 @@
 #include "ofxMUI.h"
 
 
-using namespace ofx;
-using namespace ofx::MUI;
-
-
 class ofApp: public ofBaseApp
 {
 public:
@@ -45,6 +41,6 @@ public:
     void onPointerMove(ofx::PointerEventArgs& evt);
     void onPointerCancel(ofx::PointerEventArgs& evt);
 
-    std::unique_ptr<DOM::Document> mui;
+    std::unique_ptr<ofx::DOM::Document> mui;
 
 };
