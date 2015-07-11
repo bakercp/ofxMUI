@@ -45,47 +45,88 @@ public:
     Panel(const std::string& id, float x, float y, float width, float height):
         Widget(id, x, y, width, height)
     {
-        addEventListener("pointermove");
-        addEventListener("pointerdown");
-        addEventListener("pointerup");
+        addEventListener(pointerMove, &Panel::onPointerMove);
+        addEventListener(pointerDown, &Panel::onPointerDown);
+        addEventListener(pointerUp, &Panel::onPointerUp);
+
+        addEventListener(gotPointerCapture, &Panel::onGotPointerCapture);
+        addEventListener(lostPointerCapture, &Panel::onLostPointerCapture);
     }
 
-    void onPointerMove(DOM::PointerEvent& e) override
-    {
-        toString(e);
-
-        if (e.pointer().buttons())
+        void onPointerOver(DOM::PointerEvent& e)
         {
-            cout << "\tbuttons pressed! " << ofToBinary(e.pointer().buttons()) << endl;;
+            if (dragging == e.pointer().id())
+            {
+                DOM::Position p = parent()->screenToLocal(e.pointer().point()) - dragOffset;
+                DOM::Geometry g = parent()->getGeometry();
+                DOM::Geometry r = getGeometry();
+                p.x = ofClamp(p.x, 0, g.width - r.width);
+                p.y = ofClamp(p.y, 0, g.height - r.height);
+    
+                setPosition(p);
+            }
         }
 
-        e.stopPropagation();
-        e.preventDefault();
+
+    void onGotPointerCapture(DOM::PointerCaptureEvent& e)
+    {
+        if (e.target() == this)
+        {
+            if (dragging == 0)
+            {
+                dragging = e.id();
+            }
+        }
     }
 
-    void onPointerDown(DOM::PointerEvent& e) override
+    void onLostPointerCapture(DOM::PointerCaptureEvent& e)
+    {
+        if (e.target() == this)
+        {
+            if (e.id() == dragging)
+            {
+                dragging = 0;
+            }
+        }
+    }
+
+    void onPointerMove(DOM::PointerEvent& e)
+    {
+        if (dragging == e.pointer().id())
+        {
+            DOM::Position p = parent()->screenToLocal(e.pointer().point()) - dragOffset;
+            DOM::Geometry g = parent()->getGeometry();
+            DOM::Geometry r = getGeometry();
+            p.x = ofClamp(p.x, 0, g.width - r.width);
+            p.y = ofClamp(p.y, 0, g.height - r.height);
+
+            setPosition(p);
+        }
+    }
+
+    void onPointerDown(DOM::PointerEvent& e)
     {
         setPointerCapture(e.pointer().id());
 
-        toString(e);
+        if (dragging == e.pointer().id())
+        {
+            dragOffset = screenToLocal(e.pointer().point());
+            dragStart = e.pointer().point();
+        }
 
-        e.stopPropagation();
-        e.preventDefault();
     }
 
-    void onPointerUp(DOM::PointerEvent& e) override
+    void onPointerUp(DOM::PointerEvent& e) 
     {
-        releasePointerCapture(e.pointer().id());
+//        toString(e);
 
-        toString(e);
-
-        e.stopPropagation();
-        e.preventDefault();
+//        e.stopPropagation();
+//        e.preventDefault();
     }
 
     void toString(DOM::PointerEvent& e)
     {
-        std::cout << toString(e.getPhase()) << " " << getId() << " got " << e.type() << " @ " << e.pointer().point() << " id = " << e.pointer().id() << e.pointer().deviceType() << std::endl;
+        std::cout << toString(e.getPhase()) << " " << getId() << " got " << e.type() << " @ " << e.pointer().point() << " id = " << e.pointer().id() << " " << e.pointer().deviceType() << std::endl;
     }
 
     std::string toString(DOM::Event::Phase phase)
@@ -99,6 +140,12 @@ public:
         }
         return "UNKNOWN"; 
     }
+
+
+    std::size_t dragging = 0;
+    Point dragStart;
+    Point dragOffset;
+
 
 };
 
