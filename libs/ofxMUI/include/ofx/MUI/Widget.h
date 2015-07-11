@@ -27,6 +27,7 @@
 	
 
 #include "ofx/DOM/Element.h"
+#include "ofx/DOM/Events.h"
 
 
 namespace ofx {
@@ -42,6 +43,48 @@ public:
 
     virtual void onDraw();
 
+
+    /// \brief Enable dragging for this Widget.
+    /// \param drag True if drag should be enabled.
+    void setEnableDragging(bool draggingEnabled);
+
+    /// \brief Determine if dragging is enabled for this Widget.
+    /// \returns true iff the dragging is enabled.
+    bool isDraggingEnabled() const;
+
+    /// \brief Determine if this Widget is being dragged.
+    /// \returns true if this Widget is being dragged.
+    bool isDragging() const;
+
+    /// \brief Default callback for built-in events, including dragging.
+    void _onPointerEvent(DOM::PointerEvent& e);
+
+    /// \brief Default callback for built-in events, including dragging.
+    void _onPointerCaptureEvent(DOM::PointerCaptureEvent& e);
+
+protected:
+    /// \brief True iff the Widget is configured to be dragged.
+    bool _isDraggingEnabled = false;
+
+    /// \brief True iff the widget is currently being dragged.
+    bool _isDragging = false;
+
+    /// \brief The id of the pointer that is currently dragging.
+    std::size_t _dragId = 0;
+
+    /// \brief The drag starting point (parent's local coordinates).
+    Point _dragStart;
+
+    /// \brief The local starting point (local coordinates).
+    Point _dragOffset;
+
+    /// \brief The velocity of the drag in points / millisecond.
+    Point _dragVelocity;
+
+    /// \brief The last drag update time in milliseconds.
+    uint64_t _lastDragUpdate;
+
+    
 };
 
 
