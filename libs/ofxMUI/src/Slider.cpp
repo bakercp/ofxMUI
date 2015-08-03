@@ -23,11 +23,15 @@
 // =============================================================================
 
 
-#pragma once
-
-
-#include "ofxDOM.h"
-#include "ofx/MUI/Bang.h"
-#include "ofx/MUI/Panel.h"
 #include "ofx/MUI/Slider.h"
-#include "ofx/MUI/Widget.h"
+
+
+namespace ofx {
+namespace MUI {
+
+
+
+} } // namespace ofx::MUI
+
+
+

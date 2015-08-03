@@ -24,113 +24,209 @@
 
 
 #include "ofx/MUI/Widget.h"
-#include "ofGraphics.h"
+#include "ofx/DOM/Exceptions.h"
 
 
 namespace ofx {
 namespace MUI {
 
 
+const std::string Widget::ROLE_FOREGROUND = "ROLE_FOREGROUND";
+const std::string Widget::ROLE_BACKGROUND = "ROLE_BACKGROUND";
+const std::string Widget::ROLE_BORDER = "ROLE_BORDER";
+const std::string Widget::ROLE_TEXT = "ROLE_TEXT";
+const std::string Widget::STATE_NORMAL = "STATE_NORMAL";
+const std::string Widget::STATE_OVER = "STATE_OVER";
+const std::string Widget::STATE_DOWN = "STATE_DOWN";
+const std::string Widget::STATE_DISABLED = "STATE_DISABLED";
+const std::string Widget::STATE_LOCKED = "STATE_LOCKED";
+
+
+Widget::Widget(float x, float y, float width, float height):
+    Widget("", x, y, width, height)
+{
+}
+
+
+Widget::Widget(const std::string& id, float x, float y, float width, float height):
+    DOM::Element(id, x, y, width, height)
+{
+    addEventListener(pointerMove, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    addEventListener(pointerDown, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    addEventListener(pointerUp, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+
+    addEventListener(pointerOver, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    addEventListener(pointerEnter, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    addEventListener(pointerOut, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    addEventListener(pointerLeave, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+
+    addEventListener(gotPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
+    addEventListener(lostPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
+}
+
+
 Widget::~Widget()
 {
+    removeEventListener(pointerMove, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    removeEventListener(pointerDown, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    removeEventListener(pointerUp, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+
+    removeEventListener(pointerOver, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    removeEventListener(pointerEnter, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    removeEventListener(pointerOut, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    removeEventListener(pointerLeave, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+
+    removeEventListener(gotPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
+    removeEventListener(lostPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
 }
 
 
 void Widget::onDraw()
 {
-    ofSetColor(255, 127);
+    ofSetColor(getColor(ROLE_TEXT, STATE_NORMAL));
     ofDrawBitmapString(getId(), 2, 12);
 
     ofFill();
-    ofSetColor(255, 15);
-    ofDrawRectangle(0, 0, getSize().x, getSize().y);
+    ofSetColor(getColor(ROLE_BACKGROUND, STATE_NORMAL));
+    ofDrawRectangle(0, 0, getWidth(), getHeight());
 
     ofNoFill();
-    ofSetColor(255, 60);
-    ofDrawRectangle(0, 0, getSize().x, getSize().y);
+    ofSetColor(getColor(ROLE_BORDER, STATE_NORMAL));
+    ofDrawRectangle(0, 0, getWidth(), getHeight());
 }
 
 
-void Widget::setEnableDragging(bool draggingEnabled)
+bool Widget::isPointerOver() const
 {
-    if (draggingEnabled != _isDraggingEnabled)
-    {
-        if (draggingEnabled)
-        {
-            addEventListener(pointerMove, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-            addEventListener(pointerDown, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-            addEventListener(pointerUp, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-            addEventListener(gotPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
-            addEventListener(lostPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
-            _isDraggingEnabled = true;
-        }
-        else
-        {
-            removeEventListener(pointerMove, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-            removeEventListener(pointerDown, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-            removeEventListener(pointerUp, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-            removeEventListener(gotPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
-            removeEventListener(lostPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
-            if (isDragging())
-            {
-                releasePointerCapture(_dragId);
-            }
-            _isDraggingEnabled = false;
-        }
-    }
+    return _isPointerOver;
 }
 
 
-bool Widget::isDraggingEnabled() const
+bool Widget::isPointerDown() const
 {
-    return _isDraggingEnabled;
+    return !_capturedPointers.empty();
 }
 
 
-bool Widget::isDragging() const
+void Widget::setAutoCapturePointer(bool autoCapturePointer)
 {
-    return _isDragging;
+    _autoCapturePointer = autoCapturePointer;
 }
+
+
+bool Widget::getAutoCapturePointer() const
+{
+    return _autoCapturePointer;
+}
+
+
+//void Widget::setDropTarget(bool dropTarget)
+//{
+//    _isDropTarget = dropTarget;
+//}
+//
+//
+//bool Widget::isDropTarget() const
+//{
+//    return _isDropTarget;
+//}
+//
+//
+//void Widget::setDraggable(bool draggable)
+//{
+//    if (draggable != _isDraggable)
+//    {
+//        if (draggable)
+//        {
+//            _isDraggable = true;
+//        }
+//        else
+//        {
+//            if (isDragging())
+//            {
+//                releasePointerCapture(_dragId);
+//            }
+//
+//            _isDraggable = false;
+//        }
+//    }
+//}
+//
+//
+//bool Widget::isDraggable() const
+//{
+//    return _isDraggable;
+//}
+//
+//
+//bool Widget::isDragging() const
+//{
+//    return _isDragging;
+//}
 
 
 void Widget::_onPointerEvent(DOM::PointerEvent& e)
 {
     if (e.type() == PointerEventArgs::POINTER_DOWN)
     {
-        setPointerCapture(e.pointer().id());
-
-        if (isDragging() && _dragId == e.pointer().id())
+        // If we are auto capturing pointers, then try.
+        if (_autoCapturePointer)
         {
-            _dragOffset = screenToLocal(e.pointer().point());
-            _dragStart  = e.pointer().point();
+            setPointerCapture(e.pointer().id());
+
+            auto i = _capturedPointers.find(e.pointer().id());
+
+            if (i != _capturedPointers.end())
+            {
+                i->second.update(this, e);
+            }
+            else
+            {
+                // Capture failed.
+            }
         }
     }
     else if (e.type() == PointerEventArgs::POINTER_MOVE)
     {
-        if (isDragging() && _dragId == e.pointer().id())
+        if (_autoCapturePointer && e.pointer().buttons() > 0)
         {
-            DOM::Position p = parent()->screenToLocal(e.pointer().point()) - _dragOffset;
+            auto i = _capturedPointers.find(e.pointer().id());
 
-            // Constrain position if child node.
-            if (!isRoot() && !_parent->isRoot())
+            if (i != _capturedPointers.end())
             {
-                DOM::Geometry g = parent()->getGeometry();
-                DOM::Geometry r = getGeometry();
-                p.x = ofClamp(p.x, 0, g.width - r.width);
-                p.y = ofClamp(p.y, 0, g.height - r.height);
+                i->second.update(this, e);
             }
-            setPosition(p);
         }
     }
     else if (e.type() == PointerEventArgs::POINTER_UP)
     {
-        if (isDragging() && _dragId == e.pointer().id())
+        if (_autoCapturePointer)
         {
-            // Release the current pointer.
-            releasePointerCapture(e.pointer().id());
+            auto i = _capturedPointers.find(e.pointer().id());
 
-            // TODO: transfer drag to existing captured pointer?
+            if (i != _capturedPointers.end())
+            {
+                releasePointerCapture(e.pointer().id());
+            }
         }
+
+        // TODO: transfer drag to existing captured pointer?
+    }
+    else if (e.type() == PointerEventArgs::POINTER_OVER)
+    {
+        _isPointerOver = true;
+    }
+    else if (e.type() == PointerEventArgs::POINTER_ENTER)
+    {
+        cout << getId() << " POINTER_ENTER" << endl;
+    }
+    else if (e.type() == PointerEventArgs::POINTER_OUT)
+    {
+        _isPointerOver = false;
+    }
+    else if (e.type() == PointerEventArgs::POINTER_LEAVE)
+    {
+        cout << getId() << " POINTER_LEAVE" << endl;
     }
 }
 
@@ -139,28 +235,137 @@ void Widget::_onPointerCaptureEvent(DOM::PointerCaptureEvent& e)
 {
     if (e.type() == PointerEventArgs::GOT_POINTER_CAPTURE)
     {
-        _capturedPointers.insert(e.id());
-
-        if (isDraggingEnabled() && !isDragging())
+        if (_capturedPointers.find(e.id()) == _capturedPointers.end())
         {
-            _dragId = e.id();
-            _isDragging = true;
+            _capturedPointers.emplace(std::make_pair(e.id(), DOM::CapturedPointer(e.id())));
+        }
+        else
+        {
+            throw DOM::DOMException(DOM::DOMException::INVALID_STATE_ERROR);
         }
     }
     else if (e.type() == PointerEventArgs::LOST_POINTER_CAPTURE)
     {
-        _capturedPointers.erase(e.id());
+        auto i = _capturedPointers.find(e.id());
 
-        if (isDraggingEnabled() && isDragging())
+        if (i != _capturedPointers.end())
         {
-            _dragId = 0;
-            _isDragging = false;
+            _capturedPointers.erase(i);
+        }
+        else
+        {
+            throw DOM::DOMException(DOM::DOMException::INVALID_STATE_ERROR);
         }
     }
 }
 
 
+ofColor Widget::getColor(const std::string& role, const std::string& state) const
+{
+    try
+    {
+        return getAttribute<ofColor>(role + state, true);
+    }
+    catch (DOM::DOMException& exc)
+    {
+        if (STATE_NORMAL == state)
+        {
+            if (ROLE_FOREGROUND == role)
+            {
+                return ofColor(255, 255, 0, 80);
+            }
+            else if(ROLE_BACKGROUND == role)
+            {
+                return ofColor(255, 60);
+            }
+            else if (ROLE_BORDER == role)
+            {
+                return ofColor(255, 100);
+            }
+            else if (ROLE_TEXT == role)
+            {
+                return ofColor(255);
+            }
+        }
+        else if (STATE_OVER == state)
+        {
+            if (ROLE_FOREGROUND == role)
+            {
+                return ofColor(255, 255, 0, 120);
+            }
+            else if(ROLE_BACKGROUND == role)
+            {
+                return ofColor(255, 60);
+            }
+            else if (ROLE_BORDER == role)
+            {
+                return ofColor(255, 100);
+            }
+            else if (ROLE_TEXT == role)
+            {
+                return ofColor(255);
+            }
+        }
+        else if (STATE_DOWN == state)
+        {
+            if (ROLE_FOREGROUND == role)
+            {
+                return ofColor(255, 255, 0, 200);
+            }
+            else if(ROLE_BACKGROUND == role)
+            {
+                return ofColor(255, 60);
+            }
+            else if (ROLE_BORDER == role)
+            {
+                return ofColor(255, 100);
+            }
+            else if (ROLE_TEXT == role)
+            {
+                return ofColor(255);
+            }
+        }
+        else if (STATE_DISABLED == state || STATE_LOCKED == state)
+        {
+            if (ROLE_FOREGROUND == role)
+            {
+                return ofColor(127, 40);
+            }
+            else if(ROLE_BACKGROUND == role)
+            {
+                return ofColor(127, 20);
+            }
+            else if (ROLE_BORDER == role)
+            {
+                return ofColor(127, 50);
+            }
+            else if (ROLE_TEXT == role)
+            {
+                return ofColor(127);
+            }
+        }
+        else
+        {
+            cout << "----" << endl;
+        }
+
+        ofLogWarning("Widget::getColor") << "Role: " << role << " State: " << state << " color unknown.";
+        return ofColor();
+    }
+}
+
+
+void Widget::setColor(const std::string& role, const std::string& state, const ofColor& color)
+{
+    setAttribute(role + state, color);
+}
+
+
+
+void Widget::clearColor(const std::string& role, const std::string& state)
+{
+    clearAttribute(role + state);
+}
+
+
 } } // namespace ofx::MUI
-
-
-

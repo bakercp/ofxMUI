@@ -1,4 +1,4 @@
-// =============================================================================
+    // =============================================================================
 //
 // Copyright (c) 2009-2015 Christopher Baker <http://christopherbaker.net>
 //
@@ -26,6 +26,8 @@
 #pragma once
 	
 
+#include "ofParameter.h"
+#include "ofGraphics.h"
 #include "ofx/DOM/Element.h"
 #include "ofx/DOM/Events.h"
 
@@ -37,24 +39,50 @@ namespace MUI {
 class Widget: public DOM::Element
 {
 public:
-    using DOM::Element::Element;
+    Widget(float x, float y, float width, float height);
 
+    Widget(const std::string& id, float x, float y, float width, float height);
+
+    /// \brief Destroy this Widget.
     virtual ~Widget();
 
-    virtual void onDraw();
+    virtual void onDraw() override;
 
+    bool isPointerOver() const;
 
-    /// \brief Enable dragging for this Widget.
-    /// \param drag True if drag should be enabled.
-    void setEnableDragging(bool draggingEnabled);
+    bool isPointerDown() const;
 
-    /// \brief Determine if dragging is enabled for this Widget.
-    /// \returns true iff the dragging is enabled.
-    bool isDraggingEnabled() const;
+    /// \brief Set if the pointer is automatically captured on pointer down.
+    ///
+    /// This does not enable the pointer listener, only if the pointer should
+    /// be automatically captured when a listener is enabled.
+    ///
+    /// \param capturePointer True if the pointer should be captured.
+    void setAutoCapturePointer(bool autoCapturePointer);
 
-    /// \brief Determine if this Widget is being dragged.
-    /// \returns true if this Widget is being dragged.
-    bool isDragging() const;
+    /// \brief Determine if pointer is automatically captured on pointer down.
+    /// \returns true iff automatic pointer capture is enabled.
+    bool getAutoCapturePointer() const;
+
+//    /// \brief Enable or disable the Widget as a drop target.
+//    /// \param dropTarget True iff this Widget is a drop target.
+//    void setDropTarget(bool dropTarget);
+//
+//    /// \brief Determine if this Widget is a drop target.
+//    /// \returns true iff this Widget is a drop target.
+//    bool isDropTarget() const;
+//
+//    /// \brief Set draggability for this Widget.
+//    /// \param draggable True iff draggability is enabled.
+//    void setDraggable(bool draggable);
+//
+//    /// \brief Determine if draggability is enabled for this Widget.
+//    /// \returns true iff the draggability is enabled.
+//    bool isDraggable() const;
+//
+//    /// \brief Determine if this Widget is being dragged.
+//    /// \returns true if this Widget is being dragged.
+//    bool isDragging() const;
 
     /// \brief Default callback for built-in events, including dragging.
     void _onPointerEvent(DOM::PointerEvent& e);
@@ -62,29 +90,41 @@ public:
     /// \brief Default callback for built-in events, including dragging.
     void _onPointerCaptureEvent(DOM::PointerCaptureEvent& e);
 
+    ofColor getColor(const std::string& role, const std::string& state) const;
+    void setColor(const std::string& role, const std::string& state, const ofColor& color);
+    void clearColor(const std::string& role, const std::string& state);
+
+    static const std::string ROLE_FOREGROUND;
+    static const std::string ROLE_BACKGROUND;
+    static const std::string ROLE_BORDER;
+    static const std::string ROLE_TEXT;
+
+    static const std::string STATE_NORMAL;
+    static const std::string STATE_OVER;
+    static const std::string STATE_DOWN;
+    static const std::string STATE_DISABLED;
+    static const std::string STATE_LOCKED;
+
 protected:
-    /// \brief True iff the Widget is configured to be dragged.
-    bool _isDraggingEnabled = false;
+    /// \brief Automatically capture the pointer on pointer down.
+    bool _autoCapturePointer = true;
+//
+//    /// \brief True iff the Widget is a target for dragged Widgets.
+//    bool _isDropTarget = false;
+//
+//    /// \brief True iff the Widget is configured to be dragged.
+//    bool _isDraggable = false;
+//
+//    /// \brief True iff the widget is currently being dragged.
+//    bool _isDragging = false;
+//
+//    std::size_t _primaryPointerId = 0;
+//
+//    bool _autoUpdatePrimaryPointer = false;
 
-    /// \brief True iff the widget is currently being dragged.
-    bool _isDragging = false;
+    bool _isPointerOver = false;
 
-    /// \brief The id of the pointer that is currently dragging.
-    std::size_t _dragId = 0;
 
-    /// \brief The drag starting point (parent's local coordinates).
-    Point _dragStart;
-
-    /// \brief The local starting point (local coordinates).
-    Point _dragOffset;
-
-    /// \brief The velocity of the drag in points / millisecond.
-    Point _dragVelocity;
-
-    /// \brief The last drag update time in milliseconds.
-    uint64_t _lastDragUpdate;
-
-    
 };
 
 

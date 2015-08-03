@@ -24,10 +24,43 @@
 
 
 #pragma once
+	
 
-
-#include "ofxDOM.h"
-#include "ofx/MUI/Bang.h"
-#include "ofx/MUI/Panel.h"
-#include "ofx/MUI/Slider.h"
 #include "ofx/MUI/Widget.h"
+
+
+namespace ofx {
+namespace MUI {
+
+
+class Bang: public Widget
+{
+public:
+    Bang(float x, float y, float width, float height);
+
+    Bang(const std::string& id, float x, float y, float width, float height);
+
+    virtual ~Bang();
+
+    virtual void onDraw() override;
+
+    /// \brief Default callback for built-in events, including dragging.
+    void _onPointerEvent(DOM::PointerEvent& e);
+
+    /// \brief Default callback for built-in events, including dragging.
+    void _onPointerCaptureEvent(DOM::PointerCaptureEvent& e);
+
+    ofEvent<bool> bang;
+
+protected:
+
+    /// \brief Update the value immediately on press.
+    bool _setValueOnRelease = false;
+
+    /// \brief Require that release is over the button.
+    bool _requireReleaseOver = true;
+
+};
+
+
+} } // ofx::MUI
