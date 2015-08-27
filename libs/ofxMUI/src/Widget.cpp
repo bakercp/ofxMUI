@@ -129,22 +129,7 @@ bool Widget::isDropTarget() const
 
 void Widget::setDraggable(bool draggable)
 {
-    if (draggable != _isDraggable)
-    {
-        if (draggable)
-        {
-            _isDraggable = true;
-        }
-        else
-        {
-            if (isDragging())
-            {
-//                releasePointerCapture(_primaryPointerId);
-            }
-
-            _isDraggable = false;
-        }
-    }
+	_isDraggable = draggable;
 }
 
 
@@ -162,8 +147,6 @@ bool Widget::isDragging() const
 
 void Widget::_onPointerEvent(DOM::PointerEvent& e)
 {
-	cout << "Widget::_onPointerEvent" << endl;
-
     if (e.type() == PointerEventArgs::POINTER_DOWN)
     {
     }
@@ -183,8 +166,6 @@ void Widget::_onPointerEvent(DOM::PointerEvent& e)
 
 void Widget::_onPointerCaptureEvent(DOM::PointerCaptureEvent& e)
 {
-	cout << "Widget::_onPointerCaptureEvent" << endl;
-
 	_isDragging = e.type() == PointerEventArgs::GOT_POINTER_CAPTURE && _isDraggable;
 }
 
