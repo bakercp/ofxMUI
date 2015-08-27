@@ -23,15 +23,39 @@
 // =============================================================================
 
 
-#pragma once
-
-
-#include "ofxDOM.h"
-#include "ofx/MUI/Axis.h"
-#include "ofx/MUI/Bang.h"
 #include "ofx/MUI/MUI.h"
-#include "ofx/MUI/Panel.h"
-#include "ofx/MUI/Scope.h"
-#include "ofx/MUI/Slider.h"
-#include "ofx/MUI/Types.h"
-#include "ofx/MUI/Widget.h"
+#include "ofx/MUI/Styles.h"
+
+
+namespace ofx {
+namespace MUI {
+
+
+MUI::MUI()
+{
+}
+
+
+MUI::~MUI()
+{
+}
+
+
+std::shared_ptr<Styles> MUI::getDocumentStyles() const
+{
+	if (_documentStyles == nullptr)
+	{
+		_documentStyles = std::make_shared<Styles>();
+	}
+
+	return _documentStyles;
+}
+
+
+void MUI::setDocumentStyles(std::shared_ptr<Styles> documentStyles)
+{
+	_documentStyles = documentStyles;
+}
+
+
+} } // namespace ofx::MUI

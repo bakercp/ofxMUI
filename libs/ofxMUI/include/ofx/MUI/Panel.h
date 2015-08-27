@@ -42,14 +42,20 @@ public:
     }
 
     Panel(const std::string& id, float x, float y, float width, float height):
-        Widget(id, x, y, width, height)
+        Widget(id, x, y, width, height),
+		_resizeable(false)
     {
-//        setDraggable(true);
+        setDraggable(true);
     }
 
     virtual ~Panel()
     {
     }
+
+protected:
+	bool _resizeable;
+
+//	float 
 
 };
 

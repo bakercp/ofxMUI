@@ -1,4 +1,4 @@
-// =============================================================================
+    // =============================================================================
 //
 // Copyright (c) 2009-2015 Christopher Baker <http://christopherbaker.net>
 //
@@ -26,12 +26,36 @@
 #pragma once
 
 
-#include "ofxDOM.h"
-#include "ofx/MUI/Axis.h"
-#include "ofx/MUI/Bang.h"
-#include "ofx/MUI/MUI.h"
-#include "ofx/MUI/Panel.h"
-#include "ofx/MUI/Scope.h"
-#include "ofx/MUI/Slider.h"
-#include "ofx/MUI/Types.h"
-#include "ofx/MUI/Widget.h"
+namespace ofx {
+namespace MUI {
+
+
+/// \brief The drag mode of the Widget.
+///
+/// The drag mode determines how the Pointer interacts with the Widget.
+/// When in Mode::ABSOLUTE, the Widget will immediately jump to the location
+/// of the pointer down.  In Mode::RELATIVE, the pointer will be offset
+/// relative to the movemovement of the pointer's original pointer down
+/// location.
+enum class DragMode
+{
+	/// \brief Sets the position by the absolute position of the dragged pointer.
+	ABSOLUTE,
+	/// \brief Sets the position by the relative offset of the dragged pointer.
+	RELATIVE
+};
+
+
+/// \brief The orientation of an Element.
+enum class Orientation
+{
+	/// \brief Sets the Orientation based on the aspect ratio.
+	AUTO,
+	/// \brief Locks the Orientation to landscape.
+	LANDSCAPE,
+	/// \brief Locks the Orientation to portrait.
+	PORTRAIT
+};
+
+
+} } // ofx::MUI

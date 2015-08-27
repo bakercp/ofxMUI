@@ -25,21 +25,12 @@
 
 #include "ofx/MUI/Widget.h"
 #include "ofx/DOM/Exceptions.h"
+#include "ofx/MUI/MUI.h"
+#include "ofx/MUI/Styles.h"
 
 
 namespace ofx {
 namespace MUI {
-
-
-const std::string Widget::ROLE_FOREGROUND = "ROLE_FOREGROUND";
-const std::string Widget::ROLE_BACKGROUND = "ROLE_BACKGROUND";
-const std::string Widget::ROLE_BORDER = "ROLE_BORDER";
-const std::string Widget::ROLE_TEXT = "ROLE_TEXT";
-const std::string Widget::STATE_NORMAL = "STATE_NORMAL";
-const std::string Widget::STATE_OVER = "STATE_OVER";
-const std::string Widget::STATE_DOWN = "STATE_DOWN";
-const std::string Widget::STATE_DISABLED = "STATE_DISABLED";
-const std::string Widget::STATE_LOCKED = "STATE_LOCKED";
 
 
 Widget::Widget(float x, float y, float width, float height):
@@ -49,7 +40,11 @@ Widget::Widget(float x, float y, float width, float height):
 
 
 Widget::Widget(const std::string& id, float x, float y, float width, float height):
-    DOM::Element(id, x, y, width, height)
+    DOM::Element(id, x, y, width, height),
+	_isDropTarget(false),
+	_isDraggable(false),
+	_isDragging(false),
+	_isPointerOver(false)
 {
     addEventListener(pointerMove, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
     addEventListener(pointerDown, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
@@ -62,6 +57,8 @@ Widget::Widget(const std::string& id, float x, float y, float width, float heigh
 
     addEventListener(gotPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
     addEventListener(lostPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
+
+	setImplicitPointerCapture(true);
 }
 
 
@@ -83,16 +80,26 @@ Widget::~Widget()
 
 void Widget::onDraw()
 {
-    ofSetColor(getColor(ROLE_TEXT, STATE_NORMAL));
-    ofDrawBitmapString(getId(), 2, 12);
+	std::stringstream ss;
+
+	ss << getId() << std::endl;
+
+	if (!capturedPointers().empty())
+	{
+		ss << "CP: " << ofToString(capturedPointers()) << std::endl;
+	}
+
+	ofSetColor(getStyles()->getColor(Styles::ROLE_TEXT, Styles::STATE_NORMAL));
+    ofDrawBitmapString(ss.str(), 2, 12);
 
     ofFill();
-    ofSetColor(getColor(ROLE_BACKGROUND, STATE_NORMAL));
+    ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_NORMAL));
     ofDrawRectangle(0, 0, getWidth(), getHeight());
 
     ofNoFill();
-    ofSetColor(getColor(ROLE_BORDER, STATE_NORMAL));
+    ofSetColor(getStyles()->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
     ofDrawRectangle(0, 0, getWidth(), getHeight());
+
 }
 
 
@@ -104,268 +111,110 @@ bool Widget::isPointerOver() const
 
 bool Widget::isPointerDown() const
 {
-    return !_capturedPointers.empty();
+	return !capturedPointers().empty();
 }
 
 
-void Widget::setAutoCapturePointer(bool autoCapturePointer)
+void Widget::setDropTarget(bool dropTarget)
 {
-    _autoCapturePointer = autoCapturePointer;
+    _isDropTarget = dropTarget;
 }
 
 
-bool Widget::getAutoCapturePointer() const
+bool Widget::isDropTarget() const
 {
-    return _autoCapturePointer;
+    return _isDropTarget;
 }
 
 
-//void Widget::setDropTarget(bool dropTarget)
-//{
-//    _isDropTarget = dropTarget;
-//}
-//
-//
-//bool Widget::isDropTarget() const
-//{
-//    return _isDropTarget;
-//}
-//
-//
-//void Widget::setDraggable(bool draggable)
-//{
-//    if (draggable != _isDraggable)
-//    {
-//        if (draggable)
-//        {
-//            _isDraggable = true;
-//        }
-//        else
-//        {
-//            if (isDragging())
-//            {
-//                releasePointerCapture(_dragId);
-//            }
-//
-//            _isDraggable = false;
-//        }
-//    }
-//}
-//
-//
-//bool Widget::isDraggable() const
-//{
-//    return _isDraggable;
-//}
-//
-//
-//bool Widget::isDragging() const
-//{
-//    return _isDragging;
-//}
+void Widget::setDraggable(bool draggable)
+{
+    if (draggable != _isDraggable)
+    {
+        if (draggable)
+        {
+            _isDraggable = true;
+        }
+        else
+        {
+            if (isDragging())
+            {
+//                releasePointerCapture(_primaryPointerId);
+            }
+
+            _isDraggable = false;
+        }
+    }
+}
+
+
+bool Widget::isDraggable() const
+{
+    return _isDraggable;
+}
+
+
+bool Widget::isDragging() const
+{
+    return _isDragging;
+}
 
 
 void Widget::_onPointerEvent(DOM::PointerEvent& e)
 {
+	cout << "Widget::_onPointerEvent" << endl;
+
     if (e.type() == PointerEventArgs::POINTER_DOWN)
     {
-        // If we are auto capturing pointers, then try.
-        if (_autoCapturePointer)
-        {
-            setPointerCapture(e.pointer().id());
-
-            auto i = _capturedPointers.find(e.pointer().id());
-
-            if (i != _capturedPointers.end())
-            {
-                i->second.update(this, e);
-            }
-            else
-            {
-                // Capture failed.
-            }
-        }
     }
     else if (e.type() == PointerEventArgs::POINTER_MOVE)
     {
-        if (_autoCapturePointer && e.pointer().buttons() > 0)
-        {
-            auto i = _capturedPointers.find(e.pointer().id());
-
-            if (i != _capturedPointers.end())
-            {
-                i->second.update(this, e);
-            }
-        }
-    }
-    else if (e.type() == PointerEventArgs::POINTER_UP)
-    {
-        if (_autoCapturePointer)
-        {
-            auto i = _capturedPointers.find(e.pointer().id());
-
-            if (i != _capturedPointers.end())
-            {
-                releasePointerCapture(e.pointer().id());
-            }
-        }
-
-        // TODO: transfer drag to existing captured pointer?
     }
     else if (e.type() == PointerEventArgs::POINTER_OVER)
     {
         _isPointerOver = true;
     }
-    else if (e.type() == PointerEventArgs::POINTER_ENTER)
-    {
-        cout << getId() << " POINTER_ENTER" << endl;
-    }
     else if (e.type() == PointerEventArgs::POINTER_OUT)
     {
         _isPointerOver = false;
-    }
-    else if (e.type() == PointerEventArgs::POINTER_LEAVE)
-    {
-        cout << getId() << " POINTER_LEAVE" << endl;
     }
 }
 
 
 void Widget::_onPointerCaptureEvent(DOM::PointerCaptureEvent& e)
 {
-    if (e.type() == PointerEventArgs::GOT_POINTER_CAPTURE)
-    {
-        if (_capturedPointers.find(e.id()) == _capturedPointers.end())
-        {
-            _capturedPointers.emplace(std::make_pair(e.id(), DOM::CapturedPointer(e.id())));
-        }
-        else
-        {
-            throw DOM::DOMException(DOM::DOMException::INVALID_STATE_ERROR);
-        }
-    }
-    else if (e.type() == PointerEventArgs::LOST_POINTER_CAPTURE)
-    {
-        auto i = _capturedPointers.find(e.id());
+	cout << "Widget::_onPointerCaptureEvent" << endl;
 
-        if (i != _capturedPointers.end())
-        {
-            _capturedPointers.erase(i);
-        }
-        else
-        {
-            throw DOM::DOMException(DOM::DOMException::INVALID_STATE_ERROR);
-        }
-    }
+	_isDragging = e.type() == PointerEventArgs::GOT_POINTER_CAPTURE && _isDraggable;
 }
 
 
-ofColor Widget::getColor(const std::string& role, const std::string& state) const
+std::shared_ptr<Styles> Widget::getStyles() const
 {
-    try
-    {
-        return getAttribute<ofColor>(role + state, true);
-    }
-    catch (DOM::DOMException& exc)
-    {
-        if (STATE_NORMAL == state)
-        {
-            if (ROLE_FOREGROUND == role)
-            {
-                return ofColor(255, 255, 0, 80);
-            }
-            else if(ROLE_BACKGROUND == role)
-            {
-                return ofColor(255, 60);
-            }
-            else if (ROLE_BORDER == role)
-            {
-                return ofColor(255, 100);
-            }
-            else if (ROLE_TEXT == role)
-            {
-                return ofColor(255);
-            }
-        }
-        else if (STATE_OVER == state)
-        {
-            if (ROLE_FOREGROUND == role)
-            {
-                return ofColor(255, 255, 0, 120);
-            }
-            else if(ROLE_BACKGROUND == role)
-            {
-                return ofColor(255, 60);
-            }
-            else if (ROLE_BORDER == role)
-            {
-                return ofColor(255, 100);
-            }
-            else if (ROLE_TEXT == role)
-            {
-                return ofColor(255);
-            }
-        }
-        else if (STATE_DOWN == state)
-        {
-            if (ROLE_FOREGROUND == role)
-            {
-                return ofColor(255, 255, 0, 200);
-            }
-            else if(ROLE_BACKGROUND == role)
-            {
-                return ofColor(255, 60);
-            }
-            else if (ROLE_BORDER == role)
-            {
-                return ofColor(255, 100);
-            }
-            else if (ROLE_TEXT == role)
-            {
-                return ofColor(255);
-            }
-        }
-        else if (STATE_DISABLED == state || STATE_LOCKED == state)
-        {
-            if (ROLE_FOREGROUND == role)
-            {
-                return ofColor(127, 40);
-            }
-            else if(ROLE_BACKGROUND == role)
-            {
-                return ofColor(127, 20);
-            }
-            else if (ROLE_BORDER == role)
-            {
-                return ofColor(127, 50);
-            }
-            else if (ROLE_TEXT == role)
-            {
-                return ofColor(127);
-            }
-        }
-        else
-        {
-            cout << "----" << endl;
-        }
+	if (_styles == nullptr)
+	{
+		const MUI* mui = dynamic_cast<const MUI*>(document());
 
-        ofLogWarning("Widget::getColor") << "Role: " << role << " State: " << state << " color unknown.";
-        return ofColor();
-    }
+		if (mui != nullptr)
+		{
+			_styles = mui->getDocumentStyles();
+		}
+		else
+		{
+			ofLogWarning("Widget::getStyles") << "No root document, using default styles.";
+			_styles = std::make_shared<Styles>();
+		}
+	}
+
+	return _styles;
 }
 
 
-void Widget::setColor(const std::string& role, const std::string& state, const ofColor& color)
+void Widget::setStyles(std::shared_ptr<Styles> styles)
 {
-    setAttribute(role + state, color);
+	_styles = styles;
 }
 
-
-
-void Widget::clearColor(const std::string& role, const std::string& state)
-{
-    clearAttribute(role + state);
-}
 
 
 } } // namespace ofx::MUI

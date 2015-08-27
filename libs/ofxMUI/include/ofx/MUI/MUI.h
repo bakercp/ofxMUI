@@ -1,4 +1,4 @@
-// =============================================================================
+    // =============================================================================
 //
 // Copyright (c) 2009-2015 Christopher Baker <http://christopherbaker.net>
 //
@@ -24,14 +24,31 @@
 
 
 #pragma once
+	
+
+#include "ofx/DOM/Document.h"
 
 
-#include "ofxDOM.h"
-#include "ofx/MUI/Axis.h"
-#include "ofx/MUI/Bang.h"
-#include "ofx/MUI/MUI.h"
-#include "ofx/MUI/Panel.h"
-#include "ofx/MUI/Scope.h"
-#include "ofx/MUI/Slider.h"
-#include "ofx/MUI/Types.h"
-#include "ofx/MUI/Widget.h"
+namespace ofx {
+namespace MUI {
+
+
+class Styles;
+
+
+class MUI: public DOM::Document
+{
+public:
+	MUI();
+	virtual ~MUI();
+
+	std::shared_ptr<Styles> getDocumentStyles() const;
+	void setDocumentStyles(std::shared_ptr<Styles> documentStyles);
+
+protected:
+	mutable std::shared_ptr<Styles> _documentStyles;
+
+};
+
+
+} } // ofx::MUI

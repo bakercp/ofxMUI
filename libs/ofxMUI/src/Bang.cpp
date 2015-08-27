@@ -24,6 +24,7 @@
 
 
 #include "ofx/MUI/Bang.h"
+#include "ofx/MUI/Styles.h"
 
 
 namespace ofx {
@@ -55,21 +56,21 @@ void Bang::onDraw()
 {
     if (isPointerDown())
     {
-        ofSetColor(getColor(ROLE_BACKGROUND, STATE_DOWN));
+		ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_DOWN));
     }
     else if (isPointerOver())
     {
-        ofSetColor(getColor(ROLE_BACKGROUND, STATE_OVER));
+        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_OVER));
     }
     else
     {
-        ofSetColor(getColor(ROLE_BACKGROUND, STATE_NORMAL));
+        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_NORMAL));
     }
 
     ofDrawRectRounded(0, 0, getWidth(), getHeight(), 3);
 
     ofNoFill();
-    ofSetColor(getColor(ROLE_BORDER, STATE_NORMAL));
+    ofSetColor(getStyles()->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
     ofDrawRectRounded(0, 0, getWidth(), getHeight(), 3);
 
 }

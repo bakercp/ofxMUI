@@ -26,7 +26,9 @@
 #pragma once
 	
 
+#include "ofx/MUI/Types.h"
 #include "ofx/MUI/Widget.h"
+#include "ofx/MUI/Styles.h"
 
 
 namespace ofx {
@@ -42,32 +44,6 @@ template<typename Type>
 class Slider: public Widget
 {
 public:
-    /// \brief The orientation of the Slider.
-    enum class Orientation
-    {
-        /// \brief Sets the Orientation based on the aspect ratio.
-        AUTO,
-        /// \brief Locks the Orientation to landscape.
-        LANDSCAPE,
-        /// \brief Locks the Orientation to portrait.
-        PORTRAIT
-    };
-
-    /// \brief The drag mode of the Slider.
-    ///
-    /// The drag mode determins how the Pointer interacts with the slider.
-    /// When in Mode::ABSOLUTE, the slider will immediately jump to the location
-    /// of the pointer down.  In Mode::RELATIVE, the pointer will be offset
-    /// relative to the movemovement of the pointer's original pointer down
-    /// location.
-    enum class Mode
-    {
-        /// \brief Sets the position by the absolute position of the dragged pointer.
-        ABSOLUTE,
-        /// \brief Sets the position by the relative offset of the dragged pointer.
-        RELATIVE
-    };
-
     Slider(float x,
            float y,
            float width,
@@ -85,15 +61,15 @@ public:
            float width,
            float height,
            Orientation orientation,
-           Mode mode);
+           DragMode mode);
 
     /// \brief Destroy the Slider.
     virtual ~Slider();
 
     virtual void onDraw() override;
 
-    Mode getMode() const;
-    void setMode(Mode mode);
+    DragMode getDragMode() const;
+    void setDragMode(DragMode mode);
 
     Orientation getOrientation() const;
     void setOrientation(Orientation orientation);
@@ -119,11 +95,24 @@ public:
     void onPointerEvent(DOM::PointerEvent& e);
     void onPointerCaptureEvent(DOM::PointerCaptureEvent& e);
 
-    virtual void onValueChanged(const Type& value);
-
     ofParameter<Type> value;
 
+	ofEvent<Type> onValueChanged;
+
+	template<class ListenerClass, typename ListenerMethod>
+	void addListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
+	{
+		ofAddListener(onValueChanged, listener, method, priority);
+	}
+
+	template<class ListenerClass, typename ListenerMethod>
+	void removeListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
+	{
+		ofRemoveListener(onValueChanged, listener, method, priority);
+	}
+
 protected:
+
     /// \brief Get the effective orientation.
     /// \returns only Orientation::LANDSCAPE or Orientation::HORIZONTAL.
     Orientation getEffectiveOrientation() const;
@@ -133,10 +122,10 @@ protected:
     std::size_t getActiveAxisIndex() const;
 
     /// \brief The Slider orientation.
-    Orientation _orientation = Orientation::HORIZONTAL;
+    Orientation _orientation = Orientation::LANDSCAPE;
 
     /// \brief The drag mode.
-    Mode _mode = Mode::RELATIVE;
+    DragMode _dragMode = DragMode::RELATIVE;
 
     /// \brief The "primary" pointer id.
     ///
@@ -198,7 +187,7 @@ Slider<Type>::Slider(const std::string& id,
                          width,
                          height,
                          Orientation::AUTO,
-                         Mode::ABSOLUTE)
+                         DragMode::ABSOLUTE)
 {
 }
 
@@ -210,11 +199,11 @@ Slider<Type>::Slider(const std::string& id,
                      float width,
                      float height,
                      Orientation orientation,
-                     Mode mode):
+                     DragMode dragMode):
     Widget(id, x, y, width, height),
     value(id, 0, 0, 1),
     _orientation(orientation),
-    _mode(mode)
+    _dragMode(dragMode)
 {
     value.addListener(this, &Slider<Type>::_onValueChanged, std::numeric_limits<int>::min());
     addEventListener(pointerDown, &Slider<Type>::onPointerEvent);
@@ -276,7 +265,7 @@ void Slider<Type>::onPointerEvent(DOM::PointerEvent& e)
                                 valueMin,
                                 valueMax);
 
-            if (Mode::RELATIVE == _mode)
+            if (DragMode::RELATIVE == _dragMode)
             {
                 if (PointerEventArgs::POINTER_DOWN == e.type())
                 {
@@ -326,22 +315,22 @@ void Slider<Type>::onDraw()
 
     if (isPointerDown())
     {
-        ofSetColor(getColor(ROLE_BACKGROUND, STATE_DOWN));
+        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_DOWN));
     }
     else if (isPointerOver())
     {
-        ofSetColor(getColor(ROLE_BACKGROUND, STATE_OVER));
+        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_OVER));
     }
     else
     {
-        ofSetColor(getColor(ROLE_BACKGROUND, STATE_NORMAL));
+		ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_NORMAL));
     }
 
     ofDrawRectRounded(0, 0, getWidth(), getHeight(), 3);
 
     ofNoFill();
 
-    ofSetColor(getColor(ROLE_BORDER, STATE_NORMAL));
+	ofSetColor(getStyles()->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
     ofDrawRectRounded(0, 0, getWidth(), getHeight(), 3);
 
     Orientation orientation = _orientation;
@@ -355,15 +344,15 @@ void Slider<Type>::onDraw()
 
     if (isPointerDown())
     {
-        ofSetColor(getColor(ROLE_FOREGROUND, STATE_DOWN));
+        ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_DOWN));
     }
     else if (isPointerOver())
     {
-        ofSetColor(getColor(ROLE_FOREGROUND, STATE_OVER));
+        ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_OVER));
     }
     else
     {
-        ofSetColor(getColor(ROLE_FOREGROUND, STATE_NORMAL));
+        ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_NORMAL));
     }
 
     Type min = value.getMin();
@@ -388,21 +377,21 @@ void Slider<Type>::onDraw()
 
 
 template<typename Type>
-typename Slider<Type>::Mode Slider<Type>::getMode() const
+DragMode Slider<Type>::getDragMode() const
 {
-    return _mode;
+    return _dragMode;
 }
 
 
 template<typename Type>
-void Slider<Type>::setMode(Mode mode)
+void Slider<Type>::setDragMode(DragMode dragMode)
 {
-    _mode = mode;
+    _dragMode = dragMode;
 }
 
 
 template<typename Type>
-typename Slider<Type>::Orientation Slider<Type>::getOrientation() const
+Orientation Slider<Type>::getOrientation() const
 {
     return _orientation;
 }
@@ -436,7 +425,7 @@ void Slider<Type>::setInverted(bool inverted)
 
 
 template<typename Type>
-typename Slider<Type>::Orientation Slider<Type>::getEffectiveOrientation() const
+Orientation Slider<Type>::getEffectiveOrientation() const
 {
     if (Orientation::AUTO == _orientation)
     {
@@ -461,16 +450,11 @@ std::size_t Slider<Type>::getActiveAxisIndex() const
     return (getEffectiveOrientation() == Orientation::LANDSCAPE) ? 0 : 1;
 }
 
-template<typename Type>
-void Slider<Type>::onValueChanged(const Type& value)
-{
-}
-
 
 template<typename Type>
 void Slider<Type>::_onValueChanged(Type& value)
 {
-    onValueChanged(value);
+	ofNotifyEvent(onValueChanged, value, this);
 }
 
 
