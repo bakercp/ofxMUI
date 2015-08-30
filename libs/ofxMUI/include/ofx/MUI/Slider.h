@@ -37,8 +37,6 @@ namespace MUI {
 
 /// \brief Slider
 ///
-///
-///
 /// \tparam Type the data type represented by the Slider.
 template<typename Type>
 class Slider: public Widget
@@ -66,7 +64,7 @@ public:
     /// \brief Destroy the Slider.
     virtual ~Slider();
 
-    virtual void onDraw() override;
+    virtual void onDraw() const override;
 
     DragMode getDragMode() const;
     void setDragMode(DragMode mode);
@@ -132,9 +130,6 @@ protected:
     /// This is the first pointer that was captured when dragging.
     std::size_t _primaryPointerId = 0;
 
-//    /// \brief The start position for the primary pointer.
-//    Point _primaryPointerStart;
-//
     /// \brief The start value of the value itself.
     ///
     /// Used when computing offsets in Mode::RELATIVE.
@@ -212,6 +207,8 @@ Slider<Type>::Slider(const std::string& id,
     addEventListener(lostPointerCapture, &Slider<Type>::onPointerCaptureEvent);
 
     ofAddListener(resize, this, &Slider<Type>::_onResize, std::numeric_limits<int>::min());
+
+	setImplicitPointerCapture(true);
 }
 
 
@@ -303,14 +300,9 @@ void Slider<Type>::onPointerCaptureEvent(DOM::PointerCaptureEvent& e)
 }
 
 
-
 template<typename Type>
-void Slider<Type>::onDraw()
+void Slider<Type>::onDraw() const
 {
-//    ofNoFill();
-//    ofSetColor(255, 127);
-//    ofDrawRectRounded(getGeometry(), 5);
-
     ofFill();
 
     if (isPointerDown())

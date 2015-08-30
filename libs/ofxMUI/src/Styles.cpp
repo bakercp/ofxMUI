@@ -156,8 +156,8 @@ void Styles::setColors(const ofColor& foreground,
 	std::vector<ofColor> _foreground(STATE_DISABLED + 1, ofColor());
 
 	_foreground[STATE_NORMAL] = foreground;
-	_foreground[STATE_OVER] = ofColor(foreground, 180);
-	_foreground[STATE_DOWN] = ofColor(foreground, 255);
+	_foreground[STATE_OVER] = ofColor(foreground, 255);
+	_foreground[STATE_DOWN] = ofColor(accent, 255);
 	_foreground[STATE_DISABLED] = ofColor(foreground, 20);
 
 	std::vector<ofColor> _background(STATE_DISABLED + 1, ofColor());

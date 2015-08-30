@@ -39,6 +39,7 @@ namespace MUI {
 class Styles;
 
 
+/// \brief A Widget is the base class for all MUI interactive elements.
 class Widget: public DOM::Element
 {
 public:
@@ -49,7 +50,7 @@ public:
     /// \brief Destroy this Widget.
     virtual ~Widget();
 
-    virtual void onDraw() override;
+    virtual void onDraw() const override;
 
 	/// \returns true if the pointer is over this Widget.
     bool isPointerOver() const;
@@ -77,12 +78,6 @@ public:
     /// \returns true if this Widget is being dragged.
     bool isDragging() const;
 
-    /// \brief Default callback for built-in events, including dragging.
-    void _onPointerEvent(DOM::PointerEvent& e);
-
-	/// \brief Default callback for built-in events, including dragging.
-	void _onPointerCaptureEvent(DOM::PointerCaptureEvent& e);
-
 	/// \brief Get the Styles for this Widget.
 	/// \returns the Widget's styles.
 	std::shared_ptr<Styles> getStyles() const;
@@ -96,6 +91,13 @@ public:
 	void setStyles(std::shared_ptr<Styles> styles);
 
 protected:
+	/// \brief Default callback for built-in events, including dragging.
+	void _onPointerEvent(DOM::PointerEvent& e);
+
+	/// \brief Default callback for built-in events, including dragging.
+	void _onPointerCaptureEvent(DOM::PointerCaptureEvent& e);
+
+
     /// \brief True iff the Widget is a target for dragged Widgets.
     bool _isDropTarget;
 
@@ -106,6 +108,8 @@ protected:
     bool _isDragging;
 
     bool _isPointerOver;
+
+	bool _moveToFrontOnCapture;
 
 private:
 	/// \brief The shared Styles.

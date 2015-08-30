@@ -42,7 +42,7 @@ public:
 
     virtual ~Bang();
 
-    virtual void onDraw() override;
+    virtual void onDraw() const override;
 
     /// \brief Default callback for built-in events, including dragging.
     void _onPointerEvent(DOM::PointerEvent& e);

@@ -52,16 +52,16 @@ Bang::~Bang()
 }
 
 
-void Bang::onDraw()
+void Bang::onDraw() const
 {
     if (isPointerDown())
     {
 		ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_DOWN));
     }
-    else if (isPointerOver())
-    {
-        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_OVER));
-    }
+//    else if (isPointerOver())
+//    {
+//        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_OVER));
+//    }
     else
     {
         ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_NORMAL));

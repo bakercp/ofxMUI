@@ -44,7 +44,8 @@ Widget::Widget(const std::string& id, float x, float y, float width, float heigh
 	_isDropTarget(false),
 	_isDraggable(false),
 	_isDragging(false),
-	_isPointerOver(false)
+	_isPointerOver(false),
+	_moveToFrontOnCapture(true)
 {
     addEventListener(pointerMove, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
     addEventListener(pointerDown, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
@@ -78,8 +79,32 @@ Widget::~Widget()
 }
 
 
-void Widget::onDraw()
+void Widget::onDraw() const
 {
+	Styles::State state = Styles::STATE_NORMAL;
+
+	if (isDragging() || isPointerDown())
+	{
+		state = Styles::STATE_DOWN;
+	}
+	else if (isPointerOver())
+	{
+		state = Styles::STATE_OVER;
+	}
+
+
+    ofFill();
+    ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, state));
+    ofDrawRectangle(0, 0, getWidth(), getHeight());
+
+    ofNoFill();
+    ofSetColor(getStyles()->getColor(Styles::ROLE_BORDER, state));
+    ofDrawRectangle(0, 0, getWidth(), getHeight());
+
+	ofFill();
+	ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, state));
+	ofDrawRectangle(10, 10, getWidth() - 20, getHeight() - 20);
+
 	std::stringstream ss;
 
 	ss << getId() << std::endl;
@@ -89,16 +114,9 @@ void Widget::onDraw()
 		ss << "CP: " << ofToString(capturedPointers()) << std::endl;
 	}
 
-	ofSetColor(getStyles()->getColor(Styles::ROLE_TEXT, Styles::STATE_NORMAL));
-    ofDrawBitmapString(ss.str(), 2, 12);
+	ofSetColor(getStyles()->getColor(Styles::ROLE_TEXT, state));
+	ofDrawBitmapString(ss.str(), 2, 12);
 
-    ofFill();
-    ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_NORMAL));
-    ofDrawRectangle(0, 0, getWidth(), getHeight());
-
-    ofNoFill();
-    ofSetColor(getStyles()->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
-    ofDrawRectangle(0, 0, getWidth(), getHeight());
 
 }
 
@@ -145,31 +163,6 @@ bool Widget::isDragging() const
 }
 
 
-void Widget::_onPointerEvent(DOM::PointerEvent& e)
-{
-    if (e.type() == PointerEventArgs::POINTER_DOWN)
-    {
-    }
-    else if (e.type() == PointerEventArgs::POINTER_MOVE)
-    {
-    }
-    else if (e.type() == PointerEventArgs::POINTER_OVER)
-    {
-        _isPointerOver = true;
-    }
-    else if (e.type() == PointerEventArgs::POINTER_OUT)
-    {
-        _isPointerOver = false;
-    }
-}
-
-
-void Widget::_onPointerCaptureEvent(DOM::PointerCaptureEvent& e)
-{
-	_isDragging = e.type() == PointerEventArgs::GOT_POINTER_CAPTURE && _isDraggable;
-}
-
-
 std::shared_ptr<Styles> Widget::getStyles() const
 {
 	if (_styles == nullptr)
@@ -195,6 +188,58 @@ void Widget::setStyles(std::shared_ptr<Styles> styles)
 {
 	_styles = styles;
 }
+
+
+void Widget::_onPointerEvent(DOM::PointerEvent& e)
+{
+	if (e.type() == PointerEventArgs::POINTER_DOWN)
+	{
+	}
+	else if (e.type() == PointerEventArgs::POINTER_MOVE)
+	{
+		if (_isDragging)
+		{
+			if (!capturedPointers().empty())
+			{
+				const DOM::CapturedPointer& pointer = *capturedPointers().begin();
+				setPosition(screenToParent(pointer.position() - pointer.offset()));
+			}
+			else
+			{
+				ofLogError("Widget::_onPointerEvent") << "No captured pointers to drag with.";
+			}
+
+		}
+	}
+	else if (e.type() == PointerEventArgs::POINTER_OVER)
+	{
+		_isPointerOver = true;
+	}
+	else if (e.type() == PointerEventArgs::POINTER_OUT)
+	{
+		_isPointerOver = false;
+	}
+}
+
+
+void Widget::_onPointerCaptureEvent(DOM::PointerCaptureEvent& e)
+{
+	if (e.type() == PointerEventArgs::GOT_POINTER_CAPTURE)
+	{
+		if (_moveToFrontOnCapture)
+		{
+			moveToFront();
+		}
+
+		_isDragging = _isDraggable;
+
+	}
+	else if (e.type() == PointerEventArgs::LOST_POINTER_CAPTURE)
+	{
+		_isDragging = false;
+	}
+}
+
 
 
 

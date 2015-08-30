@@ -54,7 +54,7 @@ public:
 
 	virtual ~Scope();
 
-	void onDraw() override;
+	void onDraw() const override;
 
 	void setMaxSize(std::size_t maxSize);
 
@@ -114,7 +114,7 @@ Scope<DataType>::~Scope()
 
 
 template<typename DataType>
-void Scope<DataType>::onDraw()
+void Scope<DataType>::onDraw() const
 {
 	ofSetColor(getStyles()->getColor(Styles::ROLE_TEXT, Styles::STATE_NORMAL));
 	ofDrawBitmapString(getId(), 2, 12);

@@ -55,8 +55,6 @@ public:
 protected:
 	bool _resizeable;
 
-//	float 
-
 };
 
 
