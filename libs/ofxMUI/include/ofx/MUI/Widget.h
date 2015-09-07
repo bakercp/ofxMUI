@@ -97,7 +97,6 @@ protected:
 	/// \brief Default callback for built-in events, including dragging.
 	void _onPointerCaptureEvent(DOM::PointerCaptureEvent& e);
 
-
     /// \brief True iff the Widget is a target for dragged Widgets.
     bool _isDropTarget;
 
