@@ -56,7 +56,7 @@ public:
 
 	DataType map(const DataType& value,
 				 const DataType& outputMin,
-				 const DataType& outputMax);
+				 const DataType& outputMax) const;
 
 	void setRange(const DataType& minimum, const DataType& maximum);
 
@@ -123,7 +123,7 @@ Axis_<DataType>::~Axis_()
 template<typename DataType>
 DataType Axis_<DataType>::map(const DataType& value,
 							  const DataType& outputMin,
-							  const DataType& outputMax)
+							  const DataType& outputMax) const
 {
 	if (_inverted)
 	{
