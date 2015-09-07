@@ -58,16 +58,32 @@ void Bang::onDraw() const
     {
 		ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_DOWN));
     }
-//    else if (isPointerOver())
-//    {
-//        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_OVER));
-//    }
+    else if (isPointerOver())
+    {
+        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_OVER));
+    }
     else
     {
         ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_NORMAL));
     }
 
-    ofDrawRectRounded(0, 0, getWidth(), getHeight(), 3);
+	ofDrawRectRounded(0, 0, getWidth(), getHeight(), 3);
+
+
+	if (isPointerDown())
+	{
+		ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_DOWN));
+	}
+	else if (isPointerOver())
+	{
+		ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_OVER));
+	}
+	else
+	{
+		ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_NORMAL));
+	}
+
+	ofDrawRectRounded(5, 5, getWidth() - 10, getHeight() - 10, 3);
 
     ofNoFill();
     ofSetColor(getStyles()->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
