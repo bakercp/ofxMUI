@@ -157,14 +157,14 @@ void Styles::setColors(const ofColor& foreground,
 
 	_foreground[STATE_NORMAL] = foreground;
 	_foreground[STATE_OVER] = ofColor(foreground, 255);
-	_foreground[STATE_DOWN] = ofColor(accent, 255);
+	_foreground[STATE_DOWN] = ofColor(foreground, 255);
 	_foreground[STATE_DISABLED] = ofColor(foreground, 20);
 
 	std::vector<ofColor> _background(STATE_DISABLED + 1, ofColor());
 
 	_background[STATE_NORMAL] = background;
 	_background[STATE_OVER] = background;
-	_background[STATE_DOWN] = background;
+	_background[STATE_DOWN] = ofColor(background, 200);
 	_background[STATE_DISABLED] = ofColor(background, 20);
 
 	std::vector<ofColor> _accent(STATE_DISABLED + 1, ofColor());
