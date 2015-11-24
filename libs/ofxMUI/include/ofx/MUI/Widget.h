@@ -106,8 +106,10 @@ protected:
     /// \brief True iff the widget is currently being dragged.
     bool _isDragging;
 
+    /// \brief True iff the pointer is over the widget.
     bool _isPointerOver;
 
+    /// \brief True if the element should move to the fron upon pointer capture.
 	bool _moveToFrontOnCapture;
 
 private:
