@@ -241,6 +241,4 @@ void Widget::_onPointerCaptureEvent(DOM::PointerCaptureEvent& e)
 }
 
 
-
-
 } } // namespace ofx::MUI
