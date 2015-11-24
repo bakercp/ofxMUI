@@ -27,7 +27,6 @@
 	
 
 #include "ofx/MUI/Axis.h"
-#include "ofx/MUI/Series.h"
 #include "ofx/MUI/Widget.h"
 #include "ofx/MUI/Styles.h"
 
@@ -67,7 +66,6 @@ public:
 	void removeSeries(const std::string& series);
 
 	void clear();
-
 
 	Axis_<DataType> axes[2];
 
