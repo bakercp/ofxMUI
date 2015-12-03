@@ -33,26 +33,31 @@ namespace ofx {
 namespace MUI {
 
 
+/// \brief An Axis describes the behavior of one dimension of data in a series.
+/// \tparam DataType the data type described by the axis.
 template<typename DataType>
-class Axis_
+class Axis
 {
 public:
+    /// \brief Describes the axis scale.
 	enum Scale
 	{
+        /// \brief Linear scale.
 		LINEAR,
+        /// \brief Semilog scale.
 		SEMILOG
 	};
 
-	Axis_();
+	Axis();
 
-	Axis_(const DataType& minimum,
+	Axis(const DataType& minimum,
 		  const DataType& maximum,
 		  Scale scale,
 		  bool inverted,
 		  bool autoRange,
 		  bool clipped);
 
-	virtual ~Axis_();
+	virtual ~Axis();
 
 	DataType map(const DataType& value,
 				 const DataType& outputMin,
@@ -92,18 +97,18 @@ private:
 
 
 template<typename DataType>
-Axis_<DataType>::Axis_(): Axis_(0, 1, LINEAR, false, false, false)
+Axis<DataType>::Axis(): Axis(0, 1, LINEAR, false, false, false)
 {
 }
 
 
 template<typename DataType>
-Axis_<DataType>::Axis_(const DataType& minimum,
-					   const DataType& maximum,
-					   Scale scale,
-					   bool autoRange,
-					   bool inverted,
-					   bool clipped):
+Axis<DataType>::Axis(const DataType& minimum,
+                     const DataType& maximum,
+                     Scale scale,
+                     bool autoRange,
+                     bool inverted,
+                     bool clipped):
 	_minimum(std::min(minimum, maximum)),
 	_maximum(std::max(minimum, maximum)),
 	_autoRange(autoRange),
@@ -115,15 +120,15 @@ Axis_<DataType>::Axis_(const DataType& minimum,
 
 
 template<typename DataType>
-Axis_<DataType>::~Axis_()
+Axis<DataType>::~Axis()
 {
 }
 
 
 template<typename DataType>
-DataType Axis_<DataType>::map(const DataType& value,
-							  const DataType& outputMin,
-							  const DataType& outputMax) const
+DataType Axis<DataType>::map(const DataType& value,
+                             const DataType& outputMin,
+                             const DataType& outputMax) const
 {
 	if (_inverted)
 	{
@@ -137,7 +142,7 @@ DataType Axis_<DataType>::map(const DataType& value,
 
 
 template<typename DataType>
-void Axis_<DataType>::setRange(const DataType& minimum, const DataType& maximum)
+void Axis<DataType>::setRange(const DataType& minimum, const DataType& maximum)
 {
 	setMinimum(minimum);
 	setMaximum(maximum);
@@ -145,7 +150,7 @@ void Axis_<DataType>::setRange(const DataType& minimum, const DataType& maximum)
 
 
 template<typename DataType>
-void Axis_<DataType>::setMinimum(const DataType& minimum)
+void Axis<DataType>::setMinimum(const DataType& minimum)
 {
 	_minimum = minimum;
 
@@ -155,15 +160,16 @@ void Axis_<DataType>::setMinimum(const DataType& minimum)
 	}
 }
 
+
 template<typename DataType>
-const DataType& Axis_<DataType>::getMinimum() const
+const DataType& Axis<DataType>::getMinimum() const
 {
 	return _minimum;
 }
 
 
 template<typename DataType>
-void Axis_<DataType>::setMaximum(const DataType& maximum)
+void Axis<DataType>::setMaximum(const DataType& maximum)
 {
 	_maximum = maximum;
 
@@ -175,49 +181,49 @@ void Axis_<DataType>::setMaximum(const DataType& maximum)
 
 
 template<typename DataType>
-const DataType& Axis_<DataType>::getMaximum() const
+const DataType& Axis<DataType>::getMaximum() const
 {
 	return _maximum;
 }
 
 
 template<typename DataType>
-void Axis_<DataType>::setScale(Scale scale)
+void Axis<DataType>::setScale(Scale scale)
 {
 	_scale = scale;
 }
 
 
 template<typename DataType>
-typename Axis_<DataType>::Scale Axis_<DataType>::getScale() const
+typename Axis<DataType>::Scale Axis<DataType>::getScale() const
 {
 	return _scale;
 }
 
 
 template<typename DataType>
-void Axis_<DataType>::setInverted(bool inverted)
+void Axis<DataType>::setInverted(bool inverted)
 {
 	_inverted = inverted;
 }
 
 
 template<typename DataType>
-bool Axis_<DataType>::isInverted() const
+bool Axis<DataType>::isInverted() const
 {
 	return _inverted;
 }
 
 
 template<typename DataType>
-void Axis_<DataType>::setClipped(bool clipped)
+void Axis<DataType>::setClipped(bool clipped)
 {
 	_clipped = clipped;
 }
 
 
 template<typename DataType>
-bool Axis_<DataType>::isClipped() const
+bool Axis<DataType>::isClipped() const
 {
 	return _clipped;
 }
