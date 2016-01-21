@@ -1,6 +1,6 @@
 // =============================================================================
 //
-// Copyright (c) 2009-2015 Christopher Baker <http://christopherbaker.net>
+// Copyright (c) 2009-2016 Christopher Baker <http://christopherbaker.net>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,9 +26,9 @@
 #pragma once
 	
 
-#include "ofx/MUI/Types.h"
-#include "ofx/MUI/Widget.h"
 #include "ofx/MUI/Styles.h"
+#include "ofx/MUI/Types.h"
+#include "ofx/MUI/Utils.h"
 
 
 namespace ofx {
@@ -42,34 +42,42 @@ template<typename Type>
 class Slider: public Widget
 {
 public:
-    Slider(float x,
-           float y,
-           float width,
-           float height);
-
-    Slider(const std::string& id,
-           float x,
-           float y,
-           float width,
-           float height);
-
-    Slider(const std::string& id,
-           float x,
-           float y,
-           float width,
-           float height,
-           Orientation orientation,
-           DragMode mode);
+    /// \brief Create a Slider with the given parameters.
+    /// \param id The Widget's id string.
+    /// \param x x-position in parent coordinates.
+    /// \param y y-position in parent coordinates.
+    /// \param width The width (x-dimension) of Widget.
+    /// \param height The height (y-dimension) of Widget.
+    /// \param orientation The orientation of the Slider.
+    /// \param mode The DragMode of the Slider.
+    Slider(const std::string& id = "",
+           float x = 0,
+           float y = 0,
+           float width = DEFAULT_WIDTH,
+           float height = DEFAULT_HEIGHT,
+           Orientation orientation = Orientation::DEFAULT,
+           DragMode mode = DragMode::ABSOLUTE);
 
     /// \brief Destroy the Slider.
     virtual ~Slider();
 
     virtual void onDraw() const override;
 
+    /// \returns the current DragMode.
     DragMode getDragMode() const;
+
+    /// \brief Set the current DragMode.
+    ///
+    /// DragMode affects how a slider interprets drags.
+    ///
+    /// \param mode The DragMode to set.
     void setDragMode(DragMode mode);
 
+    /// \returns the current orientation.
     Orientation getOrientation() const;
+
+    /// \brief Set the Orientation of the slider.
+    /// \param the Desired Orientation.
     void setOrientation(Orientation orientation);
 
     /// \brief Determine if the slider direction inverted.
@@ -90,37 +98,84 @@ public:
     /// \param inverted true if the Slider direction should be inverted.
     void setInverted(bool inverted);
 
-    void onPointerEvent(DOM::PointerEvent& e);
-    void onPointerCaptureEvent(DOM::PointerCaptureEvent& e);
+    /// \brief Pointer event callback.
+    /// \param evt The event data.
+    void onPointerEvent(DOM::PointerUIEventArgs& e);
 
-    ofParameter<Type> value;
+    /// \brief Pointer event callback.
+    /// \param evt The event data.
+    void onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e);
 
-	ofEvent<Type> onValueChanged;
+    /// \brief Bind this adapter to an existing parameter.
+    /// \param parameter The parameter to bind to.
+    /// void makeReferenceTo(ofParameter<Type>& parameter);
 
-	template<class ListenerClass, typename ListenerMethod>
-	void addListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
-	{
-		ofAddListener(onValueChanged, listener, method, priority);
-	}
+    /// \brief Add listeners to this onValueChanged event.
+    /// \tparam ListenerClass The class type of the listener.
+    /// \tparam ListenerMethod The name of the listener method.
+    /// \param listener A pointer to the listener instance.
+    /// \param method A pointer to the listener method.
+    /// \param prioirty The order priority of this listener.
+    template<class ListenerClass, typename ListenerMethod>
+    void addListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
+    {
+        ofAddListener(onValueChanged, listener, method, priority);
+    }
 
-	template<class ListenerClass, typename ListenerMethod>
-	void removeListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
-	{
-		ofRemoveListener(onValueChanged, listener, method, priority);
-	}
+    /// \brief Remove listeners to this onValueChanged event.
+    /// \tparam ListenerClass The class type of the listener.
+    /// \tparam ListenerMethod The name of the listener method.
+    /// \param listener A pointer to the listener instance.
+    /// \param method A pointer to the listener method.
+    /// \param prioirty The order priority of this listener.
+    template<class ListenerClass, typename ListenerMethod>
+    void removeListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
+    {
+        ofRemoveListener(onValueChanged, listener, method, priority);
+    }
+
+    /// \brief A callback for the parameter change.
+    ofEvent<Type> onValueChanged;
+
+    /// \brief The assignment operator.
+    /// \param v Value to assign.
+    /// \returns the assigned value.
+    Type operator = (Type v);
+
+    /// \brief Dereference operator.
+    operator const Type& ();
+
+    void setMin(const Type& min);
+    Type getMin() const;
+
+    void setMax(const Type& max);
+    Type getMax() const;
+
+    enum
+    {
+        DEFAULT_WIDTH = 40,
+        DEFAULT_HEIGHT = 100
+    };
 
 protected:
-
     /// \brief Get the effective orientation.
     /// \returns only Orientation::LANDSCAPE or Orientation::HORIZONTAL.
-    Orientation getEffectiveOrientation() const;
+    Orientation _getEffectiveOrientation() const;
 
     /// \brief Get the active axis index.
     /// \returns 0 for X or 1 for Y.
-    std::size_t getActiveAxisIndex() const;
+    std::size_t _getActiveAxisIndex() const;
+
+    /// \brief A callback for any resize events.
+    /// \param value The DOM::ResizeEvent arguments.
+    void _onResize(DOM::ResizeEventArgs&);
+
+    /// \brief A callback for the ParameterWidget's value.
+    /// \param value The the updated value.
+    void _onValueChanged(const void* sender, Type& value);
 
     /// \brief The Slider orientation.
-    Orientation _orientation = Orientation::LANDSCAPE;
+    Orientation _orientation = Orientation::HORIZONTAL;
 
     /// \brief The drag mode.
     DragMode _dragMode = DragMode::RELATIVE;
@@ -138,13 +193,8 @@ protected:
     /// \brief Is the Slider direction inverted.
     bool _isInverted = false;
 
-    /// \brief A callback for the Slider's value.
-    /// \param value The the updated value.
-    void _onValueChanged(Type& value);
-
-    /// \brief A callback for any resize events.
-    /// \param value The DOM::ResizeEvent arguments.
-    void _onResize(DOM::ResizeEvent& value);
+    /// \brief The parameter to watch.
+    ofParameter<Type> _value;
 
 private:
     /// \brief False when the _effectiveOrientation needs to be recalculated.
@@ -157,37 +207,6 @@ private:
 
 
 template<typename Type>
-Slider<Type>::Slider(float x,
-                     float y,
-                     float width,
-                     float height):
-    Slider<Type>::Slider("",
-                         x,
-                         y,
-                         width,
-                         height)
-{
-}
-
-
-template<typename Type>
-Slider<Type>::Slider(const std::string& id,
-                     float x,
-                     float y,
-                     float width,
-                     float height):
-    Slider<Type>::Slider(id,
-                         x,
-                         y,
-                         width,
-                         height,
-                         Orientation::AUTO,
-                         DragMode::ABSOLUTE)
-{
-}
-
-
-template<typename Type>
 Slider<Type>::Slider(const std::string& id,
                      float x,
                      float y,
@@ -196,17 +215,21 @@ Slider<Type>::Slider(const std::string& id,
                      Orientation orientation,
                      DragMode dragMode):
     Widget(id, x, y, width, height),
-    value(id, 0, 0, 1),
+    _value(id, 0, 0, 1),
     _orientation(orientation),
-    _dragMode(dragMode)
+    _dragMode(dragMode),
+    _effectiveOrientation(_getEffectiveOrientation())
 {
-    value.addListener(this, &Slider<Type>::_onValueChanged, std::numeric_limits<int>::min());
+    _value.addListener(this,
+                       &Slider<Type>::_onValueChanged,
+                       std::numeric_limits<Type>::lowest());
+
     addEventListener(pointerDown, &Slider<Type>::onPointerEvent);
     addEventListener(pointerMove, &Slider<Type>::onPointerEvent);
     addEventListener(gotPointerCapture, &Slider<Type>::onPointerCaptureEvent);
     addEventListener(lostPointerCapture, &Slider<Type>::onPointerCaptureEvent);
 
-    ofAddListener(resize, this, &Slider<Type>::_onResize, std::numeric_limits<int>::min());
+    ofAddListener(Widget::resize, this, &Slider<Type>::_onResize, std::numeric_limits<int>::min());
 
 	setImplicitPointerCapture(true);
 }
@@ -215,19 +238,22 @@ Slider<Type>::Slider(const std::string& id,
 template<typename Type>
 Slider<Type>::~Slider()
 {
-    value.removeListener(this, &Slider<Type>::_onValueChanged, std::numeric_limits<int>::min());
+    // Remove the listener from the local or bound parameters.
+    _value.removeListener(this,
+                          &Slider<Type>::_onValueChanged,
+                          std::numeric_limits<Type>::lowest());
+
     removeEventListener(pointerDown, &Slider<Type>::onPointerEvent);
     removeEventListener(pointerMove, &Slider<Type>::onPointerEvent);
     removeEventListener(gotPointerCapture, &Slider<Type>::onPointerCaptureEvent);
     removeEventListener(lostPointerCapture, &Slider<Type>::onPointerCaptureEvent);
 
     ofRemoveListener(resize, this, &Slider<Type>::_onResize, std::numeric_limits<int>::min());
-
 }
 
 
 template<typename Type>
-void Slider<Type>::onPointerEvent(DOM::PointerEvent& e)
+void Slider<Type>::onPointerEvent(DOM::PointerUIEventArgs& e)
 {
     if (e.pointer().id() == _primaryPointerId)
     {
@@ -235,13 +261,13 @@ void Slider<Type>::onPointerEvent(DOM::PointerEvent& e)
             PointerEventArgs::POINTER_MOVE == e.type())
         {
             // Convert to integer to avoid warnings w/ Point.
-            std::size_t axisIndex = getActiveAxisIndex();
+            std::size_t axisIndex = _getActiveAxisIndex();
 
             // Local position.
             float position = screenToLocal(e.pointer().point())[static_cast<int>(axisIndex)];
 
-            Type valueMin = value.getMin();
-            Type valueMax = value.getMax();
+            Type valueMin = _value.getMin();
+            Type valueMax = _value.getMax();
 
             if (_isInverted)
             {
@@ -251,16 +277,16 @@ void Slider<Type>::onPointerEvent(DOM::PointerEvent& e)
             float sliderMin = 0;
             float sliderMax = getSize()[static_cast<int>(axisIndex)];
 
-            if (Orientation::PORTRAIT == getEffectiveOrientation())
+            if (Orientation::VERTICAL == _getEffectiveOrientation())
             {
                 std::swap(sliderMin, sliderMax);
             }
 
-            Type _value = ofMap(position,
-                                sliderMin,
-                                sliderMax,
-                                valueMin,
-                                valueMax);
+            Type _lerpedValue = Math::lerp(position,
+                                           sliderMin,
+                                           sliderMax,
+                                           valueMin,
+                                           valueMax);
 
             if (DragMode::RELATIVE == _dragMode)
             {
@@ -269,31 +295,34 @@ void Slider<Type>::onPointerEvent(DOM::PointerEvent& e)
                     // Find the difference between the current value
                     // and the value underneath the pointer.  This is
                     // the value offset.
-                    _valueOffset = (value - _value);
+                    _valueOffset = (_value - _lerpedValue);
                     return;
                 }
                 else
                 {
                     // Add the value offset to the calculated value based
                     // on the poiter position.
-                    _value += _valueOffset;
+                    _lerpedValue += _valueOffset;
                 }
             }
 
-            value = ofClamp(_value, valueMin, valueMax);
+            _value = Math::clamp(_lerpedValue, valueMin, valueMax);
+
         }
     }
 }
 
 
 template<typename Type>
-void Slider<Type>::onPointerCaptureEvent(DOM::PointerCaptureEvent& e)
+void Slider<Type>::onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e)
 {
-    if (PointerEventArgs::GOT_POINTER_CAPTURE == e.type() && _primaryPointerId == 0)
+    if (PointerEventArgs::GOT_POINTER_CAPTURE == e.type() &&
+        _primaryPointerId == 0)
     {
         _primaryPointerId = e.id();
     }
-    else if (PointerEventArgs::LOST_POINTER_CAPTURE == e.type() && _primaryPointerId == e.id())
+    else if (PointerEventArgs::LOST_POINTER_CAPTURE == e.type() &&
+             _primaryPointerId == e.id())
     {
         _primaryPointerId = 0;
     }
@@ -305,65 +334,67 @@ void Slider<Type>::onDraw() const
 {
     ofFill();
 
+    std::shared_ptr<Styles> styles = getStyles();
+
     if (isPointerDown())
     {
-        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_DOWN));
+        ofSetColor(styles->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_DOWN));
     }
     else if (isPointerOver())
     {
-        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_OVER));
+        ofSetColor(styles->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_OVER));
     }
     else
     {
-		ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_NORMAL));
+		ofSetColor(styles->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_NORMAL));
     }
 
-    ofDrawRectRounded(0, 0, getWidth(), getHeight(), 3);
+    ofDrawRectangle(0, 0, getWidth(), getHeight());
 
     ofNoFill();
 
-	ofSetColor(getStyles()->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
-    ofDrawRectRounded(0, 0, getWidth(), getHeight(), 3);
+	ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
+    ofDrawRectangle(0, 0, getWidth(), getHeight());
 
     Orientation orientation = _orientation;
 
-    if (Orientation::AUTO == orientation)
+    if (Orientation::DEFAULT == orientation)
     {
-        orientation = (getWidth() > getHeight()) ? Orientation::LANDSCAPE : Orientation::PORTRAIT;
+        orientation = (getWidth() > getHeight()) ? Orientation::HORIZONTAL : Orientation::VERTICAL;
     }
 
     ofFill();
 
     if (isPointerDown())
     {
-        ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_DOWN));
+        ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_DOWN));
     }
     else if (isPointerOver())
     {
-        ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_OVER));
+        ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_OVER));
     }
     else
     {
-        ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_NORMAL));
+        ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_NORMAL));
     }
 
-    Type min = value.getMin();
-    Type max = value.getMax();
+    Type min = _value.getMin();
+    Type max = _value.getMax();
 
     if (_isInverted)
     {
         std::swap(min, max);
     }
 
-    if (Orientation::LANDSCAPE == orientation)
+    if (Orientation::HORIZONTAL == orientation)
     {
-        float x = ofMap(value, min, max, 0, getWidth());
-        ofDrawRectRounded(0, 0, x, getHeight(), 3);
+        float x = Math::lerp(_value, min, max, 0, getWidth(), true);
+        ofDrawRectangle(0, 0, x, getHeight());
     }
     else
     {
-        float y = ofMap(value, min, max, getHeight(), 0);
-        ofDrawRectRounded(0, y, getWidth(), getHeight() - y, 3);
+        float y = Math::lerp(_value, min, max, getHeight(), 0, true);
+        ofDrawRectangle(0, y, getWidth(), getHeight() - y);
     }
 }
 
@@ -392,8 +423,8 @@ Orientation Slider<Type>::getOrientation() const
 template<typename Type>
 void Slider<Type>::setOrientation(Orientation orientation)
 {
-    if (orientation == Orientation::AUTO &&
-       _orientation != Orientation::AUTO)
+    if (orientation == Orientation::DEFAULT &&
+       _orientation != Orientation::DEFAULT)
     {
         _effectiveOrientationInvalid = true;
     }
@@ -417,13 +448,13 @@ void Slider<Type>::setInverted(bool inverted)
 
 
 template<typename Type>
-Orientation Slider<Type>::getEffectiveOrientation() const
+Orientation Slider<Type>::_getEffectiveOrientation() const
 {
-    if (Orientation::AUTO == _orientation)
+    if (Orientation::DEFAULT == _orientation)
     {
         if (_effectiveOrientationInvalid)
         {
-            _effectiveOrientation = getWidth() > getHeight() ? Orientation::LANDSCAPE : Orientation::PORTRAIT;
+            _effectiveOrientation = getWidth() > getHeight() ? Orientation::HORIZONTAL : Orientation::VERTICAL;
             _effectiveOrientationInvalid = false;
         }
 
@@ -437,27 +468,89 @@ Orientation Slider<Type>::getEffectiveOrientation() const
 
 
 template<typename Type>
-std::size_t Slider<Type>::getActiveAxisIndex() const
+std::size_t Slider<Type>::_getActiveAxisIndex() const
 {
-    return (getEffectiveOrientation() == Orientation::LANDSCAPE) ? 0 : 1;
+    return (_getEffectiveOrientation() == Orientation::HORIZONTAL) ? 0 : 1;
 }
 
 
 template<typename Type>
-void Slider<Type>::_onValueChanged(Type& value)
-{
-	ofNotifyEvent(onValueChanged, value, this);
-}
-
-
-template<typename Type>
-void Slider<Type>::_onResize(DOM::ResizeEvent& value)
+void Slider<Type>::_onResize(DOM::ResizeEventArgs&)
 {
     _effectiveOrientationInvalid = true;
 }
 
 
+template<typename Type>
+void Slider<Type>::_onValueChanged(const void* sender, Type& value)
+{
+    // We forward the event changes as sent by the slider.
+    ofNotifyEvent(onValueChanged, value, this);
+}
+
+
+//template<typename Type>
+//void Slider<Type>::makeReferenceTo(ofParameter<Type>& parameter)
+//{
+//    // 1. Remove the reference to the internal parameter.
+//    _value.removeListener(this,
+//                              &Slider<Type>::_onValueChanged,
+//                              std::numeric_limits<Type>::lowest());
+//    // 2. Make the internal parameter a refefence to the external parameter.
+//    _value.makeReferenceTo(parameter);
+//    // 3. Make this instance a listener to the external parameter.
+//    _value.addListener(this,
+//                           &Slider<Type>::_onValueChanged,
+//                           std::numeric_limits<Type>::lowest());
+//}
+
+
+template<typename Type>
+Type Slider<Type>::operator=(Type v)
+{
+    _value = v;
+    return v;
+}
+
+
+template<typename Type>
+Slider<Type>::operator const Type& ()
+{
+    return _value;
+}
+
+
+template<typename Type>
+void Slider<Type>::setMin(const Type& min)
+{
+    _value.setMin(min);
+}
+
+
+template<typename Type>
+Type Slider<Type>::getMin() const
+{
+    return _value.getMin();
+}
+
+
+template<typename Type>
+void Slider<Type>::setMax(const Type& max)
+{
+    _value.setMax(max);
+}
+
+
+template<typename Type>
+Type Slider<Type>::getMax() const
+{
+    return _value.getMax();
+}
+
+
+typedef Slider<int> IntSlider;
 typedef Slider<float> FloatSlider;
+typedef Slider<double> DoubleSlider;
 
 
 } } // ofx::MUI

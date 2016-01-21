@@ -1,6 +1,6 @@
-    // =============================================================================
+// =============================================================================
 //
-// Copyright (c) 2009-2015 Christopher Baker <http://christopherbaker.net>
+// Copyright (c) 2009-2016 Christopher Baker <http://christopherbaker.net>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,10 +39,20 @@ class Styles;
 class MUI: public DOM::Document
 {
 public:
-	MUI();
+    enum Scale
+    {
+        SMALL,
+        MEDIUM,
+        LARGE,
+        X
+    };
+
+    MUI();
 	virtual ~MUI();
 
+
 	std::shared_ptr<Styles> getDocumentStyles() const;
+    
 	void setDocumentStyles(std::shared_ptr<Styles> documentStyles);
 
 protected:

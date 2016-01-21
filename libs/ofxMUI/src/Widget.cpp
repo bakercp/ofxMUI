@@ -1,6 +1,6 @@
 // =============================================================================
 //
-// Copyright (c) 2009-2015 Christopher Baker <http://christopherbaker.net>
+// Copyright (c) 2009-2016 Christopher Baker <http://christopherbaker.net>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -40,12 +40,7 @@ Widget::Widget(float x, float y, float width, float height):
 
 
 Widget::Widget(const std::string& id, float x, float y, float width, float height):
-    DOM::Element(id, x, y, width, height),
-	_isDropTarget(false),
-	_isDraggable(false),
-	_isDragging(false),
-	_isPointerOver(false),
-	_moveToFrontOnCapture(true)
+    DOM::Element(id, x, y, width, height)
 {
     addEventListener(pointerMove, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
     addEventListener(pointerDown, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
@@ -91,7 +86,6 @@ void Widget::onDraw() const
 	{
 		state = Styles::STATE_OVER;
 	}
-
 
     ofFill();
     ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, state));
@@ -190,7 +184,51 @@ void Widget::setStyles(std::shared_ptr<Styles> styles)
 }
 
 
-void Widget::_onPointerEvent(DOM::PointerEvent& e)
+std::unique_ptr<Layout> Widget::removeLayout()
+{
+    if (nullptr != _layout)
+    {
+        // Move the Layout.
+        std::unique_ptr<Layout> detachedLayout = std::move(_layout);
+
+        // Set the parent to nullptr.
+        detachedLayout->_parent = nullptr;
+
+        // Invalidate all cached child geometry.
+        invalidateChildGeometry();
+
+        // Return the detached child.
+        // If the return value is ignored, it will be deleted.
+
+        return detachedLayout;
+    }
+    else
+    {
+        // Return nullptr because we couldn't find anything.
+        return nullptr;
+    }
+}
+
+
+Layout* Widget::layout()
+{
+    // Returns nullptr if no object is owned.
+    return _layout.get();
+}
+
+
+void Widget::invalidateChildGeometry() const
+{
+    DOM::Element::invalidateChildGeometry();
+
+    if (nullptr != _layout)
+    {
+        _layout->doLayout();
+    }
+}
+
+
+void Widget::_onPointerEvent(DOM::PointerUIEventArgs& e)
 {
 	if (e.type() == PointerEventArgs::POINTER_DOWN)
 	{
@@ -219,10 +257,14 @@ void Widget::_onPointerEvent(DOM::PointerEvent& e)
 	{
 		_isPointerOver = false;
 	}
+    else
+    {
+       // cout << "unhandled " << e.type() << endl;
+    }
 }
 
 
-void Widget::_onPointerCaptureEvent(DOM::PointerCaptureEvent& e)
+void Widget::_onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e)
 {
 	if (e.type() == PointerEventArgs::GOT_POINTER_CAPTURE)
 	{
@@ -238,6 +280,28 @@ void Widget::_onPointerCaptureEvent(DOM::PointerCaptureEvent& e)
 	{
 		_isDragging = false;
 	}
+}
+
+
+std::vector<Widget*> Widget::getChildWidgets()
+{
+    std::vector<Widget*> results;
+
+    auto iter = _children.begin();
+
+    while (iter != _children.end())
+    {
+        Widget* pWidget = dynamic_cast<Widget*>(iter->get());
+
+        if (pWidget)
+        {
+            results.push_back(pWidget);
+        }
+
+        ++iter;
+    }
+
+    return results;
 }
 
 

@@ -23,7 +23,7 @@
 // =============================================================================
 
 
-#include "ofx/MUI/Axis.h"
+#include "ofx/MUI/Utils.h"
 
 
 namespace ofx {
@@ -32,6 +32,3 @@ namespace MUI {
 
 
 } } // namespace ofx::MUI
-
-
-

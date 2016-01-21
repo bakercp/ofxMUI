@@ -1,6 +1,6 @@
 // =============================================================================
 //
-// Copyright (c) 2009-2015 Christopher Baker <http://christopherbaker.net>
+// Copyright (c) 2009-2016 Christopher Baker <http://christopherbaker.net>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,31 @@ namespace ofx {
 namespace MUI {
 
 
+enum class Density
+{
+    LOW,
+    MEDIUM,
+    HIGH,
+    EXTRA_HIGH,
+    EXTRA_EXTRA_HIGH,
+    EXTRA_EXTRA_EXTRA_HIGH
+};
+
+
+enum class Scale
+{
+    EXTRA_EXTRA_EXTRA_SMALL,
+    EXTRA_EXTRA_SMALL,
+    EXTRA_SMALL,
+    SMALL,
+    MEDIUM,
+    LARGE,
+    EXTRA_LARGE,
+    EXTRA_EXTRA_LARGE,
+    EXTRA_EXTRA_EXTRA_LARGE
+};
+
+
 /// \brief The drag mode of the Widget.
 ///
 /// The drag mode determines how the Pointer interacts with the Widget.
@@ -46,16 +71,30 @@ enum class DragMode
 };
 
 
-/// \brief The orientation of an Element.
+/// \brief The orientation of a Widget.
+/// \todo Replace this with ofOrientation.
+
+//    OF_ORIENTATION_DEFAULT = 1,
+//    OF_ORIENTATION_180 = 2,
+//    OF_ORIENTATION_90_LEFT = 3,
+//    OF_ORIENTATION_90_RIGHT = 4,
+//    OF_ORIENTATION_UNKNOWN = 5
+
 enum class Orientation
 {
-	/// \brief Sets the Orientation based on the aspect ratio.
-	AUTO,
 	/// \brief Locks the Orientation to landscape.
-	LANDSCAPE,
+	HORIZONTAL,
 	/// \brief Locks the Orientation to portrait.
-	PORTRAIT
+	VERTICAL,
+    /// \brief Sets the Orientation based on the aspect ratio.
+    DEFAULT
 };
+
+
+//public class AbstractMap
+
+
+
 
 
 } } // ofx::MUI

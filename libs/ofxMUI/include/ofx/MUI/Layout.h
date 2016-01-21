@@ -1,6 +1,6 @@
 // =============================================================================
 //
-// Copyright (c) 2009-2015 Christopher Baker <http://christopherbaker.net>
+// Copyright (c) 2009-2016 Christopher Baker <http://christopherbaker.net>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,41 +24,63 @@
 
 
 #pragma once
-	
 
-#include "ofx/MUI/Widget.h"
+
+#include <vector>
+#include "ofx/MUI/Types.h"
 
 
 namespace ofx {
 namespace MUI {
 
 
-class Bang: public Widget
+class Widget;
+
+
+/// \brief A base class for laying out Widgets.
+class Layout
 {
 public:
-    Bang(float x, float y, float width, float height);
+    Layout(Widget* parent);
 
-    Bang(const std::string& id, float x, float y, float width, float height);
+    /// \brief Destroy the layout.
+    virtual ~Layout();
 
-    virtual ~Bang();
+    Widget* parent();
 
-    virtual void onDraw() const override;
+    bool isDoingLayout() const;
 
-    /// \brief Default callback for built-in events, including dragging.
-    void _onPointerEvent(DOM::PointerEvent& e);
+    std::vector<Widget*> getWidgets();
 
-    /// \brief Default callback for built-in events, including dragging.
-    void _onPointerCaptureEvent(DOM::PointerCaptureEvent& e);
+    /// \brief Do
+    virtual void doLayout() = 0;
 
-    ofEvent<bool> bang;
 
 protected:
+    /// \brief The owning Widget class.
+    Widget* _parent = nullptr;
 
-    /// \brief Update the value immediately on press.
-    bool _setValueOnRelease = false;
+    bool _isDoingLayout = false;
 
-    /// \brief Require that release is over the button.
-    bool _requireReleaseOver = true;
+    friend class Widget;
+};
+
+
+class BoxLayout: public Layout
+{
+public:
+    /// If the Orientation::DEFAULT is chosen, the default will be set to
+    /// Orientation::HORIZONTAL.
+    BoxLayout(Widget* parent, Orientation orientation = Orientation::HORIZONTAL);
+
+    virtual ~BoxLayout();
+
+    virtual void doLayout() override;
+
+    Orientation orientation() const;
+
+protected:
+    Orientation _orientation = Orientation::HORIZONTAL;
 
 };
 

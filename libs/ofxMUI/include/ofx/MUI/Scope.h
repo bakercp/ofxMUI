@@ -1,6 +1,6 @@
 // =============================================================================
 //
-// Copyright (c) 2009-2015 Christopher Baker <http://christopherbaker.net>
+// Copyright (c) 2009-2016 Christopher Baker <http://christopherbaker.net>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,7 @@ namespace ofx {
 namespace MUI {
 
 
+/// \brief A simple data plotter.
 template<typename DataType>
 class Scope: public Widget
 {
@@ -67,7 +68,7 @@ public:
 
 	void clear();
 
-	Axis_<DataType> axes[2];
+	Axis<DataType> axes[2];
 
 protected:
 	typedef std::deque<DataType> Buffer;
@@ -75,6 +76,7 @@ protected:
 	/// \brief The maximum number of data points to buffer.
 	std::size_t _maxSize;
 
+    /// \brief A collection of data.
 	std::unordered_map<std::string, std::pair<Buffer, ofColor>> _data;
 
 };
@@ -108,7 +110,6 @@ template<typename DataType>
 Scope<DataType>::~Scope()
 {
 }
-
 
 
 template<typename DataType>
@@ -181,8 +182,6 @@ void Scope<DataType>::setColor(const std::string& series, const ofColor& value)
 		_data[series] = std::pair<Buffer, ofColor>(Buffer(), value);
 	}
 }
-	
-
 
 
 template<typename DataType>

@@ -1,6 +1,6 @@
 // =============================================================================
 //
-// Copyright (c) 2009-2015 Christopher Baker <http://christopherbaker.net>
+// Copyright (c) 2009-2016 Christopher Baker <http://christopherbaker.net>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,47 @@
 // =============================================================================
 
 
-#include "ofx/MUI/Slider.h"
+#include "ofx/MUI/ButtonGroup.h"
 
 
 namespace ofx {
 namespace MUI {
 
 
+ButtonGroup::ButtonGroup(const std::string& id,
+                         float x,
+                         float y,
+                         float width,
+                         float height,
+                         bool exclusive,
+                         Orientation orientation):
+    Widget(id, x, y, width, height),
+    _exclusive(exclusive),
+    _orientation(orientation)
+{
+    createLayout<BoxLayout>(this, orientation);
+}
+
+
+ButtonGroup::~ButtonGroup()
+{
+}
+
+
+void ButtonGroup::onDraw() const
+{
+    ofSetColor(255, 127);
+    ofFill();
+    ofDrawRectangle(0, 0, getWidth(), getHeight());
+}
+
+
+    //
+//Button* ButtonGroup::addButton(const std::string& name)
+//{
+//    return nullptr;
+//}
+//
 
 } } // namespace ofx::MUI
 

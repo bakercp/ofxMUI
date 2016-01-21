@@ -26,34 +26,70 @@
 #pragma once
 	
 
+#include "ofx/MUI/Types.h"
 #include "ofx/MUI/Widget.h"
+#include "ofx/MUI/Button.h"
 
 
 namespace ofx {
 namespace MUI {
 
 
-class Panel: public Widget
+class ButtonGroup;
+
+
+class ButtonGroupEventArgs
 {
 public:
-    Panel(float x, float y, float width, float height):
-        Panel("", x, y, width, height)
+
+
+private:
+    std::size_t _index;
+    Button* _button;
+    ButtonGroup* _buttonGroup;
+
+};
+
+
+class ButtonGroup: public Widget
+{
+public:
+    ButtonGroup(const std::string& id,
+                float x = 0,
+                float y = 0,
+                float width = Button::DEFAULT_WIDTH,
+                float height = Button::DEFAULT_HEIGHT,
+                bool exclusive = true,
+                Orientation orientation = Orientation::HORIZONTAL);
+
+    virtual ~ButtonGroup();
+
+    virtual void onDraw() const override;
+
+//    Button* addButton(const std::string& id);
+//
+////
+//    Button* removeButton(const std::string& id);
+//    Button* removeButton(std::size_t index);
+//
+//    Button* getButton(const std::string& id);
+//    Button* getButton(std::size_t index);
+//
+    template <typename WidgetType, typename... Args>
+    WidgetType* addButton(Args&&... args)
     {
+        static_assert(std::is_base_of<Button, WidgetType>::value, "WidgetType not derived from Button");
+        return addChild(std::make_unique<WidgetType>(std::forward<Args>(args)...));
     }
 
-    Panel(const std::string& id, float x, float y, float width, float height):
-        Widget(id, x, y, width, height),
-		_resizeable(false)
-    {
-        setDraggable(true);
-    }
-
-    virtual ~Panel()
-    {
-    }
+    ofEvent<int> onValueChanged;
 
 protected:
-	bool _resizeable;
+    /// \brief If true, only one Button can be checked at a time.
+    bool _exclusive = true;
+
+    /// \brief The ButtonGroup orientation.
+    Orientation _orientation = Orientation::HORIZONTAL;
 
 };
 

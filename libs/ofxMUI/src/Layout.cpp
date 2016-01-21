@@ -23,15 +23,90 @@
 // =============================================================================
 
 
-#include "ofx/MUI/Axis.h"
+#include "ofx/MUI/Layout.h"
+#include "ofx/MUI/Widget.h"
+#include <iostream>
 
 
 namespace ofx {
 namespace MUI {
 
 
+Layout::Layout(Widget* parent): _parent(parent)
+{
+}
+
+
+Layout::~Layout()
+{
+}
+
+
+Widget* Layout::parent()
+{
+    return _parent;
+}
+
+
+std::vector<Widget*> Layout::getWidgets()
+{
+    std::vector<Widget*> results;
+
+    if (_parent)
+    {
+        results = _parent->getChildWidgets();
+    }
+
+    return results;
+}
+
+
+BoxLayout::BoxLayout(Widget* parent, Orientation orientation):
+    Layout(parent),
+    _orientation((orientation == Orientation::DEFAULT) ? Orientation::HORIZONTAL : orientation)
+{
+}
+
+
+BoxLayout::~BoxLayout()
+{
+}
+
+
+void BoxLayout::doLayout()
+{
+    if (_parent && !_isDoingLayout)
+    {
+        _isDoingLayout = true;
+
+        float totalHeight = 0;
+        float currentX = 0;
+        float currentY = 0;
+
+        auto widgets = getWidgets();
+
+        auto iter = widgets.begin();
+
+        while (iter != widgets.end())
+        {
+            auto& widget = *(*iter);
+            widget.setPosition(currentX, currentY);
+            totalHeight = std::max(totalHeight, widget.getHeight());
+            currentX += widget.getWidth();
+            ++iter;
+        }
+
+        _parent->setSize(currentX, totalHeight);
+
+        _isDoingLayout = false;
+    }
+}
+
+
+Orientation BoxLayout::orientation() const
+{
+    return _orientation;
+}
+
 
 } } // namespace ofx::MUI
-
-
-

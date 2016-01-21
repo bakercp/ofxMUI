@@ -23,15 +23,55 @@
 // =============================================================================
 
 
-#include "ofx/MUI/Axis.h"
+#pragma once
+
+
+#include <cmath>
+#include <limits>
+#include <algorithm>
 
 
 namespace ofx {
 namespace MUI {
 
 
+class Math
+{
+public:
+    static double lerp(double inputValue,
+                       double inputMin,
+                       double inputMax,
+                       double outputMin,
+                       double outputMax,
+                       bool clampOutput)
+    {
+        if (fabs(inputMin - inputMax) < std::numeric_limits<double>::epsilon())
+        {
+            return outputMin;
+        }
+        else
+        {
+            double outputValue = ((inputValue - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
 
-} } // namespace ofx::MUI
+            if (clampOutput)
+            {
+                return clamp(outputValue, outputMin, outputMax);
+            }
+            else
+            {
+                return outputValue;
+            }
+        }
+    }
 
 
+    template <typename Type>
+    static Type clamp(const Type& inputValue, const Type& inputMin, const Type& inputMax)
+    {
+        return std::max(inputMax, std::min(inputValue, inputMax));
+    }
 
+};
+
+
+} } // ofx::MUI
