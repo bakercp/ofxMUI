@@ -82,9 +82,12 @@ public:
         return addChild(std::make_unique<WidgetType>(std::forward<Args>(args)...));
     }
 
-    ofEvent<int> onValueChanged;
+//    ofEvent<int> onValueChanged;
 
 protected:
+    DOM::DOMEvent<ButtonEventArgs> onButtonEvent;
+    void _onButtonEvent(ButtonEventArgs& e);
+
     /// \brief If true, only one Button can be checked at a time.
     bool _exclusive = true;
 

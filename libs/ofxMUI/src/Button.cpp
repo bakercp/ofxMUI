@@ -106,6 +106,18 @@ bool Button::getPointerOverOnRelease() const
 }
 
 
+bool Button::autoExclusive() const
+{
+    return _autoExclusive;
+}
+
+
+std::size_t Button::stateCount() const
+{
+    return _stateCount;
+}
+
+
 void Button::onDraw() const
 {
     if (isPointerDown())
@@ -138,6 +150,13 @@ void Button::onDraw() const
 
 	ofDrawRectangle(5, 5, getWidth() - 10, getHeight() - 10);
 
+//    if (_value)
+//    {
+//        ofFill();
+//        ofSetColor(getStyles()->getColor(Styles::ROLE_ACCENT, Styles::STATE_DOWN));
+//        ofDrawRectangle(10, 10, getWidth() - 20, getHeight() - 20);
+//    }
+
     ofNoFill();
     ofSetColor(getStyles()->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
     ofDrawRectangle(0, 0, getWidth(), getHeight());
@@ -149,7 +168,6 @@ void Button::onPointerEvent(DOM::PointerUIEventArgs& e)
 {
     if (e.type() == PointerEventArgs::POINTER_DOWN)
     {
-        // ofNotifyEvent(onButtonDown, this);
         ButtonEventArgs buttonDown(ButtonEventArgs::BUTTON_DOWN,
                                    this,
                                    this,
@@ -184,8 +202,6 @@ void Button::onPointerEvent(DOM::PointerUIEventArgs& e)
                                  e.timestamp());
         this->dispatchEvent(buttonUp);
 
-//        ofNotifyEvent(onButtonUp, this);
-
         ButtonEventArgs buttonPressed(ButtonEventArgs::BUTTON_PRESSED,
                                       this,
                                       this,
@@ -193,9 +209,8 @@ void Button::onPointerEvent(DOM::PointerUIEventArgs& e)
                                       true,
                                       true,
                                       e.timestamp());
-        this->dispatchEvent(buttonPressed);
 
-//        ofNotifyEvent(onButtonPressed, this);
+        this->dispatchEvent(buttonPressed);
     }
 }
 
@@ -236,6 +251,20 @@ Button::operator const int& ()
 void Button::_incrementState()
 {
     _value = (_value + 1) % _stateCount;
+
+    if (_autoExclusive)
+    {
+        for (auto& sibling : siblings<Button>())
+        {
+            sibling->_value.setWithoutEventNotifications(0);
+        }
+
+        _value = 1;
+    }
+    else
+    {
+        _value = (_value + 1) % _stateCount;
+    }
 }
 
 

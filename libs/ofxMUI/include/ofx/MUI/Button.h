@@ -106,6 +106,8 @@ public:
     void setPointerOverOnRelease(bool value);
     bool getPointerOverOnRelease() const;
 
+    bool autoExclusive() const;
+
     /// \brief Return the number of Button states.
     std::size_t stateCount() const;
 
@@ -147,22 +149,15 @@ public:
     ///
     /// This event follows the require release over policy.
     DOM::DOMEvent<ButtonEventArgs> onButtonPressed;
-    // ofEvent<void> onButtonPressed;
 
     /// \brief The event called when the button goes from an up to down state.
     DOM::DOMEvent<ButtonEventArgs> onButtonDown;
-//    ofEvent<void> onButtonDown;
 
     /// \brief The event called when the button goes from down to up state.
     DOM::DOMEvent<ButtonEventArgs> onButtonUp;
-//    ofEvent<void> onButtonUp;
 
     /// \brief The event that is set when the value of a button changes.
     ofEvent<int> onValueChanged;
-
-    /// \brief A callback for the ParameterWidget's value.
-    /// \param value The the updated value.
-    void _onValueChanged(const void* sender, int& value);
 
     /// \brief The assignment operator.
     /// \param v Value to assign.
@@ -179,8 +174,17 @@ public:
     };
 
 protected:
+    /// \brief A callback for the ParameterWidget's value.
+    /// \param value The the updated value.
+    void _onValueChanged(const void* sender, int& value);
+
     /// \brief Increment the current button state.
     void _incrementState();
+
+    /// \brief If true, will act as a radio button.
+    ///
+    /// It will disable all sibling autoExlusive buttons on press.
+    bool _autoExclusive = true;
 
     /// \brief Update the value immediately on press.
     bool _triggerOnRelease = false;
@@ -198,6 +202,8 @@ protected:
 
     /// \brief The parameter to watch.
     ofParameter<int> _value;
+
+    friend class ButtonGroup;
 
 };
 
@@ -236,7 +242,7 @@ public:
     virtual ~RadioButton();
     
     virtual void onDraw() const override;
-    
+
 };
 
 } } // ofx::MUI
