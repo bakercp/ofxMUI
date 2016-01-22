@@ -42,6 +42,9 @@ ButtonGroup::ButtonGroup(const std::string& id,
     _orientation(orientation)
 {
     createLayout<BoxLayout>(this, orientation);
+//    registerEventType(ButtonEventArgs::BUTTON_PRESSED, &onButtonPressed);
+//
+//    this->addEventListener(onButtonPressed, &ButtonGroup::_onButtonPressed, false, std::numeric_limits<int>::min());
 }
 
 

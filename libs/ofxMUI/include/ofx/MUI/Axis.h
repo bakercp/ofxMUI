@@ -35,7 +35,7 @@ namespace MUI {
 
 /// \brief An Axis describes the behavior of one dimension of data in a series.
 /// \tparam DataType the data type described by the axis.
-template<typename DataType>
+template <typename DataType>
 class Axis
 {
 public:
@@ -96,13 +96,13 @@ private:
 };
 
 
-template<typename DataType>
+template <typename DataType>
 Axis<DataType>::Axis(): Axis(0, 1, LINEAR, false, false, false)
 {
 }
 
 
-template<typename DataType>
+template <typename DataType>
 Axis<DataType>::Axis(const DataType& minimum,
                      const DataType& maximum,
                      Scale scale,
@@ -119,13 +119,13 @@ Axis<DataType>::Axis(const DataType& minimum,
 }
 
 
-template<typename DataType>
+template <typename DataType>
 Axis<DataType>::~Axis()
 {
 }
 
 
-template<typename DataType>
+template <typename DataType>
 DataType Axis<DataType>::map(const DataType& value,
                              const DataType& outputMin,
                              const DataType& outputMax) const
@@ -141,7 +141,7 @@ DataType Axis<DataType>::map(const DataType& value,
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Axis<DataType>::setRange(const DataType& minimum, const DataType& maximum)
 {
 	setMinimum(minimum);
@@ -149,7 +149,7 @@ void Axis<DataType>::setRange(const DataType& minimum, const DataType& maximum)
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Axis<DataType>::setMinimum(const DataType& minimum)
 {
 	_minimum = minimum;
@@ -161,14 +161,14 @@ void Axis<DataType>::setMinimum(const DataType& minimum)
 }
 
 
-template<typename DataType>
+template <typename DataType>
 const DataType& Axis<DataType>::getMinimum() const
 {
 	return _minimum;
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Axis<DataType>::setMaximum(const DataType& maximum)
 {
 	_maximum = maximum;
@@ -180,49 +180,49 @@ void Axis<DataType>::setMaximum(const DataType& maximum)
 }
 
 
-template<typename DataType>
+template <typename DataType>
 const DataType& Axis<DataType>::getMaximum() const
 {
 	return _maximum;
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Axis<DataType>::setScale(Scale scale)
 {
 	_scale = scale;
 }
 
 
-template<typename DataType>
+template <typename DataType>
 typename Axis<DataType>::Scale Axis<DataType>::getScale() const
 {
 	return _scale;
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Axis<DataType>::setInverted(bool inverted)
 {
 	_inverted = inverted;
 }
 
 
-template<typename DataType>
+template <typename DataType>
 bool Axis<DataType>::isInverted() const
 {
 	return _inverted;
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Axis<DataType>::setClipped(bool clipped)
 {
 	_clipped = clipped;
 }
 
 
-template<typename DataType>
+template <typename DataType>
 bool Axis<DataType>::isClipped() const
 {
 	return _clipped;

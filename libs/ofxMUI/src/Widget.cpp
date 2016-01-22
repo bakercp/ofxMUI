@@ -186,7 +186,7 @@ void Widget::setStyles(std::shared_ptr<Styles> styles)
 
 std::unique_ptr<Layout> Widget::removeLayout()
 {
-    if (nullptr != _layout)
+    if (_layout)
     {
         // Move the Layout.
         std::unique_ptr<Layout> detachedLayout = std::move(_layout);
@@ -221,7 +221,7 @@ void Widget::invalidateChildGeometry() const
 {
     DOM::Element::invalidateChildGeometry();
 
-    if (nullptr != _layout)
+    if (_layout)
     {
         _layout->doLayout();
     }

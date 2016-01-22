@@ -119,12 +119,12 @@ public:
     /// \returns A pointer to the added Layout. The parent Widget retains
     /// ownership of the pointer via a std::unique_ptr.
     /// \tparam LayoutType The Layout Type.
-    template<typename LayoutType>
+    template <typename LayoutType>
     LayoutType* setLayout(std::unique_ptr<LayoutType> layout)
     {
         static_assert(std::is_base_of<Layout, LayoutType>(), "LayoutType must be a a subclass of Layout.");
 
-        if (nullptr != layout)
+        if (layout)
         {
             // Get a raw pointer to the node for later.
             LayoutType* pLayout = layout.get();

@@ -38,7 +38,7 @@ namespace MUI {
 /// \brief Slider
 ///
 /// \tparam Type the data type represented by the Slider.
-template<typename Type>
+template <typename Type>
 class Slider: public Widget
 {
 public:
@@ -116,7 +116,7 @@ public:
     /// \param listener A pointer to the listener instance.
     /// \param method A pointer to the listener method.
     /// \param prioirty The order priority of this listener.
-    template<class ListenerClass, typename ListenerMethod>
+    template <class ListenerClass, typename ListenerMethod>
     void addListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
     {
         ofAddListener(onValueChanged, listener, method, priority);
@@ -128,7 +128,7 @@ public:
     /// \param listener A pointer to the listener instance.
     /// \param method A pointer to the listener method.
     /// \param prioirty The order priority of this listener.
-    template<class ListenerClass, typename ListenerMethod>
+    template <class ListenerClass, typename ListenerMethod>
     void removeListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
     {
         ofRemoveListener(onValueChanged, listener, method, priority);
@@ -206,7 +206,7 @@ private:
 };
 
 
-template<typename Type>
+template <typename Type>
 Slider<Type>::Slider(const std::string& id,
                      float x,
                      float y,
@@ -235,7 +235,7 @@ Slider<Type>::Slider(const std::string& id,
 }
 
 
-template<typename Type>
+template <typename Type>
 Slider<Type>::~Slider()
 {
     // Remove the listener from the local or bound parameters.
@@ -252,7 +252,7 @@ Slider<Type>::~Slider()
 }
 
 
-template<typename Type>
+template <typename Type>
 void Slider<Type>::onPointerEvent(DOM::PointerUIEventArgs& e)
 {
     if (e.pointer().id() == _primaryPointerId)
@@ -313,7 +313,7 @@ void Slider<Type>::onPointerEvent(DOM::PointerUIEventArgs& e)
 }
 
 
-template<typename Type>
+template <typename Type>
 void Slider<Type>::onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e)
 {
     if (PointerEventArgs::GOT_POINTER_CAPTURE == e.type() &&
@@ -329,7 +329,7 @@ void Slider<Type>::onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e)
 }
 
 
-template<typename Type>
+template <typename Type>
 void Slider<Type>::onDraw() const
 {
     ofFill();
@@ -399,28 +399,28 @@ void Slider<Type>::onDraw() const
 }
 
 
-template<typename Type>
+template <typename Type>
 DragMode Slider<Type>::getDragMode() const
 {
     return _dragMode;
 }
 
 
-template<typename Type>
+template <typename Type>
 void Slider<Type>::setDragMode(DragMode dragMode)
 {
     _dragMode = dragMode;
 }
 
 
-template<typename Type>
+template <typename Type>
 Orientation Slider<Type>::getOrientation() const
 {
     return _orientation;
 }
 
 
-template<typename Type>
+template <typename Type>
 void Slider<Type>::setOrientation(Orientation orientation)
 {
     if (orientation == Orientation::DEFAULT &&
@@ -433,21 +433,21 @@ void Slider<Type>::setOrientation(Orientation orientation)
 }
 
 
-template<typename Type>
+template <typename Type>
 bool Slider<Type>::isInverted() const
 {
     return _isInverted;
 }
 
 
-template<typename Type>
+template <typename Type>
 void Slider<Type>::setInverted(bool inverted)
 {
     _isInverted = inverted;
 }
 
 
-template<typename Type>
+template <typename Type>
 Orientation Slider<Type>::_getEffectiveOrientation() const
 {
     if (Orientation::DEFAULT == _orientation)
@@ -467,21 +467,21 @@ Orientation Slider<Type>::_getEffectiveOrientation() const
 }
 
 
-template<typename Type>
+template <typename Type>
 std::size_t Slider<Type>::_getActiveAxisIndex() const
 {
     return (_getEffectiveOrientation() == Orientation::HORIZONTAL) ? 0 : 1;
 }
 
 
-template<typename Type>
+template <typename Type>
 void Slider<Type>::_onResize(DOM::ResizeEventArgs&)
 {
     _effectiveOrientationInvalid = true;
 }
 
 
-template<typename Type>
+template <typename Type>
 void Slider<Type>::_onValueChanged(const void* sender, Type& value)
 {
     // We forward the event changes as sent by the slider.
@@ -489,7 +489,7 @@ void Slider<Type>::_onValueChanged(const void* sender, Type& value)
 }
 
 
-//template<typename Type>
+//template <typename Type>
 //void Slider<Type>::makeReferenceTo(ofParameter<Type>& parameter)
 //{
 //    // 1. Remove the reference to the internal parameter.
@@ -505,7 +505,7 @@ void Slider<Type>::_onValueChanged(const void* sender, Type& value)
 //}
 
 
-template<typename Type>
+template <typename Type>
 Type Slider<Type>::operator=(Type v)
 {
     _value = v;
@@ -513,35 +513,35 @@ Type Slider<Type>::operator=(Type v)
 }
 
 
-template<typename Type>
+template <typename Type>
 Slider<Type>::operator const Type& ()
 {
     return _value;
 }
 
 
-template<typename Type>
+template <typename Type>
 void Slider<Type>::setMin(const Type& min)
 {
     _value.setMin(min);
 }
 
 
-template<typename Type>
+template <typename Type>
 Type Slider<Type>::getMin() const
 {
     return _value.getMin();
 }
 
 
-template<typename Type>
+template <typename Type>
 void Slider<Type>::setMax(const Type& max)
 {
     _value.setMax(max);
 }
 
 
-template<typename Type>
+template <typename Type>
 Type Slider<Type>::getMax() const
 {
     return _value.getMax();

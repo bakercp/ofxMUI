@@ -31,6 +31,16 @@ namespace ofx {
 namespace MUI {
 
 
+const std::string ButtonEventArgs::BUTTON_DOWN = "buttondown";
+const std::string ButtonEventArgs::BUTTON_UP = "buttonup";
+const std::string ButtonEventArgs::BUTTON_PRESSED = "buttonpressed";
+
+
+ButtonEventArgs::~ButtonEventArgs()
+{
+}
+
+
 Button::Button(const std::string& id,
                float x,
                float y,
@@ -39,6 +49,10 @@ Button::Button(const std::string& id,
     Widget(id, x, y, width, height),
     _value(id, 0, 0, _stateCount)
 {
+    registerEventType(ButtonEventArgs::BUTTON_DOWN, &onButtonDown);
+    registerEventType(ButtonEventArgs::BUTTON_UP, &onButtonUp);
+    registerEventType(ButtonEventArgs::BUTTON_PRESSED, &onButtonPressed);
+
     _value.addListener(this,
                        &Button::_onValueChanged,
                        std::numeric_limits<int>::lowest());
@@ -135,7 +149,16 @@ void Button::onPointerEvent(DOM::PointerUIEventArgs& e)
 {
     if (e.type() == PointerEventArgs::POINTER_DOWN)
     {
-        ofNotifyEvent(onButtonDown, this);
+        // ofNotifyEvent(onButtonDown, this);
+        ButtonEventArgs buttonDown(ButtonEventArgs::BUTTON_DOWN,
+                                   this,
+                                   this,
+                                   nullptr,
+                                   true,
+                                   true,
+                                   e.timestamp());
+
+        this->dispatchEvent(buttonDown);
 
         if (!_triggerOnRelease)
         {
@@ -152,8 +175,27 @@ void Button::onPointerEvent(DOM::PointerUIEventArgs& e)
             _incrementState();
         }
 
-        ofNotifyEvent(onButtonUp, this);
-        ofNotifyEvent(onButtonPressed, this);
+        ButtonEventArgs buttonUp(ButtonEventArgs::BUTTON_UP,
+                                 this,
+                                 this,
+                                 nullptr,
+                                 true,
+                                 true,
+                                 e.timestamp());
+        this->dispatchEvent(buttonUp);
+
+//        ofNotifyEvent(onButtonUp, this);
+
+        ButtonEventArgs buttonPressed(ButtonEventArgs::BUTTON_PRESSED,
+                                      this,
+                                      this,
+                                      nullptr,
+                                      true,
+                                      true,
+                                      e.timestamp());
+        this->dispatchEvent(buttonPressed);
+
+//        ofNotifyEvent(onButtonPressed, this);
     }
 }
 

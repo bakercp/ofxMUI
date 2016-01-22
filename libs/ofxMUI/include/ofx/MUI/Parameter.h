@@ -44,7 +44,7 @@
 ///// the data and the view.
 /////
 ///// \tparam Type the data type represented by the Parameter.
-//template<typename Type>
+//template <typename Type>
 //class Parameter
 //{
 //public:
@@ -68,7 +68,7 @@
 //    /// \param listener A pointer to the listener instance.
 //    /// \param method A pointer to the listener method.
 //    /// \param prioirty The order priority of this listener.
-//    template<class ListenerClass, typename ListenerMethod>
+//    template <class ListenerClass, typename ListenerMethod>
 //    void addListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
 //    {
 //        ofAddListener(onParameterChanged, listener, method, priority);
@@ -80,7 +80,7 @@
 //    /// \param listener A pointer to the listener instance.
 //    /// \param method A pointer to the listener method.
 //    /// \param prioirty The order priority of this listener.
-//    template<class ListenerClass, typename ListenerMethod>
+//    template <class ListenerClass, typename ListenerMethod>
 //    void removeListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
 //    {
 //        ofRemoveListener(onParameterChanged, listener, method, priority);
@@ -108,7 +108,7 @@
 //};
 //
 //
-//template<typename Type>
+//template <typename Type>
 //Parameter<Type>::Parameter()
 //{
 //    _parameter.addListener(this,
@@ -118,7 +118,7 @@
 //
 //
 //
-//template<typename Type>
+//template <typename Type>
 //Parameter<Type>::Parameter(ofParameter<Type> parameter):
 //    _parameter(parameter)
 //{
@@ -128,7 +128,7 @@
 //}
 //
 //
-//template<typename Type>
+//template <typename Type>
 //Parameter<Type>::~Parameter()
 //{
 //    // Remove the listener from the local or bound parameters.
@@ -138,7 +138,7 @@
 //}
 //
 //
-//template<typename Type>
+//template <typename Type>
 //void Parameter<Type>::makeReferenceTo(ofParameter<Type>& parameter)
 //{
 //    // 1. Remove the reference to the internal parameter.
@@ -152,21 +152,21 @@
 //}
 //
 //
-//template<typename Type>
+//template <typename Type>
 //Type Parameter<Type>::operator=(Type v)
 //{
 //    _parameter = v;
 //    return v;
 //}
 //
-//template<typename Type>
+//template <typename Type>
 //Parameter<Type>::operator const Type& ()
 //{
 //    return _parameter;
 //}
 //
 //
-////template<typename Type>
+////template <typename Type>
 ////void Parameter<Type>::_onParameterChanged(const void* sender, Type& value)
 ////{
 ////    // We forward the event changes as sent by the slider.

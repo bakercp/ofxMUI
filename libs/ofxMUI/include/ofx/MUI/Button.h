@@ -26,11 +26,30 @@
 #pragma once
 	
 
+#include "ofx/DOM/Events.h"
 #include "ofx/MUI/Widget.h"
 
 
 namespace ofx {
 namespace MUI {
+
+
+class Button;
+
+
+class ButtonEventArgs: public DOM::EventArgs
+{
+public:
+    using DOM::EventArgs::EventArgs;
+
+    virtual ~ButtonEventArgs();
+
+    static const std::string BUTTON_DOWN;
+    static const std::string BUTTON_UP;
+    static const std::string BUTTON_PRESSED;
+
+};
+
 
 
 /// \brief A simple one state push button.
@@ -58,7 +77,7 @@ namespace MUI {
 //
 //    /// \brief The event called when the button goes from down to up state.
 //    ofEvent<void> onButtonUp;
-
+///
 class Button: public Widget
 {
 public:
@@ -106,7 +125,7 @@ public:
     /// \param listener A pointer to the listener instance.
     /// \param method A pointer to the listener method.
     /// \param prioirty The order priority of this listener.
-    template<class ListenerClass, typename ListenerMethod>
+    template <class ListenerClass, typename ListenerMethod>
     void addListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
     {
         ofAddListener(onValueChanged, listener, method, priority);
@@ -118,7 +137,7 @@ public:
     /// \param listener A pointer to the listener instance.
     /// \param method A pointer to the listener method.
     /// \param prioirty The order priority of this listener.
-    template<class ListenerClass, typename ListenerMethod>
+    template <class ListenerClass, typename ListenerMethod>
     void removeListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
     {
         ofRemoveListener(onValueChanged, listener, method, priority);
@@ -127,13 +146,16 @@ public:
     /// \brief Event called when button is pressed and released.
     ///
     /// This event follows the require release over policy.
-    ofEvent<void> onButtonPressed;
+    DOM::DOMEvent<ButtonEventArgs> onButtonPressed;
+    // ofEvent<void> onButtonPressed;
 
     /// \brief The event called when the button goes from an up to down state.
-    ofEvent<void> onButtonDown;
+    DOM::DOMEvent<ButtonEventArgs> onButtonDown;
+//    ofEvent<void> onButtonDown;
 
     /// \brief The event called when the button goes from down to up state.
-    ofEvent<void> onButtonUp;
+    DOM::DOMEvent<ButtonEventArgs> onButtonUp;
+//    ofEvent<void> onButtonUp;
 
     /// \brief The event that is set when the value of a button changes.
     ofEvent<int> onValueChanged;

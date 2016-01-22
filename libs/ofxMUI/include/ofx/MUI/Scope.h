@@ -36,7 +36,7 @@ namespace MUI {
 
 
 /// \brief A simple data plotter.
-template<typename DataType>
+template <typename DataType>
 class Scope: public Widget
 {
 public:
@@ -83,7 +83,7 @@ protected:
 
 
 
-template<typename DataType>
+template <typename DataType>
 Scope<DataType>::Scope(float x,
 					   float y,
 					   float width,
@@ -93,7 +93,7 @@ Scope<DataType>::Scope(float x,
 }
 	
 
-template<typename DataType>
+template <typename DataType>
 Scope<DataType>::Scope(const std::string& id,
 					   float x,
 					   float y,
@@ -106,13 +106,13 @@ Scope<DataType>::Scope(const std::string& id,
 }
 
 
-template<typename DataType>
+template <typename DataType>
 Scope<DataType>::~Scope()
 {
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Scope<DataType>::onDraw() const
 {
 	ofSetColor(getStyles()->getColor(Styles::ROLE_TEXT, Styles::STATE_NORMAL));
@@ -154,21 +154,21 @@ void Scope<DataType>::onDraw() const
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Scope<DataType>::setMaxSize(std::size_t maxSize)
 {
 	_maxSize = maxSize;
 }
 
 
-template<typename DataType>
+template <typename DataType>
 std::size_t Scope<DataType>::getMaxSize() const
 {
 	return _maxSize;
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Scope<DataType>::setColor(const std::string& series, const ofColor& value)
 {
 	auto a = _data.find(series);
@@ -184,7 +184,7 @@ void Scope<DataType>::setColor(const std::string& series, const ofColor& value)
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Scope<DataType>::add(const std::string& series, const DataType& value)
 {
 	auto a = _data.find(series);
@@ -206,14 +206,14 @@ void Scope<DataType>::add(const std::string& series, const DataType& value)
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Scope<DataType>::removeSeries(const std::string& series)
 {
 	_data.erase(_data.find(series));
 }
 
 
-template<typename DataType>
+template <typename DataType>
 void Scope<DataType>::clear()
 {
 	_data.clear();
