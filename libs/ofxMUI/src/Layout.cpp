@@ -79,6 +79,7 @@ void BoxLayout::doLayout()
     {
         _isDoingLayout = true;
 
+        float totalWidth = 0;
         float totalHeight = 0;
         float currentX = 0;
         float currentY = 0;
@@ -90,13 +91,26 @@ void BoxLayout::doLayout()
         while (iter != widgets.end())
         {
             auto& widget = *(*iter);
+
             widget.setPosition(currentX, currentY);
-            totalHeight = std::max(totalHeight, widget.getHeight());
-            currentX += widget.getWidth();
+
+            if (_orientation == Orientation::HORIZONTAL)
+            {
+                totalHeight = std::max(totalHeight, widget.getHeight());
+                currentX += widget.getWidth();
+                totalWidth = currentX;
+            }
+            else
+            {
+                totalWidth = std::max(totalWidth, widget.getWidth());
+                currentY += widget.getHeight();
+                totalHeight = currentY;
+            }
+
             ++iter;
         }
 
-        _parent->setSize(currentX, totalHeight);
+        _parent->setSize(totalWidth, totalHeight);
 
         _isDoingLayout = false;
     }

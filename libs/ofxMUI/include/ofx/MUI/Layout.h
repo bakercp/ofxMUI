@@ -71,7 +71,7 @@ class BoxLayout: public Layout
 public:
     /// If the Orientation::DEFAULT is chosen, the default will be set to
     /// Orientation::HORIZONTAL.
-    BoxLayout(Widget* parent, Orientation orientation = Orientation::HORIZONTAL);
+    BoxLayout(Widget* parent, Orientation orientation = Orientation::VERTICAL);
 
     virtual ~BoxLayout();
 
