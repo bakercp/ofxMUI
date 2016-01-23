@@ -29,16 +29,20 @@
 namespace ofx {
 namespace MUI {
 
+ButtonGroup::ButtonGroup(const std::string& id,
+                         Orientation orientation):
+    ButtonGroup(id, 0, 0, 0, 0, orientation)
+{
+}
+
 
 ButtonGroup::ButtonGroup(const std::string& id,
                          float x,
                          float y,
                          float width,
                          float height,
-                         bool exclusive,
                          Orientation orientation):
     Widget(id, x, y, width, height),
-    _exclusive(exclusive),
     _orientation(orientation)
 {
     createLayout<BoxLayout>(this, orientation);
