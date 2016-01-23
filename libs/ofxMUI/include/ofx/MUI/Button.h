@@ -87,24 +87,28 @@ public:
     /// \param y y-position in parent coordinates.
     /// \param width The width (x-dimension) of Widget.
     /// \param height The height (y-dimension) of Widget.
+    /// \param autoExclusive If true, behaves like an exclusive radio button.
+    /// \param triggersOnRelease If true, the button is toggled only on release.
+    /// \param requirePointerOverOnRelease Require a pointer to be over the
+    ///        button to trigger to change states.
+    /// \param stateCount The number of values for multi-state buttons.
     Button(const std::string& id = "",
            float x = 0,
            float y = 0,
            float width = DEFAULT_WIDTH,
-           float height = DEFAULT_HEIGHT);
+           float height = DEFAULT_HEIGHT,
+           bool autoExclusive = false,
+           bool triggersOnRelease = false,
+           bool requirePointerOverOnRelease = true,
+           std::size_t stateCount = 1);
 
     /// \brief Destroy the Button.
     virtual ~Button();
 
-    /// \brief Trigger value changes on Button release.
-    /// \param value True if the value should be changed on Button release.
-    void setTriggerOnRelease(bool value);
-
     /// \returns true iff the value should be changed on Button release.
-    bool getTriggerOnRelease() const;
+    bool triggersOnRelease() const;
 
-    void setPointerOverOnRelease(bool value);
-    bool getPointerOverOnRelease() const;
+    bool requirePointerOverOnRelease() const;
 
     bool autoExclusive() const;
 
@@ -187,10 +191,10 @@ protected:
     bool _autoExclusive = true;
 
     /// \brief Update the value immediately on press.
-    bool _triggerOnRelease = false;
+    bool _triggersOnRelease = false;
 
     /// \brief Require that release is over the button.
-    bool _pointerOverOnRelease = true;
+    bool _requirePointerOverOnRelease = true;
 
     /// \brief How many states can this button represent?
     std::size_t _stateCount = 1;
@@ -218,11 +222,18 @@ public:
     /// \param y y-position in parent coordinates.
     /// \param width The width (x-dimension) of Widget.
     /// \param height The height (y-dimension) of Widget.
+    /// \param autoExclusive If true, behaves like an exclusive radio button.
+    /// \param triggersOnRelease If true, the button is toggled only on release.
+    /// \param requirePointerOverOnRelease Require a pointer to be over the
+    ///        button to trigger to change states.
     ToggleButton(const std::string& id = "",
                  float x = 0,
                  float y = 0,
                  float width = DEFAULT_WIDTH,
-                 float height = DEFAULT_HEIGHT);
+                 float height = DEFAULT_HEIGHT,
+                 bool autoExclusive = false,
+                 bool triggersOnRelease = false,
+                 bool requirePointerOverOnRelease = true);
 
     /// \brief Destroy the ToggleButton
     virtual ~ToggleButton();
@@ -233,15 +244,27 @@ public:
 
 
 /// \brief A two state Radio style button.
-class RadioButton: public ToggleButton
+class RadioButton: public Button
 {
 public:
-    using ToggleButton::ToggleButton;
+    /// \brief Create a RadioButton with the given parameters.
+    /// \param id The Widget's id string.
+    /// \param x x-position in parent coordinates.
+    /// \param y y-position in parent coordinates.
+    /// \param width The width (x-dimension) of Widget.
+    /// \param height The height (y-dimension) of Widget.
+    RadioButton(const std::string& id = "",
+                float x = 0,
+                float y = 0,
+                float width = DEFAULT_WIDTH,
+                float height = DEFAULT_HEIGHT);
 
     /// \brief Destroy the ToggleButton
     virtual ~RadioButton();
     
     virtual void onDraw() const override;
+
+    virtual bool hitTest(const DOM::Position& parentPosition) const override;
 
 };
 

@@ -45,8 +45,16 @@ Button::Button(const std::string& id,
                float x,
                float y,
                float width,
-               float height):
+               float height,
+               bool autoExclusive,
+               bool triggersOnRelease,
+               bool requirePointerOverOnRelease,
+               std::size_t stateCount):
     Widget(id, x, y, width, height),
+    _autoExclusive(autoExclusive),
+    _triggersOnRelease(triggersOnRelease),
+    _requirePointerOverOnRelease(requirePointerOverOnRelease),
+    _stateCount(stateCount),
     _value(id, 0, 0, _stateCount)
 {
     registerEventType(ButtonEventArgs::BUTTON_DOWN, &onButtonDown);
@@ -82,27 +90,15 @@ Button::~Button()
 }
 
 
-void Button::setTriggerOnRelease(bool value)
+bool Button::triggersOnRelease() const
 {
-    _triggerOnRelease = value;
+    return _triggersOnRelease;
 }
 
 
-bool Button::getTriggerOnRelease() const
+bool Button::requirePointerOverOnRelease() const
 {
-    return _triggerOnRelease;
-}
-
-
-void Button::setPointerOverOnRelease(bool value)
-{
-    _pointerOverOnRelease = value;
-}
-
-
-bool Button::getPointerOverOnRelease() const
-{
-    return _pointerOverOnRelease;
+    return _requirePointerOverOnRelease;
 }
 
 
@@ -178,7 +174,7 @@ void Button::onPointerEvent(DOM::PointerUIEventArgs& e)
 
         this->dispatchEvent(buttonDown);
 
-        if (!_triggerOnRelease)
+        if (!_triggersOnRelease)
         {
             _incrementState();
         }
@@ -186,9 +182,9 @@ void Button::onPointerEvent(DOM::PointerUIEventArgs& e)
     else if (e.type() == PointerEventArgs::POINTER_UP)
     {
 
-        if (_triggerOnRelease &&
-            (!_pointerOverOnRelease ||
-             (_pointerOverOnRelease && isPointerOver())))
+        if (_triggersOnRelease &&
+            (!_requirePointerOverOnRelease ||
+             (_requirePointerOverOnRelease && isPointerOver())))
         {
             _incrementState();
         }
@@ -272,11 +268,20 @@ ToggleButton::ToggleButton(const std::string& id,
                            float x,
                            float y,
                            float width,
-                           float height):
-    Button(id, x, y, width, height)
+                           float height,
+                           bool autoExclusive,
+                           bool triggersOnRelease,
+                           bool requirePointerOverOnRelease):
+    Button(id,
+           x,
+           y,
+           width,
+           height,
+           autoExclusive,
+           triggersOnRelease,
+           requirePointerOverOnRelease,
+           2)
 {
-    _stateCount = 2;
-    _value.setMax(_stateCount);
 }
 
 
@@ -297,6 +302,16 @@ void ToggleButton::onDraw() const
     }
 }
 
+
+
+RadioButton::RadioButton(const std::string& id,
+                         float x,
+                         float y,
+                         float width,
+                         float height):
+    Button(id, x, y, width, height, true, false, true)
+{
+}
 
 
 RadioButton::~RadioButton()
@@ -320,7 +335,10 @@ void RadioButton::onDraw() const
 }
 
 
+bool RadioButton::hitTest(const DOM::Position& parentPosition) const
+{
+    return getGeometry().getCenter().distance(parentPosition) < (getWidth() - 10) / 2.0;
+}
+
+
 } } // namespace ofx::MUI
-
-
-

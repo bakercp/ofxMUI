@@ -55,41 +55,35 @@ class ButtonGroup: public Widget
 {
 public:
     ButtonGroup(const std::string& id,
+                Orientation orientation);
+
+    ButtonGroup(const std::string& id,
                 float x = 0,
                 float y = 0,
                 float width = Button::DEFAULT_WIDTH,
                 float height = Button::DEFAULT_HEIGHT,
-                bool exclusive = true,
-                Orientation orientation = Orientation::HORIZONTAL);
+                Orientation orientation = Orientation::VERTICAL);
 
     virtual ~ButtonGroup();
 
     virtual void onDraw() const override;
 
-//    Button* addButton(const std::string& id);
-//
-////
-//    Button* removeButton(const std::string& id);
-//    Button* removeButton(std::size_t index);
-//
-//    Button* getButton(const std::string& id);
-//    Button* getButton(std::size_t index);
-//
-    template <typename WidgetType, typename... Args>
-    WidgetType* addButton(Args&&... args)
+    template <typename... Args>
+    RadioButton* addRadioButton(Args&&... args)
     {
-        static_assert(std::is_base_of<Button, WidgetType>::value, "WidgetType not derived from Button");
-        return addChild(std::make_unique<WidgetType>(std::forward<Args>(args)...));
-    }
+        RadioButton* button = addChild(std::make_unique<RadioButton>(std::forward<Args>(args)...));
 
-//    ofEvent<int> onValueChanged;
+        if (button->siblings<Button>().empty())
+        {
+            button->_value.setWithoutEventNotifications(1);
+        }
+
+        return button;
+    }
 
 protected:
     DOM::DOMEvent<ButtonEventArgs> onButtonEvent;
     void _onButtonEvent(ButtonEventArgs& e);
-
-    /// \brief If true, only one Button can be checked at a time.
-    bool _exclusive = true;
 
     /// \brief The ButtonGroup orientation.
     Orientation _orientation = Orientation::HORIZONTAL;

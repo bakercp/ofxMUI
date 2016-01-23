@@ -122,8 +122,6 @@ public:
     template <typename LayoutType>
     LayoutType* setLayout(std::unique_ptr<LayoutType> layout)
     {
-        static_assert(std::is_base_of<Layout, LayoutType>(), "LayoutType must be a a subclass of Layout.");
-
         if (layout)
         {
             // Get a raw pointer to the node for later.
