@@ -76,40 +76,24 @@ Widget::~Widget()
 
 void Widget::onDraw() const
 {
-	Styles::State state = Styles::STATE_NORMAL;
-
-	if (isDragging() || isPointerDown())
-	{
-		state = Styles::STATE_DOWN;
-	}
-	else if (isPointerOver())
-	{
-		state = Styles::STATE_OVER;
-	}
-
     ofFill();
-    ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, state));
+
+    auto styles = getStyles();
+
+    if (isPointerDown())
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_DOWN));
+    }
+    else if (isPointerOver())
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_OVER));
+    }
+    else
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_NORMAL));
+    }
+
     ofDrawRectangle(0, 0, getWidth(), getHeight());
-
-    ofNoFill();
-    ofSetColor(getStyles()->getColor(Styles::ROLE_BORDER, state));
-    ofDrawRectangle(0, 0, getWidth(), getHeight());
-
-	ofFill();
-	ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, state));
-	ofDrawRectangle(10, 10, getWidth() - 20, getHeight() - 20);
-
-	std::stringstream ss;
-
-	ss << getId() << std::endl;
-
-	if (!capturedPointers().empty())
-	{
-		ss << "CP: " << ofToString(capturedPointers()) << std::endl;
-	}
-
-	ofSetColor(getStyles()->getColor(Styles::ROLE_TEXT, state));
-	ofDrawBitmapString(ss.str(), 2, 12);
 
 
 }
@@ -184,50 +168,6 @@ void Widget::setStyles(std::shared_ptr<Styles> styles)
 }
 
 
-std::unique_ptr<Layout> Widget::removeLayout()
-{
-    if (_layout)
-    {
-        // Move the Layout.
-        std::unique_ptr<Layout> detachedLayout = std::move(_layout);
-
-        // Set the parent to nullptr.
-        detachedLayout->_parent = nullptr;
-
-        // Invalidate all cached child geometry.
-        invalidateChildGeometry();
-
-        // Return the detached child.
-        // If the return value is ignored, it will be deleted.
-
-        return detachedLayout;
-    }
-    else
-    {
-        // Return nullptr because we couldn't find anything.
-        return nullptr;
-    }
-}
-
-
-Layout* Widget::layout()
-{
-    // Returns nullptr if no object is owned.
-    return _layout.get();
-}
-
-
-void Widget::invalidateChildGeometry() const
-{
-    DOM::Element::invalidateChildGeometry();
-
-    if (_layout)
-    {
-        _layout->doLayout();
-    }
-}
-
-
 void Widget::_onPointerEvent(DOM::PointerUIEventArgs& e)
 {
 	if (e.type() == PointerEventArgs::POINTER_DOWN)
@@ -259,7 +199,7 @@ void Widget::_onPointerEvent(DOM::PointerUIEventArgs& e)
 	}
     else
     {
-       // cout << "unhandled " << e.type() << endl;
+        // unhandled.
     }
 }
 
@@ -280,28 +220,6 @@ void Widget::_onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e)
 	{
 		_isDragging = false;
 	}
-}
-
-
-std::vector<Widget*> Widget::getChildWidgets()
-{
-    std::vector<Widget*> results;
-
-    auto iter = _children.begin();
-
-    while (iter != _children.end())
-    {
-        Widget* pWidget = dynamic_cast<Widget*>(iter->get());
-
-        if (pWidget)
-        {
-            results.push_back(pWidget);
-        }
-
-        ++iter;
-    }
-
-    return results;
 }
 
 

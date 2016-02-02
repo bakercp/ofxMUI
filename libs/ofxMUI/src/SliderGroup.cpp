@@ -23,66 +23,44 @@
 // =============================================================================
 
 
-#pragma once
-
-
-#include <vector>
-#include "ofx/MUI/Types.h"
+#include "ofx/MUI/SliderGroup.h"
 
 
 namespace ofx {
 namespace MUI {
+    
 
-
-class Widget;
-
-
-/// \brief A base class for laying out Widgets.
-class Layout
+SliderGroup::SliderGroup(const std::string& id,
+                         DOM::Orientation orientation):
+    SliderGroup(id, 0, 0, 0, 0, orientation)
 {
-public:
-    Layout(Widget* parent);
-
-    /// \brief Destroy the layout.
-    virtual ~Layout();
-
-    Widget* parent();
-
-    bool isDoingLayout() const;
-
-    std::vector<Widget*> getWidgets();
-
-    /// \brief Do
-    virtual void doLayout() = 0;
+}
 
 
-protected:
-    /// \brief The owning Widget class.
-    Widget* _parent = nullptr;
-
-    bool _isDoingLayout = false;
-
-    friend class Widget;
-};
-
-
-class BoxLayout: public Layout
+SliderGroup::SliderGroup(const std::string& id,
+                         float x,
+                         float y,
+                         float width,
+                         float height,
+                         DOM::Orientation orientation):
+    Widget(id, x, y, width, height),
+    _orientation(orientation)
 {
-public:
-    /// If the Orientation::DEFAULT is chosen, the default will be set to
-    /// Orientation::HORIZONTAL.
-    BoxLayout(Widget* parent, Orientation orientation = Orientation::VERTICAL);
-
-    virtual ~BoxLayout();
-
-    virtual void doLayout() override;
-
-    Orientation orientation() const;
-
-protected:
-    Orientation _orientation = Orientation::HORIZONTAL;
-
-};
+    createLayout<DOM::BoxLayout>(this, orientation);
+}
 
 
-} } // ofx::MUI
+SliderGroup::~SliderGroup()
+{
+}
+
+
+void SliderGroup::onDraw() const
+{
+    ofSetColor(255, 127);
+    ofFill();
+    ofDrawRectangle(0, 0, getWidth(), getHeight());
+}
+
+
+} } // namespace ofx::MUI

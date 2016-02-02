@@ -44,6 +44,14 @@ class Slider: public Widget
 public:
     /// \brief Create a Slider with the given parameters.
     /// \param id The Widget's id string.
+    /// \param orientation The orientation of the Slider.
+    /// \param mode The DragMode of the Slider.
+    Slider(const std::string& id,
+           DOM::Orientation orientation,
+           DragMode mode = DragMode::ABSOLUTE);
+
+    /// \brief Create a Slider with the given parameters.
+    /// \param id The Widget's id string.
     /// \param x x-position in parent coordinates.
     /// \param y y-position in parent coordinates.
     /// \param width The width (x-dimension) of Widget.
@@ -55,7 +63,7 @@ public:
            float y = 0,
            float width = DEFAULT_WIDTH,
            float height = DEFAULT_HEIGHT,
-           Orientation orientation = Orientation::DEFAULT,
+           DOM::Orientation orientation = DOM::Orientation::DEFAULT,
            DragMode mode = DragMode::ABSOLUTE);
 
     /// \brief Destroy the Slider.
@@ -74,11 +82,11 @@ public:
     void setDragMode(DragMode mode);
 
     /// \returns the current orientation.
-    Orientation getOrientation() const;
+    DOM::Orientation getOrientation() const;
 
     /// \brief Set the Orientation of the slider.
     /// \param the Desired Orientation.
-    void setOrientation(Orientation orientation);
+    void setOrientation(DOM::Orientation orientation);
 
     /// \brief Determine if the slider direction inverted.
     ///
@@ -117,7 +125,9 @@ public:
     /// \param method A pointer to the listener method.
     /// \param prioirty The order priority of this listener.
     template <class ListenerClass, typename ListenerMethod>
-    void addListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
+    void addListener(ListenerClass* listener,
+                     ListenerMethod method,
+                     int priority = OF_EVENT_ORDER_AFTER_APP)
     {
         ofAddListener(onValueChanged, listener, method, priority);
     }
@@ -129,7 +139,9 @@ public:
     /// \param method A pointer to the listener method.
     /// \param prioirty The order priority of this listener.
     template <class ListenerClass, typename ListenerMethod>
-    void removeListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
+    void removeListener(ListenerClass* listener,
+                        ListenerMethod method,
+                        int priority = OF_EVENT_ORDER_AFTER_APP)
     {
         ofRemoveListener(onValueChanged, listener, method, priority);
     }
@@ -137,13 +149,9 @@ public:
     /// \brief A callback for the parameter change.
     ofEvent<Type> onValueChanged;
 
-    /// \brief The assignment operator.
-    /// \param v Value to assign.
-    /// \returns the assigned value.
-    Type operator = (Type v);
-
-    /// \brief Dereference operator.
-    operator const Type& ();
+    void setValueWithoutEventNotifications(const Type& value);
+    void setValue(const Type& value);
+    Type getValue() const;
 
     void setMin(const Type& min);
     Type getMin() const;
@@ -151,16 +159,42 @@ public:
     void setMax(const Type& max);
     Type getMax() const;
 
+    static float defaultWidthForOrientation(DOM::Orientation orientation)
+    {
+        switch (orientation)
+        {
+            case DOM::Orientation::DEFAULT:
+            case DOM::Orientation::HORIZONTAL:
+                return DEFAULT_HEIGHT;
+            case DOM::Orientation::VERTICAL:
+                return DEFAULT_WIDTH;
+        }
+    }
+
+    static float defaultHeightForOrientation(DOM::Orientation orientation)
+    {
+        switch (orientation)
+        {
+            case DOM::Orientation::DEFAULT:
+            case DOM::Orientation::HORIZONTAL:
+                return DEFAULT_WIDTH;
+            case DOM::Orientation::VERTICAL:
+                return DEFAULT_HEIGHT;
+        }
+    }
+
+    static const DOM::Orientation DEFAULT_ORIENTATION = DOM::Orientation::HORIZONTAL;
+
     enum
     {
-        DEFAULT_WIDTH = 40,
-        DEFAULT_HEIGHT = 100
+        DEFAULT_WIDTH = 15,
+        DEFAULT_HEIGHT = 300
     };
 
 protected:
     /// \brief Get the effective orientation.
     /// \returns only Orientation::LANDSCAPE or Orientation::HORIZONTAL.
-    Orientation _getEffectiveOrientation() const;
+    DOM::Orientation _getEffectiveOrientation() const;
 
     /// \brief Get the active axis index.
     /// \returns 0 for X or 1 for Y.
@@ -175,7 +209,7 @@ protected:
     void _onValueChanged(const void* sender, Type& value);
 
     /// \brief The Slider orientation.
-    Orientation _orientation = Orientation::HORIZONTAL;
+    DOM::Orientation _orientation = DOM::Orientation::HORIZONTAL;
 
     /// \brief The drag mode.
     DragMode _dragMode = DragMode::RELATIVE;
@@ -201,10 +235,23 @@ private:
     mutable bool _effectiveOrientationInvalid = true;
 
     /// \brief The effective orientation used when the orientation mode is AUTO.
-    mutable Orientation _effectiveOrientation;
+    mutable DOM::Orientation _effectiveOrientation;
 
 };
 
+
+template <typename Type>
+Slider<Type>::Slider(const std::string& id,
+                     DOM::Orientation orientation,
+                     DragMode mode):
+    Slider(id,
+           0,
+           0,
+           defaultWidthForOrientation(orientation),
+           defaultHeightForOrientation(orientation),
+           orientation)
+{
+}
 
 template <typename Type>
 Slider<Type>::Slider(const std::string& id,
@@ -212,7 +259,7 @@ Slider<Type>::Slider(const std::string& id,
                      float y,
                      float width,
                      float height,
-                     Orientation orientation,
+                     DOM::Orientation orientation,
                      DragMode dragMode):
     Widget(id, x, y, width, height),
     _value(id, 0, 0, 1),
@@ -277,7 +324,7 @@ void Slider<Type>::onPointerEvent(DOM::PointerUIEventArgs& e)
             float sliderMin = 0;
             float sliderMax = getSize()[static_cast<int>(axisIndex)];
 
-            if (Orientation::VERTICAL == _getEffectiveOrientation())
+            if (DOM::Orientation::VERTICAL == _getEffectiveOrientation())
             {
                 std::swap(sliderMin, sliderMax);
             }
@@ -287,6 +334,7 @@ void Slider<Type>::onPointerEvent(DOM::PointerUIEventArgs& e)
                                            sliderMax,
                                            valueMin,
                                            valueMax);
+
 
             if (DragMode::RELATIVE == _dragMode)
             {
@@ -332,36 +380,9 @@ void Slider<Type>::onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e)
 template <typename Type>
 void Slider<Type>::onDraw() const
 {
-    ofFill();
+    Widget::onDraw();
 
-    std::shared_ptr<Styles> styles = getStyles();
-
-    if (isPointerDown())
-    {
-        ofSetColor(styles->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_DOWN));
-    }
-    else if (isPointerOver())
-    {
-        ofSetColor(styles->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_OVER));
-    }
-    else
-    {
-		ofSetColor(styles->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_NORMAL));
-    }
-
-    ofDrawRectangle(0, 0, getWidth(), getHeight());
-
-    ofNoFill();
-
-	ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
-    ofDrawRectangle(0, 0, getWidth(), getHeight());
-
-    Orientation orientation = _orientation;
-
-    if (Orientation::DEFAULT == orientation)
-    {
-        orientation = (getWidth() > getHeight()) ? Orientation::HORIZONTAL : Orientation::VERTICAL;
-    }
+    auto styles = getStyles();
 
     ofFill();
 
@@ -378,6 +399,13 @@ void Slider<Type>::onDraw() const
         ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_NORMAL));
     }
 
+    DOM::Orientation orientation = _orientation;
+
+    if (DOM::Orientation::DEFAULT == orientation)
+    {
+        orientation = (getWidth() > getHeight()) ? DOM::Orientation::HORIZONTAL : DOM::Orientation::VERTICAL;
+    }
+
     Type min = _value.getMin();
     Type max = _value.getMax();
 
@@ -386,16 +414,20 @@ void Slider<Type>::onDraw() const
         std::swap(min, max);
     }
 
-    if (Orientation::HORIZONTAL == orientation)
+    if (DOM::Orientation::HORIZONTAL == orientation)
     {
-        float x = Math::lerp(_value, min, max, 0, getWidth(), true);
-        ofDrawRectangle(0, 0, x, getHeight());
+        float width = Math::lerp(_value, min, max, 0, getWidth(), true);
+        ofDrawRectangle(0, 0, width, getHeight());
     }
     else
     {
-        float y = Math::lerp(_value, min, max, getHeight(), 0, true);
-        ofDrawRectangle(0, y, getWidth(), getHeight() - y);
+        float height = Math::lerp(_value, min, max, 0, getHeight(), true);
+        ofDrawRectangle(0, getHeight(), getWidth(), - height);
     }
+
+    ofNoFill();
+    ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
+    ofDrawRectangle(0, 0, getWidth(), getHeight());
 }
 
 
@@ -414,17 +446,17 @@ void Slider<Type>::setDragMode(DragMode dragMode)
 
 
 template <typename Type>
-Orientation Slider<Type>::getOrientation() const
+DOM::Orientation Slider<Type>::getOrientation() const
 {
     return _orientation;
 }
 
 
 template <typename Type>
-void Slider<Type>::setOrientation(Orientation orientation)
+void Slider<Type>::setOrientation(DOM::Orientation orientation)
 {
-    if (orientation == Orientation::DEFAULT &&
-       _orientation != Orientation::DEFAULT)
+    if (orientation == DOM::Orientation::DEFAULT &&
+       _orientation != DOM::Orientation::DEFAULT)
     {
         _effectiveOrientationInvalid = true;
     }
@@ -448,13 +480,13 @@ void Slider<Type>::setInverted(bool inverted)
 
 
 template <typename Type>
-Orientation Slider<Type>::_getEffectiveOrientation() const
+DOM::Orientation Slider<Type>::_getEffectiveOrientation() const
 {
-    if (Orientation::DEFAULT == _orientation)
+    if (DOM::Orientation::DEFAULT == _orientation)
     {
         if (_effectiveOrientationInvalid)
         {
-            _effectiveOrientation = getWidth() > getHeight() ? Orientation::HORIZONTAL : Orientation::VERTICAL;
+            _effectiveOrientation = getWidth() > getHeight() ? DOM::Orientation::HORIZONTAL : DOM::Orientation::VERTICAL;
             _effectiveOrientationInvalid = false;
         }
 
@@ -470,7 +502,7 @@ Orientation Slider<Type>::_getEffectiveOrientation() const
 template <typename Type>
 std::size_t Slider<Type>::_getActiveAxisIndex() const
 {
-    return (_getEffectiveOrientation() == Orientation::HORIZONTAL) ? 0 : 1;
+    return (_getEffectiveOrientation() == DOM::Orientation::HORIZONTAL) ? 0 : 1;
 }
 
 
@@ -505,16 +537,23 @@ void Slider<Type>::_onValueChanged(const void* sender, Type& value)
 //}
 
 
+
 template <typename Type>
-Type Slider<Type>::operator=(Type v)
+void Slider<Type>::setValueWithoutEventNotifications(const Type& value)
 {
-    _value = v;
-    return v;
+    _value.setWithoutEventNotifications(value);
 }
 
 
 template <typename Type>
-Slider<Type>::operator const Type& ()
+void Slider<Type>::setValue(const Type& value)
+{
+    _value = value;
+}
+
+
+template <typename Type>
+Type Slider<Type>::getValue() const
 {
     return _value;
 }

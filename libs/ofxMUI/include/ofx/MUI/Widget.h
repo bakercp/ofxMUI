@@ -30,7 +30,6 @@
 #include "ofGraphics.h"
 #include "ofx/DOM/Element.h"
 #include "ofx/DOM/Events.h"
-#include "ofx/MUI/Layout.h"
 
 
 namespace ofx {
@@ -91,80 +90,12 @@ public:
 	/// \param style The style to set.
 	void setStyles(std::shared_ptr<Styles> styles);
 
-    /// \brief Create a Layout using a templated Layout type.
-    ///
-    /// To create a Layout you can use this method like:
-    ///
-    /// LayoutType* layout = parentWidget->createLayout<LayoutType>(arguments ...);
-    ///
-    /// \tparam ElementType The subclass of Element that will be added.
-    /// \tparam Args The variable constructor arguments for the ElementType.
-    /// \param args The variable constructor arguments for the ElementType.
-    /// \returns A pointer to the added Element. The parent Element retains
-    /// ownership of the pointer via a std::unique_ptr.
-    /// \tparam ElementType The Element Type.
-    /// \tparam Args the ElementType constructor arguments.
-    template <typename LayoutType, typename... Args>
-    LayoutType* createLayout(Args&&... args)
-    {
-        return setLayout(std::make_unique<LayoutType>(std::forward<Args>(args)...));
-    }
-
-    /// \brief Take ownership of the passed std::unique_ptr<Layout>.
-    ///
-    /// This this is "sink" meaning that any Layout passed to this will be
-    /// owned by this Widget.
-    ///
-    /// \param layout the rvalue reference to the Layout.
-    /// \returns A pointer to the added Layout. The parent Widget retains
-    /// ownership of the pointer via a std::unique_ptr.
-    /// \tparam LayoutType The Layout Type.
-    template <typename LayoutType>
-    LayoutType* setLayout(std::unique_ptr<LayoutType> layout)
-    {
-        if (layout)
-        {
-            // Get a raw pointer to the node for later.
-            LayoutType* pLayout = layout.get();
-
-            // Assign the parent to the node via the raw pointer.
-            pLayout->_parent = this;
-
-            // Take ownership of the layout.
-            _layout = std::move(layout);
-
-            // Invalidate all cached child geometry.
-            invalidateChildGeometry();
-
-            return pLayout;
-        }
-        else
-        {
-            return nullptr;
-        }
-    }
-
-    /// \brief Release ownership of the Layout.
-    /// \returns a std::unique_ptr<Layout> to the Layout or nullptr if none.
-    std::unique_ptr<Layout> removeLayout();
-
-    /// \brief Get a pointer to the associated Layout.
-    ///
-    /// The Widget retains ownership of the pointer via a std::unique_ptr.
-    ///
-    /// \returns a pointer to the associated Layout or nullptr if there is none.
-    Layout* layout();
-
 protected:
-    virtual void invalidateChildGeometry() const override;
-
 	/// \brief Default callback for built-in events, including dragging.
 	void _onPointerEvent(DOM::PointerUIEventArgs& e);
 
 	/// \brief Default callback for built-in events, including dragging.
 	void _onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e);
-
-    std::vector<Widget*> getChildWidgets();
 
     /// \brief True iff the Widget is a target for dragged Widgets.
     bool _isDropTarget = false;
@@ -185,11 +116,6 @@ private:
 	/// \brief The shared Styles.
     mutable std::shared_ptr<Styles> _styles = nullptr;
 
-    /// \brief The Layout associated with this
-    std::unique_ptr<Layout> _layout = nullptr;
-
-    /// \brief The Layout class has access to all private variables.
-    friend class Layout;
 };
 
 

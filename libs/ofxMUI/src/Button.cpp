@@ -116,45 +116,31 @@ std::size_t Button::stateCount() const
 
 void Button::onDraw() const
 {
-    if (isPointerDown())
-    {
-		ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_DOWN));
-    }
-    else if (isPointerOver())
-    {
-        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_OVER));
-    }
-    else
-    {
-        ofSetColor(getStyles()->getColor(Styles::ROLE_BACKGROUND, Styles::STATE_NORMAL));
-    }
+    Widget::onDraw();
 
-	ofDrawRectangle(0, 0, getWidth(), getHeight());
+    auto styles = getStyles();
+
+    ofFill();
 
 	if (isPointerDown())
 	{
-		ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_DOWN));
+		ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_DOWN));
 	}
 	else if (isPointerOver())
 	{
-		ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_OVER));
+		ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_OVER));
 	}
 	else
 	{
-		ofSetColor(getStyles()->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_NORMAL));
+		ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_NORMAL));
 	}
 
 	ofDrawRectangle(5, 5, getWidth() - 10, getHeight() - 10);
 
-//    if (_value)
-//    {
-//        ofFill();
-//        ofSetColor(getStyles()->getColor(Styles::ROLE_ACCENT, Styles::STATE_DOWN));
-//        ofDrawRectangle(10, 10, getWidth() - 20, getHeight() - 20);
-//    }
+
 
     ofNoFill();
-    ofSetColor(getStyles()->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
+    ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
     ofDrawRectangle(0, 0, getWidth(), getHeight());
 
 }
@@ -246,13 +232,14 @@ Button::operator const int& ()
 
 void Button::_incrementState()
 {
-    _value = (_value + 1) % _stateCount;
-
     if (_autoExclusive)
     {
         for (auto& sibling : siblings<Button>())
         {
-            sibling->_value.setWithoutEventNotifications(0);
+            if (sibling->autoExclusive())
+            {
+                sibling->_value.setWithoutEventNotifications(0);
+            }
         }
 
         _value = 1;

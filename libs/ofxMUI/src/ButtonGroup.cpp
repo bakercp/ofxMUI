@@ -30,7 +30,7 @@ namespace ofx {
 namespace MUI {
 
 ButtonGroup::ButtonGroup(const std::string& id,
-                         Orientation orientation):
+                         DOM::Orientation orientation):
     ButtonGroup(id, 0, 0, 0, 0, orientation)
 {
 }
@@ -41,11 +41,11 @@ ButtonGroup::ButtonGroup(const std::string& id,
                          float y,
                          float width,
                          float height,
-                         Orientation orientation):
+                         DOM::Orientation orientation):
     Widget(id, x, y, width, height),
     _orientation(orientation)
 {
-    createLayout<BoxLayout>(this, orientation);
+    createLayout<DOM::BoxLayout>(this, orientation);
 
     registerEventType(ButtonEventArgs::BUTTON_PRESSED, &onButtonEvent);
     registerEventType(ButtonEventArgs::BUTTON_DOWN, &onButtonEvent);
