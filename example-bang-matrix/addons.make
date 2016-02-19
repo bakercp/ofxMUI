@@ -1,4 +1,0 @@
-ofxDOM
-ofxJSON
-ofxMUI
-ofxPointer
