@@ -9,7 +9,6 @@
 
 
 using namespace ofx;
-using namespace ofx::MUI;
 
 
 class ofApp: public ofxiOSApp
@@ -18,12 +17,21 @@ public:
     void setup();
     void draw();
 
-    void onPointerUp(ofx::PointerEventArgs& evt);
-    void onPointerDown(ofx::PointerEventArgs& evt);
-    void onPointerMove(ofx::PointerEventArgs& evt);
-    void onPointerCancel(ofx::PointerEventArgs& evt);
+    void onPointerUp(PointerEventArgs& evt);
+    void onPointerDown(PointerEventArgs& evt);
+    void onPointerMove(PointerEventArgs& evt);
+    void onPointerCancel(PointerEventArgs& evt);
 
     std::unique_ptr<DOM::Document> mui;
+
+    MUI::FloatSlider* fader;
+    MUI::FloatSlider* volume;
+    MUI::FloatSlider* ritard;
+    MUI::FloatSlider* tempo;
+
+    ofTrueTypeFont fontLarge;
+    ofTrueTypeFont fontMedium;
+    ofTrueTypeFont fontSmall;
 
 };
 

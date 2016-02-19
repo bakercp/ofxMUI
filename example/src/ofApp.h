@@ -41,6 +41,22 @@ public:
     void onPointerMove(ofx::PointerEventArgs& evt);
     void onPointerCancel(ofx::PointerEventArgs& evt);
 
+    void onMove(ofx::DOM::MoveEvent& evt);
+    void onResize(ofx::DOM::ResizeEvent& evt);
+
+    void bang();
+
     std::unique_ptr<ofx::DOM::Document> mui;
 
+    ofx::DOM::Element* panelA;
+    ofx::DOM::Element* panelB;
+    ofx::DOM::Element* panelC;
+    ofx::DOM::Element* panelC1;
+    ofx::DOM::Element* panelC2;
+
+
+//    ofx::MUI::Slider<float>* slider;
+//    ofx::MUI::Slider<float>* slider;
+//    ofx::MUI::Slider<float>* slider;
+//    ofx::MUI::Slider<float>* slider;
 };

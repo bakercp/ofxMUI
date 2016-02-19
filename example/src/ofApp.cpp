@@ -36,16 +36,67 @@ void ofApp::setup()
 
     mui = std::make_unique<ofx::DOM::Document>();
 
-    auto panelA = mui->attachChild(std::make_unique<ofx::MUI::Panel>("A", 50, 50, 400, 400));
-    auto panelB = panelA->attachChild(std::make_unique<ofx::MUI::Panel>("B", 50, 50, 300, 300));
-    panelB->attachChild(std::make_unique<ofx::MUI::Panel>("C", 50, 50, 200, 200));
+    panelA = mui->addChild(std::make_unique<ofx::MUI::Panel>("A", 50, 50, 400, 400));
+
+    ofAddListener(panelA->move, this, &ofApp::onMove);
+    ofAddListener(panelA->resize, this, &ofApp::onResize);
+
+
+    panelC = panelA->addChild(std::make_unique<ofx::MUI::Panel>("C", 250, 50, 150, 150));
+
+    panelC1 = panelC->addChild(std::make_unique<ofx::MUI::Panel>("C1", 10, 10, 25, 25));
+    panelC2 = panelC1->addChild(std::make_unique<ofx::MUI::Panel>("C2", 1, 1, 10, 10));
+
+
+    panelB = panelA->addChild(std::make_unique<ofx::MUI::Panel>("B", 50, 50, 150, 150));
+
+        auto bang = panelB->addChild(std::make_unique<ofx::MUI::Bang>("Bang", 50, 50, 200, 200));
+
+//    ofAddListener(bang->bang, this, &ofApp::bang);
 }
 
 
 void ofApp::draw()
 {
     ofBackground(0);
+
+    ofNoFill();
+    ofSetColor(255, 255, 0, 50);
+
+
+//    ofx::DOM::Geometry bc = panelB->getGeometry();
+//    bc.growToInclude(panelC->getGeometry());
+//    bc = bc + panelA->getPosition();
+//
+//
+//    ofSetColor(ofColor::yellow);
+//    ofDrawRectangle(bc);
+//
+//    ofx::DOM::Geometry bc0 = panelA->getChildGeometry();
+//
+//    bc0 = bc0 + panelA->getPosition();
+//
+//
+//    ofSetColor(ofColor::green);
+//    ofDrawRectangle(bc0);
+//    ofDrawRectangle(t);
+
+
+//    cout << panelA->getGeometry() << endl;
 }
+
+
+void ofApp::onMove(ofx::DOM::MoveEvent& evt)
+{
+    cout << "MOVE: " << evt.position() << endl;
+}
+
+
+void ofApp::onResize(ofx::DOM::ResizeEvent& evt)
+{
+    cout << "RESIZE: " << evt.geometry() << endl;
+}
+
 
 
 void ofApp::onPointerUp(ofx::PointerEventArgs& evt)
@@ -69,4 +120,10 @@ void ofApp::onPointerMove(ofx::PointerEventArgs& evt)
 void ofApp::onPointerCancel(ofx::PointerEventArgs& evt)
 {
 //    ofLogVerbose("ofApp::onPointerCancel") << evt.toString();
+}
+
+
+void ofApp::bang()
+{
+    std::cout << "Got bang. " << std::endl;
 }

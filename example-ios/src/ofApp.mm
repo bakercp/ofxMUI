@@ -3,14 +3,23 @@
 
 void ofApp::setup()
 {
+    fontLarge.load("Roboto_Condensed/RobotoCondensed-Light.ttf", 20);
+    fontMedium.load("Roboto_Condensed/RobotoCondensed-Light.ttf", 15);
+    fontSmall.load("Roboto_Condensed/RobotoCondensed-Light.ttf", 10);
+
+    ofSetFrameRate(60);
+
     ofx::RegisterPointerEvents(this);
 
     ofSetLogLevel(OF_LOG_VERBOSE);
 
-    mui = std::make_unique<DOM::Document>();
-    auto panelA = mui->attachChild(std::make_unique<Panel>("A", 100, 100, 400, 400));
-    auto panelB = panelA->attachChild(std::make_unique<Panel>("B", 50, 50, 300, 300));
-    panelB->attachChild(std::make_unique<Panel>("C", 50, 50, 200, 200));
+    mui = std::make_unique<ofx::DOM::Document>();
+
+    fader = mui->addChild(std::make_unique<MUI::FloatSlider>("fader", 10, 10, 50, 400));
+    volume = mui->addChild(std::make_unique<MUI::FloatSlider>("volume", 70, 10, 30, 300));
+    ritard = mui->addChild(std::make_unique<MUI::FloatSlider>("ritard", 120, 10, 50, 400));
+    tempo = mui->addChild(std::make_unique<MUI::FloatSlider>("tempo", 180, 10, 70, 400));
+
 }
 
 
@@ -34,11 +43,11 @@ void ofApp::onPointerDown(ofx::PointerEventArgs& evt)
 
 void ofApp::onPointerMove(ofx::PointerEventArgs& evt)
 {
-    //    ofLogVerbose("ofApp::onPointerMove") << evt.toString();
+    ofLogVerbose("ofApp::onPointerMove") << evt.toString();
 }
 
 
 void ofApp::onPointerCancel(ofx::PointerEventArgs& evt)
 {
-    //    ofLogVerbose("ofApp::onPointerCancel") << evt.toString();
+    ofLogVerbose("ofApp::onPointerCancel") << evt.toString();
 }
