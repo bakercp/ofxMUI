@@ -127,7 +127,7 @@ void Scope<DataType>::onDraw() const
 	ofDrawRectangle(0, 0, getWidth(), getHeight());
 
 
-	for (auto& i : _data)
+	for (auto& i: _data)
 	{
 		const ofColor& color = i.second.second;
 		const Buffer& buffer = i.second.first;
@@ -142,7 +142,7 @@ void Scope<DataType>::onDraw() const
 			x = axes[0].map(j, 0, getWidth());
 			y = axes[1].map(buffer[j], 0, getHeight());
 
-			mesh.addVertex(ofVec2f(x, y));
+            mesh.addVertex(glm::vec3(x, y, 0));
 		}
 
 		mesh.setMode(OF_PRIMITIVE_LINE_STRIP);
