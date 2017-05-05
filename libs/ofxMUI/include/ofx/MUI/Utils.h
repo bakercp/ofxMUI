@@ -27,7 +27,7 @@ public:
                        double outputMax,
                        bool clampOutput = false)
     {
-        if (fabs(inputMin - inputMax) < std::numeric_limits<double>::epsilon())
+        if (std::fabs(inputMin - inputMax) < std::numeric_limits<double>::epsilon())
         {
             return outputMin;
         }

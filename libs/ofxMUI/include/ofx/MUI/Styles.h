@@ -46,7 +46,7 @@ public:
 	int dpi() const;
 
     /// \brief The default font name.
-	const static std::string DEFAULT_FONT;
+	static const std::string DEFAULT_FONT;
 
     /// \brief Get the font size in pixels for the given FontSize.
     /// \param size The named FontSize.
