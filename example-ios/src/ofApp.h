@@ -1,10 +1,16 @@
+//
+// Copyright (c) 2009 Christopher Baker <https://christopherbaker.net>
+//
+// SPDX-License-Identifier:	MIT
+//
+
+
 #pragma once
 
 
 #include "ofMain.h"
 #include "ofxiOS.h"
 #include "ofxiOSExtras.h"
-
 #include "ofxMUI.h"
 
 

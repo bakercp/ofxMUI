@@ -1,9 +1,17 @@
+//
+// Copyright (c) 2009 Christopher Baker <https://christopherbaker.net>
+//
+// SPDX-License-Identifier:	MIT
+//
+
+
 #include "ofMain.h"
 #include "ofAppiOSWindow.h"
 #include "ofApp.h"
 
+
 int main() {
-    
+
     //  here are the most commonly used iOS window settings.
     //------------------------------------------------------
     ofiOSWindowSettings settings;
