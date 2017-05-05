@@ -94,6 +94,10 @@ protected:
     /// \brief True if the element should move to the fron upon pointer capture.
     bool _moveToFrontOnCapture = true;
 
+    /// \brief A map of callbacks key-down events.
+    std::map<uint64_t, std::function<void(DOM::KeyboardUIEventArgs& event)>> _keyboardListeners;
+
+
 private:
 	/// \brief The shared Styles.
     mutable std::shared_ptr<Styles> _styles = nullptr;

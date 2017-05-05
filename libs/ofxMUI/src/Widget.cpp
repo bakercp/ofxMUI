@@ -58,6 +58,7 @@ Widget::~Widget()
 
 void Widget::onDraw() const
 {
+    ofPushStyle();
     ofFill();
 
     auto styles = getStyles();
@@ -78,6 +79,36 @@ void Widget::onDraw() const
     ofDrawRectangle(0, 0, getWidth(), getHeight());
 
 
+    ofNoFill();
+
+    if (isPointerDown())
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_DOWN));
+    }
+    else if (isPointerOver())
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_OVER));
+    }
+    else
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
+    }
+
+    ofDrawRectangle(0, 0, getWidth(), getHeight());
+    ofPopStyle();
+
+    if (isFocused())
+    {
+        ofPushStyle();
+        ofNoFill();
+        ofSetColor(255, 255, 0, 200);
+        int offset = 1;
+        ofDrawRectangle(-offset,
+                        -offset,
+                        getWidth() + offset * 2,
+                        getHeight() + offset * 2);
+        ofPopStyle();
+    }
 }
 
 

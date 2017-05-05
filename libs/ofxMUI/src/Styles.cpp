@@ -106,11 +106,11 @@ Styles::Styles()
 	_fonts.assign(EXTRA_LARGE + 1, nullptr);
 
 	// https://color.adobe.com/Neutral-Blue-color-theme-22361/
-	ofColor text = ofColor::fromHex(0xFCFFF5, 200); // text
-	ofColor accent = ofColor::fromHex(0xD1DBBD, 200); // accent
-	ofColor border = ofColor::fromHex(0x91AA9D, 200); // border
-	ofColor foreground = ofColor::fromHex(0x3E606F, 200); // foreground
-	ofColor background = ofColor::fromHex(0x193441, 200); // background
+	ofColor text = ofColor::fromHex(0xFCFFF5); // text
+	ofColor accent = ofColor::fromHex(0xD1DBBD); // accent
+	ofColor border = ofColor::fromHex(0x91AA9D); // border
+	ofColor foreground = ofColor::fromHex(0x3E606F); // foreground
+	ofColor background = ofColor::fromHex(0x193441); // background
 
 	setColors(foreground, background, accent, border, text);
 }
@@ -135,23 +135,23 @@ void Styles::setColors(const ofColor& foreground,
 {
 	std::vector<ofColor> _foreground(STATE_DISABLED + 1, ofColor());
 
-	_foreground[STATE_NORMAL] = foreground;
-	_foreground[STATE_OVER] = ofColor(foreground, 255);
-	_foreground[STATE_DOWN] = ofColor(accent, 255);
+	_foreground[STATE_NORMAL] = ofColor(foreground, 127);
+	_foreground[STATE_OVER] = ofColor(foreground, 180);
+	_foreground[STATE_DOWN] = ofColor(foreground, 255);
 	_foreground[STATE_DISABLED] = ofColor(foreground, 20);
 
 	std::vector<ofColor> _background(STATE_DISABLED + 1, ofColor());
 
-	_background[STATE_NORMAL] = background;
-	_background[STATE_OVER] = background;
-	_background[STATE_DOWN] = ofColor(background, 200);
+	_background[STATE_NORMAL] = ofColor(background, 127);
+	_background[STATE_OVER] = ofColor(background, 180);
+	_background[STATE_DOWN] = ofColor(background, 255);
 	_background[STATE_DISABLED] = ofColor(background, 20);
 
 	std::vector<ofColor> _accent(STATE_DISABLED + 1, ofColor());
 
 	_accent[STATE_NORMAL] = accent;
-	_accent[STATE_OVER] = ofColor(accent, 180);
-	_accent[STATE_DOWN] = ofColor(accent, 255);
+	_accent[STATE_OVER] = accent;
+	_accent[STATE_DOWN] = accent;
 	_accent[STATE_DISABLED] = ofColor(accent, 20);
 
 	std::vector<ofColor> _border(STATE_DISABLED + 1, ofColor());
@@ -164,8 +164,8 @@ void Styles::setColors(const ofColor& foreground,
 	std::vector<ofColor> _text(STATE_DISABLED + 1, ofColor());
 
 	_text[STATE_NORMAL] = text;
-	_text[STATE_OVER] = foreground[STATE_OVER];
-	_text[STATE_DOWN] = foreground[STATE_DOWN];
+	_text[STATE_OVER] = text;
+	_text[STATE_DOWN] = text;
 	_text[STATE_DISABLED] = ofColor(text, 20);
 
 	_colors.assign(ROLE_TEXT + 1, std::vector<ofColor>());
