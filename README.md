@@ -19,6 +19,9 @@ API documentation can be found here.
 ## Build Status
 
 Linux, macOS [![Build Status](https://travis-ci.org/bakercp/ofxMUI.svg?branch=master)](https://travis-ci.org/bakercp/ofxMUI)
+Visual Studio, MSYS [![Build status](https://ci.appveyor.com/api/projects/status/3j25yhuohe067ui3/branch/master?svg=true)](https://ci.appveyor.com/project/bakercp/ofxmui/branch/master)
+
+
 
 ## Compatibility
 
