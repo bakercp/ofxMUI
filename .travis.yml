@@ -194,7 +194,7 @@ before_install:
   - export OF_ROOT=$PWD/openFrameworks
   - export OF_ADDON_NAME=$(basename $TRAVIS_BUILD_DIR)
 install:
-  - git clone --depth=1 --branch=CI-TESTS https://github.com/bakercp/openFrameworks $OF_ROOT
+  - git clone --depth=1 https://github.com/openFrameworks/openFrameworks $OF_ROOT
   - cd $OF_ROOT
   - scripts/ci/addons/install.sh
 script:
