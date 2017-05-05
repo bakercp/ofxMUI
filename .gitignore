@@ -2,11 +2,15 @@ docs/html
 docs/tagfile.xml
 docs/*.tag
 
+_*/
+
 raw/
 
 Project.xcconfig
 *.xcodeproj
 *.plist
+mediaAssets/
+
 
 *.sln
 *.vcxproj
