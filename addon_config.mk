@@ -6,4 +6,4 @@ meta:
 	ADDON_URL = http://github.com/bakercp/ofxMUI
 
 common:
-	ADDON_DEPENDENCIES = ofxDOM
+	ADDON_DEPENDENCIES = ofxDOM ofxPointer
