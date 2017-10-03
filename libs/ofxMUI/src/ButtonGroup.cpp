@@ -36,7 +36,7 @@ ButtonGroup::ButtonGroup(const std::string& id,
     addEventListener(onButtonEvent,
                      &ButtonGroup::_onButtonEvent,
                      true,
-                     std::numeric_limits<int>::min());
+                     std::numeric_limits<int>::lowest());
 
 
 }
@@ -47,7 +47,7 @@ ButtonGroup::~ButtonGroup()
     removeEventListener(onButtonEvent,
                         &ButtonGroup::_onButtonEvent,
                         true,
-                        std::numeric_limits<int>::min());
+                        std::numeric_limits<int>::lowest());
 
 }
 

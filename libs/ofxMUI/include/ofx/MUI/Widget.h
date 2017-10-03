@@ -83,7 +83,7 @@ protected:
     bool _isDropTarget = false;
 
     /// \brief True iff the Widget is configured to be dragged.
-    bool _isDraggable = false;;
+    bool _isDraggable = false;
 
     /// \brief True iff the widget is currently being dragged.
     bool _isDragging = false;

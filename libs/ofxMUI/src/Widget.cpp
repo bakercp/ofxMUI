@@ -24,17 +24,17 @@ Widget::Widget(float x, float y, float width, float height):
 Widget::Widget(const std::string& id, float x, float y, float width, float height):
     DOM::Element(id, x, y, width, height)
 {
-    addEventListener(pointerMove, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-    addEventListener(pointerDown, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-    addEventListener(pointerUp, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    addEventListener(pointerMove, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
+    addEventListener(pointerDown, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
+    addEventListener(pointerUp, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
 
-    addEventListener(pointerOver, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-    addEventListener(pointerEnter, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-    addEventListener(pointerOut, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-    addEventListener(pointerLeave, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    addEventListener(pointerOver, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
+    addEventListener(pointerEnter, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
+    addEventListener(pointerOut, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
+    addEventListener(pointerLeave, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
 
-    addEventListener(gotPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
-    addEventListener(lostPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
+    addEventListener(gotPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::lowest());
+    addEventListener(lostPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::lowest());
 
 	setImplicitPointerCapture(true);
 }
@@ -42,17 +42,17 @@ Widget::Widget(const std::string& id, float x, float y, float width, float heigh
 
 Widget::~Widget()
 {
-    removeEventListener(pointerMove, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-    removeEventListener(pointerDown, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-    removeEventListener(pointerUp, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    removeEventListener(pointerMove, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
+    removeEventListener(pointerDown, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
+    removeEventListener(pointerUp, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
 
-    removeEventListener(pointerOver, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-    removeEventListener(pointerEnter, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-    removeEventListener(pointerOut, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
-    removeEventListener(pointerLeave, &Widget::_onPointerEvent, false, std::numeric_limits<int>::min());
+    removeEventListener(pointerOver, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
+    removeEventListener(pointerEnter, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
+    removeEventListener(pointerOut, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
+    removeEventListener(pointerLeave, &Widget::_onPointerEvent, false, std::numeric_limits<int>::lowest());
 
-    removeEventListener(gotPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
-    removeEventListener(lostPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::min());
+    removeEventListener(gotPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::lowest());
+    removeEventListener(lostPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::lowest());
 }
 
 

@@ -15,14 +15,9 @@
 class ofApp: public ofBaseApp
 {
 public:
-    void setup();
-    void draw();
+    void setup() override;
+    void draw() override;
 
-    void onPointerUp(ofx::PointerEventArgs& evt);
-    void onPointerDown(ofx::PointerEventArgs& evt);
-    void onPointerMove(ofx::PointerEventArgs& evt);
-    void onPointerCancel(ofx::PointerEventArgs& evt);
-
-    ofx::MUI::MUI mui;
+    ofxMUI::MUI mui;
 
 };

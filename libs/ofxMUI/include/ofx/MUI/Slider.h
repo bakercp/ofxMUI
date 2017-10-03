@@ -258,7 +258,7 @@ Slider<Type>::Slider(const std::string& id,
     addEventListener(gotPointerCapture, &Slider<Type>::onPointerCaptureEvent);
     addEventListener(lostPointerCapture, &Slider<Type>::onPointerCaptureEvent);
 
-    ofAddListener(Widget::resize, this, &Slider<Type>::_onResize, std::numeric_limits<int>::min());
+    ofAddListener(Widget::resize, this, &Slider<Type>::_onResize, std::numeric_limits<int>::lowest());
 
 	setImplicitPointerCapture(true);
 }
@@ -277,7 +277,7 @@ Slider<Type>::~Slider()
     removeEventListener(gotPointerCapture, &Slider<Type>::onPointerCaptureEvent);
     removeEventListener(lostPointerCapture, &Slider<Type>::onPointerCaptureEvent);
 
-    ofRemoveListener(resize, this, &Slider<Type>::_onResize, std::numeric_limits<int>::min());
+    ofRemoveListener(resize, this, &Slider<Type>::_onResize, std::numeric_limits<int>::lowest());
 }
 
 

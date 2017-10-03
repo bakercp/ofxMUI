@@ -47,8 +47,8 @@ Button::Button(const std::string& id,
                        &Button::_onValueChanged,
                        std::numeric_limits<int>::lowest());
 
-    addEventListener(pointerDown, &Button::onPointerEvent, false, std::numeric_limits<int>::min());
-    addEventListener(pointerUp, &Button::onPointerEvent, false, std::numeric_limits<int>::min());
+    addEventListener(pointerDown, &Button::onPointerEvent, false, std::numeric_limits<int>::lowest());
+    addEventListener(pointerUp, &Button::onPointerEvent, false, std::numeric_limits<int>::lowest());
 
     addEventListener(gotPointerCapture, &Button::onPointerCaptureEvent);
     addEventListener(lostPointerCapture, &Button::onPointerCaptureEvent);
@@ -64,8 +64,8 @@ Button::~Button()
                           &Button::_onValueChanged,
                           std::numeric_limits<int>::lowest());
 
-    removeEventListener(pointerDown, &Button::onPointerEvent, false, std::numeric_limits<int>::min());
-    removeEventListener(pointerUp, &Button::onPointerEvent, false, std::numeric_limits<int>::min());
+    removeEventListener(pointerDown, &Button::onPointerEvent, false, std::numeric_limits<int>::lowest());
+    removeEventListener(pointerUp, &Button::onPointerEvent, false, std::numeric_limits<int>::lowest());
 
     removeEventListener(gotPointerCapture, &Button::onPointerCaptureEvent);
     removeEventListener(lostPointerCapture, &Button::onPointerCaptureEvent);
@@ -304,7 +304,7 @@ void RadioButton::onDraw() const
 
 bool RadioButton::hitTest(const DOM::Position& parentPosition) const
 {
-    return glm::distance(getShape().getCenter(), parentPosition) < (getWidth() - 10) / 2.0;
+    return glm::distance(getShape().getCenter().xy(), parentPosition) < (getWidth() - 10) / 2.0;
 }
 
 
