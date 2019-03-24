@@ -60,6 +60,13 @@ public:
     /// \returns true if this Widget is being dragged.
     bool isDragging() const;
 
+    /// \brief Set the elevation of the widget.
+    /// \param elevation The elevation in pixels.
+    void setElevation(float elevation);
+
+    /// \returns the elevation in pixels.
+    float getElevation() const;
+    
 	/// \brief Get the Styles for this Widget.
 	/// \returns the Widget's styles.
 	std::shared_ptr<Styles> getStyles() const;
@@ -94,9 +101,11 @@ protected:
     /// \brief True if the element should move to the fron upon pointer capture.
     bool _moveToFrontOnCapture = true;
 
+    /// \brief The elevation of the widget in pixels.
+    float _elevation = 0;
+    
     /// \brief A map of callbacks key-down events.
     std::map<uint64_t, std::function<void(DOM::KeyboardUIEventArgs& event)>> _keyboardListeners;
-
 
 private:
 	/// \brief The shared Styles.

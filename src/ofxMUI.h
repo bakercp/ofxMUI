@@ -15,6 +15,7 @@
 #include "ofx/MUI/MUI.h"
 #include "ofx/MUI/Panel.h"
 #include "ofx/MUI/Scope.h"
+#include "ofx/MUI/Shadow.h"
 #include "ofx/MUI/Slider.h"
 #include "ofx/MUI/SliderGroup.h"
 #include "ofx/MUI/Types.h"

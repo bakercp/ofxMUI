@@ -78,7 +78,6 @@ void Widget::onDraw() const
 
     ofDrawRectangle(0, 0, getWidth(), getHeight());
 
-
     ofNoFill();
 
     if (isPointerDown())
@@ -152,6 +151,18 @@ bool Widget::isDragging() const
 {
     return _isDragging;
 }
+    
+    
+void Widget::setElevation(float elevation)
+{
+    _elevation = elevation;
+}
+
+
+float Widget::getElevation() const
+{
+    return _elevation;
+}
 
 
 std::shared_ptr<Styles> Widget::getStyles() const
@@ -183,6 +194,8 @@ void Widget::setStyles(std::shared_ptr<Styles> styles)
 
 void Widget::_onPointerEvent(DOM::PointerUIEventArgs& e)
 {
+    std::cout << "_onPointerEvent " << e.toString() << std::endl;
+
 	if (e.type() == PointerEventArgs::POINTER_DOWN)
 	{
 	}

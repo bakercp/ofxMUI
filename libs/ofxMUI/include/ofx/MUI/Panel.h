@@ -37,7 +37,7 @@ public:
     /// \brief Destroy the Panel.
     virtual ~Panel();
 
-    void onDraw() const override;
+    // void onDraw() const override;
 
     void onKeyboardDownEvent(DOM::KeyboardUIEventArgs& evt);
 

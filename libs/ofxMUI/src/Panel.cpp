@@ -34,18 +34,17 @@ Panel::~Panel()
 }
 
 
-void Panel::onDraw() const
-{
-    Widget::onDraw();
-    ofDrawBitmapString(getId(), 20, 20);
-}
+//void Panel::onDraw() const
+//{
+//    Widget::onDraw();
+//}
 
 
 void Panel::onKeyboardDownEvent(DOM::KeyboardUIEventArgs& evt)
 {
     if (this == evt.target())
     {
-        ofLogNotice("Panel::onKeyboardDownEvent") << getId() << " : " << evt.key().codepoint;
+        ofLogNotice("Panel::onKeyboardDownEvent") << evt.toString();
     }
 }
 
