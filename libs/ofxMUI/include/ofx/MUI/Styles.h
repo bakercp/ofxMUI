@@ -140,7 +140,7 @@ public:
 	void setFont(FontSize size, std::shared_ptr<ofTrueTypeFont> font);
 
 protected:
-    /// \brief A collection of colros for this Style.
+    /// \brief A collection of colors for this Style.
 	std::vector<std::vector<ofColor>> _colors;
 
     /// \brief A font cache for this Style.

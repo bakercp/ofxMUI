@@ -304,9 +304,10 @@ void RadioButton::onDraw() const
 
 bool RadioButton::hitTest(const DOM::Position& parentPosition) const
 {
-    auto center = glm::vec2(getShape().getCenter());
-    
-    return glm::distance(center, parentPosition) < (getWidth() - 10) / 2.0;
+    auto center = getShape().getCenter();
+
+    return glm::distance(glm::vec2(center.x, center.y),
+                         parentPosition) < (getWidth() - 10) / 2.0;
 }
 
 
