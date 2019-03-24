@@ -284,7 +284,7 @@ Slider<Type>::~Slider()
 template <typename Type>
 void Slider<Type>::onPointerEvent(DOM::PointerUIEventArgs& e)
 {
-    if (e.pointer().id() == _primaryPointerId)
+    if (e.pointer().pointerId() == _primaryPointerId)
     {
         if (PointerEventArgs::POINTER_DOWN == e.type() ||
             PointerEventArgs::POINTER_MOVE == e.type())
