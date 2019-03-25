@@ -111,7 +111,7 @@ public:
     /// \returns true iff the button has auto-exclusive mode enabled.
     bool autoExclusive() const;
 
-    /// \brief Return the number of Button states.
+    /// \returns the number of Button states.
     std::size_t stateCount() const;
 
     virtual void onDraw() const override;
