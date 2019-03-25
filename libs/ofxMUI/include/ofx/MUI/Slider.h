@@ -293,7 +293,7 @@ void Slider<Type>::onPointerEvent(DOM::PointerUIEventArgs& e)
             std::size_t axisIndex = _getActiveAxisIndex();
 
             // Local position.
-            float position = screenToLocal(e.pointer().point())[static_cast<int>(axisIndex)];
+            float position = screenToLocal(e.pointer().position())[axisIndex];
 
             Type valueMin = _value.getMin();
             Type valueMax = _value.getMax();
