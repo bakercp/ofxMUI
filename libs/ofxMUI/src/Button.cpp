@@ -13,13 +13,31 @@ namespace ofx {
 namespace MUI {
 
 
-const std::string ButtonEventArgs::BUTTON_DOWN = "buttondown";
 const std::string ButtonEventArgs::BUTTON_UP = "buttonup";
+const std::string ButtonEventArgs::BUTTON_DOWN = "buttondown";
 const std::string ButtonEventArgs::BUTTON_PRESSED = "buttonpressed";
 
 
 ButtonEventArgs::~ButtonEventArgs()
 {
+}
+
+
+bool ButtonEventArgs::isButtonUp() const
+{
+    return type() == BUTTON_UP;
+}
+
+
+bool ButtonEventArgs::isButtonDown() const
+{
+    return type() == BUTTON_DOWN;
+}
+
+
+bool ButtonEventArgs::isButtonPressed() const
+{
+    return type() == BUTTON_PRESSED;
 }
 
 

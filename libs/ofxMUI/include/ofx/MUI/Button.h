@@ -19,15 +19,31 @@ namespace MUI {
 class Button;
 
 
+/// \brief A set of event arguments for Button events.
 class ButtonEventArgs: public DOM::EventArgs
 {
 public:
     using DOM::EventArgs::EventArgs;
 
+    /// \brief Destroy the ButtonEventArgs.
     virtual ~ButtonEventArgs();
 
-    static const std::string BUTTON_DOWN;
+    /// \returns true if event type is BUTTON_UP.
+    bool isButtonUp() const;
+
+    /// \returns true if event type is BUTTON_DOWN.
+    bool isButtonDown() const;
+
+    /// \returns true if event type is BUTTON_PRESSED.
+    bool isButtonPressed() const;
+
+    /// \brief The button up event type.
     static const std::string BUTTON_UP;
+
+    /// \brief The button down event type.
+    static const std::string BUTTON_DOWN;
+
+    /// \brief The button pressed event type.
     static const std::string BUTTON_PRESSED;
 
 };
