@@ -194,8 +194,6 @@ void Widget::setStyles(std::shared_ptr<Styles> styles)
 
 void Widget::_onPointerEvent(DOM::PointerUIEventArgs& e)
 {
-    std::cout << "_onPointerEvent " << e.toString() << std::endl;
-
 	if (e.type() == PointerEventArgs::POINTER_DOWN)
 	{
 	}
