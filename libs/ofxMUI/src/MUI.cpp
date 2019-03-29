@@ -13,7 +13,7 @@ namespace ofx {
 namespace MUI {
 
 
-MUI::MUI()
+MUI::MUI(ofAppBaseWindow* window): DOM::Document(window)
 {
 }
 
