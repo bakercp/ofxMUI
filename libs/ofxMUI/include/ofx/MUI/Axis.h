@@ -22,58 +22,58 @@ class Axis
 {
 public:
     /// \brief Describes the axis scale.
-	enum Scale
-	{
+    enum Scale
+    {
         /// \brief Linear scale.
-		LINEAR,
+        LINEAR,
         /// \brief Semilog scale.
-		SEMILOG
-	};
+        SEMILOG
+    };
 
-	Axis();
+    Axis();
 
-	Axis(const DataType& minimum,
-		  const DataType& maximum,
-		  Scale scale,
-		  bool inverted,
-		  bool autoRange,
-		  bool clipped);
+    Axis(const DataType& minimum,
+          const DataType& maximum,
+          Scale scale,
+          bool inverted,
+          bool autoRange,
+          bool clipped);
 
-	virtual ~Axis();
+    virtual ~Axis();
 
-	DataType map(const DataType& value,
-				 const DataType& outputMin,
-				 const DataType& outputMax) const;
+    DataType map(const DataType& value,
+                 const DataType& outputMin,
+                 const DataType& outputMax) const;
 
-	void setRange(const DataType& minimum, const DataType& maximum);
+    void setRange(const DataType& minimum, const DataType& maximum);
 
-	void setMinimum(const DataType& minimum);
-	const DataType& getMinimum() const;
+    void setMinimum(const DataType& minimum);
+    const DataType& getMinimum() const;
 
-	void setMaximum(const DataType& maximum);
-	const DataType& getMaximum() const;
+    void setMaximum(const DataType& maximum);
+    const DataType& getMaximum() const;
 
-	void setAutoRange(bool autoRange);
-	bool isAutoRange() const;
+    void setAutoRange(bool autoRange);
+    bool isAutoRange() const;
 
-	void setScale(Scale scale);
-	Scale getScale() const;
+    void setScale(Scale scale);
+    Scale getScale() const;
 
-	void setInverted(bool inverted);
-	bool isInverted() const;
+    void setInverted(bool inverted);
+    bool isInverted() const;
 
-	void setClipped(bool clipped);
-	bool isClipped() const;
+    void setClipped(bool clipped);
+    bool isClipped() const;
 
 private:
-	DataType _minimum;
-	DataType _maximum;
+    DataType _minimum;
+    DataType _maximum;
 
-	Scale _scale;
+    Scale _scale;
 
-	bool _autoRange;
-	bool _inverted;
-	bool _clipped;
+    bool _autoRange;
+    bool _inverted;
+    bool _clipped;
 
 };
 
@@ -91,12 +91,12 @@ Axis<DataType>::Axis(const DataType& minimum,
                      bool autoRange,
                      bool inverted,
                      bool clipped):
-	_minimum(std::min(minimum, maximum)),
-	_maximum(std::max(minimum, maximum)),
-	_autoRange(autoRange),
-	_scale(scale),
-	_inverted(inverted),
-	_clipped(clipped)
+    _minimum(std::min(minimum, maximum)),
+    _maximum(std::max(minimum, maximum)),
+    _autoRange(autoRange),
+    _scale(scale),
+    _inverted(inverted),
+    _clipped(clipped)
 {
 }
 
@@ -112,102 +112,102 @@ DataType Axis<DataType>::map(const DataType& value,
                              const DataType& outputMin,
                              const DataType& outputMax) const
 {
-	if (_inverted)
-	{
-		return ofMap(value, _minimum, _maximum, outputMax, outputMin, _clipped);
-	}
-	else
-	{
-		return ofMap(value, _minimum, _maximum, outputMin, outputMax, _clipped);
-	}
+    if (_inverted)
+    {
+        return ofMap(value, _minimum, _maximum, outputMax, outputMin, _clipped);
+    }
+    else
+    {
+        return ofMap(value, _minimum, _maximum, outputMin, outputMax, _clipped);
+    }
 }
 
 
 template <typename DataType>
 void Axis<DataType>::setRange(const DataType& minimum, const DataType& maximum)
 {
-	setMinimum(minimum);
-	setMaximum(maximum);
+    setMinimum(minimum);
+    setMaximum(maximum);
 }
 
 
 template <typename DataType>
 void Axis<DataType>::setMinimum(const DataType& minimum)
 {
-	_minimum = minimum;
+    _minimum = minimum;
 
-	if (_minimum > _maximum)
-	{
-		std::swap(_minimum, _maximum);
-	}
+    if (_minimum > _maximum)
+    {
+        std::swap(_minimum, _maximum);
+    }
 }
 
 
 template <typename DataType>
 const DataType& Axis<DataType>::getMinimum() const
 {
-	return _minimum;
+    return _minimum;
 }
 
 
 template <typename DataType>
 void Axis<DataType>::setMaximum(const DataType& maximum)
 {
-	_maximum = maximum;
+    _maximum = maximum;
 
-	if (_minimum > _maximum)
-	{
-		std::swap(_minimum, _maximum);
-	}
+    if (_minimum > _maximum)
+    {
+        std::swap(_minimum, _maximum);
+    }
 }
 
 
 template <typename DataType>
 const DataType& Axis<DataType>::getMaximum() const
 {
-	return _maximum;
+    return _maximum;
 }
 
 
 template <typename DataType>
 void Axis<DataType>::setScale(Scale scale)
 {
-	_scale = scale;
+    _scale = scale;
 }
 
 
 template <typename DataType>
 typename Axis<DataType>::Scale Axis<DataType>::getScale() const
 {
-	return _scale;
+    return _scale;
 }
 
 
 template <typename DataType>
 void Axis<DataType>::setInverted(bool inverted)
 {
-	_inverted = inverted;
+    _inverted = inverted;
 }
 
 
 template <typename DataType>
 bool Axis<DataType>::isInverted() const
 {
-	return _inverted;
+    return _inverted;
 }
 
 
 template <typename DataType>
 void Axis<DataType>::setClipped(bool clipped)
 {
-	_clipped = clipped;
+    _clipped = clipped;
 }
 
 
 template <typename DataType>
 bool Axis<DataType>::isClipped() const
 {
-	return _clipped;
+    return _clipped;
 }
 
 

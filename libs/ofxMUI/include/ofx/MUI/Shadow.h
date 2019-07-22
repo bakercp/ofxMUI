@@ -21,15 +21,15 @@ class Shadow
 {
 public:
     static void draw(const ofRectangle& rect,
-                      float windowWidth,
-                      float windowHeight,
-                      float angleDeg,
-                      float distancePx,
-                      float spreadPct,
-                      float sizePx,
-                      const ofFloatColor& color,
-              float cornerRadius = 0,
-              bool inset = false);
+                     float windowWidth,
+                     float windowHeight,
+                     float angleDeg,
+                     float distancePx,
+                     float spreadPct,
+                     float sizePx,
+                     const ofFloatColor& color,
+                     float cornerRadius = 0,
+                     bool inset = false);
     
     // https://www.w3schools.com/cssref/css3_pr_box-shadow.asp
     /// \brief horizontalOffset The horizontal offset of the shadow.
@@ -46,13 +46,13 @@ public:
     static void draw(const ofRectangle& rect,
                      float windowWidth,
                      float windowHeight,
-              float horizontalOffset,
-              float verticalOffset,
-              float blurRadius,
-              float spreadRadius,
-              const ofColor& color,
-                 float cornerRadius = 0,
-              bool inset = false);
+                     float horizontalOffset,
+                     float verticalOffset,
+                     float blurRadius,
+                     float spreadRadius,
+                     const ofColor& color,
+                     float cornerRadius = 0,
+                     bool inset = false);
 
     
     static Shadow& instance();

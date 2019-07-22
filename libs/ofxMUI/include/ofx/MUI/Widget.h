@@ -34,10 +34,10 @@ public:
 
     virtual void onDraw() const override;
 
-	/// \returns true if the pointer is over this Widget.
+    /// \returns true if the pointer is over this Widget.
     bool isPointerOver() const;
 
-	/// \returns true if the pointer is down on this Widget.
+    /// \returns true if the pointer is down on this Widget.
     bool isPointerDown() const;
 
     /// \brief Enable or disable the Widget as a drop target.
@@ -67,24 +67,24 @@ public:
     /// \returns the elevation in pixels.
     float getElevation() const;
     
-	/// \brief Get the Styles for this Widget.
-	/// \returns the Widget's styles.
-	std::shared_ptr<Styles> getStyles() const;
+    /// \brief Get the Styles for this Widget.
+    /// \returns the Widget's styles.
+    std::shared_ptr<Styles> getStyles() const;
 
-	/// \brief Set the Styles for this Widget.
-	///
-	/// If the style is set to nullptr, it will automatically adopt the root
-	/// document style.
-	///
-	/// \param style The style to set.
-	void setStyles(std::shared_ptr<Styles> styles);
+    /// \brief Set the Styles for this Widget.
+    ///
+    /// If the style is set to nullptr, it will automatically adopt the root
+    /// document style.
+    ///
+    /// \param style The style to set.
+    void setStyles(std::shared_ptr<Styles> styles);
 
 protected:
-	/// \brief Default callback for built-in events, including dragging.
-	void _onPointerEvent(DOM::PointerUIEventArgs& e);
+    /// \brief Default callback for built-in events, including dragging.
+    void _onPointerEvent(DOM::PointerUIEventArgs& e);
 
-	/// \brief Default callback for built-in events, including dragging.
-	void _onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e);
+    /// \brief Default callback for built-in events, including dragging.
+    void _onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e);
 
     /// \brief True iff the Widget is a target for dragged Widgets.
     bool _isDropTarget = false;
@@ -108,7 +108,7 @@ protected:
     std::map<uint64_t, std::function<void(DOM::KeyboardUIEventArgs& event)>> _keyboardListeners;
 
 private:
-	/// \brief The shared Styles.
+    /// \brief The shared Styles.
     mutable std::shared_ptr<Styles> _styles = nullptr;
 
 };

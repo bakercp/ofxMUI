@@ -36,7 +36,7 @@ Widget::Widget(const std::string& id, float x, float y, float width, float heigh
     addEventListener(gotPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::lowest());
     addEventListener(lostPointerCapture, &Widget::_onPointerCaptureEvent, false, std::numeric_limits<int>::lowest());
 
-	setImplicitPointerCapture(true);
+    setImplicitPointerCapture(true);
 }
 
 
@@ -119,7 +119,7 @@ bool Widget::isPointerOver() const
 
 bool Widget::isPointerDown() const
 {
-	return !capturedPointers().empty();
+    return !capturedPointers().empty();
 }
 
 
@@ -137,7 +137,7 @@ bool Widget::isDropTarget() const
 
 void Widget::setDraggable(bool draggable)
 {
-	_isDraggable = draggable;
+    _isDraggable = draggable;
 }
 
 
@@ -167,60 +167,60 @@ float Widget::getElevation() const
 
 std::shared_ptr<Styles> Widget::getStyles() const
 {
-	if (_styles == nullptr)
-	{
-		const MUI* mui = dynamic_cast<const MUI*>(document());
+    if (_styles == nullptr)
+    {
+        const MUI* mui = dynamic_cast<const MUI*>(document());
 
-		if (mui != nullptr)
-		{
-			_styles = mui->getDocumentStyles();
-		}
-		else
-		{
-			ofLogWarning("Widget::getStyles") << "No root document, using default styles.";
-			_styles = std::make_shared<Styles>();
-		}
-	}
+        if (mui != nullptr)
+        {
+            _styles = mui->getDocumentStyles();
+        }
+        else
+        {
+            ofLogWarning("Widget::getStyles") << "No root document, using default styles.";
+            _styles = std::make_shared<Styles>();
+        }
+    }
 
-	return _styles;
+    return _styles;
 }
 
 
 void Widget::setStyles(std::shared_ptr<Styles> styles)
 {
-	_styles = styles;
+    _styles = styles;
 }
 
 
 void Widget::_onPointerEvent(DOM::PointerUIEventArgs& e)
 {
-	if (e.type() == PointerEventArgs::POINTER_DOWN)
-	{
-	}
-	else if (e.type() == PointerEventArgs::POINTER_MOVE)
-	{
-		if (_isDragging)
-		{
-			if (!capturedPointers().empty())
-			{
-				const DOM::CapturedPointer& pointer = *capturedPointers().begin();
-				setPosition(screenToParent(pointer.position() - pointer.offset()));
-			}
-			else
-			{
-				ofLogError("Widget::_onPointerEvent") << "No captured pointers to drag with.";
-			}
+    if (e.type() == PointerEventArgs::POINTER_DOWN)
+    {
+    }
+    else if (e.type() == PointerEventArgs::POINTER_MOVE)
+    {
+        if (_isDragging)
+        {
+            if (!capturedPointers().empty())
+            {
+                const DOM::CapturedPointer& pointer = *capturedPointers().begin();
+                setPosition(screenToParent(pointer.position() - pointer.offset()));
+            }
+            else
+            {
+                ofLogError("Widget::_onPointerEvent") << "No captured pointers to drag with.";
+            }
 
-		}
-	}
-	else if (e.type() == PointerEventArgs::POINTER_OVER)
-	{
-		_isPointerOver = true;
-	}
-	else if (e.type() == PointerEventArgs::POINTER_OUT)
-	{
-		_isPointerOver = false;
-	}
+        }
+    }
+    else if (e.type() == PointerEventArgs::POINTER_OVER)
+    {
+        _isPointerOver = true;
+    }
+    else if (e.type() == PointerEventArgs::POINTER_OUT)
+    {
+        _isPointerOver = false;
+    }
     else
     {
         // unhandled.
@@ -230,20 +230,20 @@ void Widget::_onPointerEvent(DOM::PointerUIEventArgs& e)
 
 void Widget::_onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e)
 {
-	if (e.type() == PointerEventArgs::GOT_POINTER_CAPTURE)
-	{
-		if (_moveToFrontOnCapture)
-		{
-			moveToFront();
-		}
+    if (e.type() == PointerEventArgs::GOT_POINTER_CAPTURE)
+    {
+        if (_moveToFrontOnCapture)
+        {
+            moveToFront();
+        }
 
-		_isDragging = _isDraggable;
+        _isDragging = _isDraggable;
 
-	}
-	else if (e.type() == PointerEventArgs::LOST_POINTER_CAPTURE)
-	{
-		_isDragging = false;
-	}
+    }
+    else if (e.type() == PointerEventArgs::LOST_POINTER_CAPTURE)
+    {
+        _isDragging = false;
+    }
 }
 
 

@@ -12,5 +12,4 @@ namespace ofx {
 namespace MUI {
 
 
-
 } } // namespace ofx::MUI

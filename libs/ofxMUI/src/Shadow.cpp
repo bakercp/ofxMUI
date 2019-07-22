@@ -104,7 +104,6 @@ Shadow& Shadow::instance()
     
 Shadow::Shadow()
 {
-    
     shaderBoxShadow.load("boxShadow");
     shaderRoundedBoxShadow.load("roundedBoxShadow");
 }

@@ -10,7 +10,7 @@
 
 namespace ofx {
 namespace MUI {
-    
+
 
 SliderGroup::SliderGroup(const std::string& id,
                          DOM::Orientation orientation):

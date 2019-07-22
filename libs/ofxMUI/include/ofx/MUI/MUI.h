@@ -30,15 +30,15 @@ public:
     };
 
     MUI(ofAppBaseWindow* window = nullptr);
-	virtual ~MUI();
+    virtual ~MUI();
 
 
-	std::shared_ptr<Styles> getDocumentStyles() const;
+    std::shared_ptr<Styles> getDocumentStyles() const;
     
-	void setDocumentStyles(std::shared_ptr<Styles> documentStyles);
+    void setDocumentStyles(std::shared_ptr<Styles> documentStyles);
 
 protected:
-	mutable std::shared_ptr<Styles> _documentStyles;
+    mutable std::shared_ptr<Styles> _documentStyles;
 
 };
 

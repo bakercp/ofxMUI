@@ -122,20 +122,20 @@ void Button::onDraw() const
 
     ofFill();
 
-	if (isPointerDown())
-	{
-		ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_DOWN));
-	}
-	else if (isPointerOver())
-	{
-		ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_OVER));
-	}
-	else
-	{
-		ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_NORMAL));
-	}
+    if (isPointerDown())
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_DOWN));
+    }
+    else if (isPointerOver())
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_OVER));
+    }
+    else
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_NORMAL));
+    }
 
-	ofDrawRectangle(5, 5, getWidth() - 10, getHeight() - 10);
+    ofDrawRectangle(5, 5, getWidth() - 10, getHeight() - 10);
 
     ofNoFill();
     ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
