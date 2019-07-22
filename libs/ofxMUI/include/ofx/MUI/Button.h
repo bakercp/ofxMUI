@@ -1,12 +1,12 @@
 //
 // Copyright (c) 2009 Christopher Baker <https://christopherbaker.net>
 //
-// SPDX-License-Identifier:	MIT
+// SPDX-License-Identifier: MIT
 //
 
 
 #pragma once
-	
+
 
 #include "ofx/DOM/Events.h"
 #include "ofx/MUI/Widget.h"
