@@ -8,6 +8,7 @@
 #pragma once
 
 
+#include "json.hpp"
 #include "ofColor.h"
 #include "ofTrueTypeFont.h"
 
@@ -26,6 +27,15 @@ enum FontSize
 };
 
 
+NLOHMANN_JSON_SERIALIZE_ENUM( FontSize, {
+    { EXTRA_SMALL, "EXTRA_SMALL" },
+    { SMALL, "SMALL"},
+    { MEDIUM, "MEDIUM"},
+    { LARGE, "LARGE"},
+    { EXTRA_LARGE, "EXTRA_LARGE"}
+})
+
+    
 class TrueTypeFontSettings
 {
 public:
@@ -33,7 +43,7 @@ public:
                          int fontsize = defaultFontSize(FontSize::MEDIUM),
                          bool antiAliased = true,
                          bool fullCharacterSet = true,
-                         bool makeContourss = false,
+                         bool makeContours = false,
                          float simplifyAmt = 0.3f,
                          int dpi = 0);
 
@@ -57,14 +67,38 @@ public:
 
 private:
     std::string _filename;
-    int _fontsize;
-    bool _antiAliased;
-    bool _fullCharacterSet;
-    bool _makeContours;
-    float _simplifyAmt;
-    int _dpi;
+    int _fontsize = defaultFontSize(FontSize::MEDIUM);
+    bool _antiAliased = true;
+    bool _fullCharacterSet = true;
+    bool _makeContours = false;
+    float _simplifyAmt = 0.3f;
+    int _dpi = 0;
 
 };
+
+
+inline void to_json(nlohmann::json& j, const TrueTypeFontSettings& v)
+{
+    j["filename"] = v.filename();
+    j["font_size"] = v.fontSize();
+    j["anti_aliased"] = v.antiAliased();
+    j["full_character_set"] = v.fullCharacterSet();
+    j["make_contours"] = v.makeContours();
+    j["simplify_amount"] = v.simplifyAmount();
+    j["dpi"] = v.dpi();
+}
+
+
+inline void from_json(const nlohmann::json& j, TrueTypeFontSettings& v)
+{
+    v = TrueTypeFontSettings(j["filename"],
+                             j["font_size"],
+                             j["anti_aliased"] ,
+                             j["full_character_set"],
+                             j["make_contours"],
+                             j["simplify_amount"] ,
+                             j["dpi"]);
+}
 
 
 /// \brief A common class for setting shared Widget styles.
@@ -147,6 +181,23 @@ protected:
     mutable std::vector<std::shared_ptr<ofTrueTypeFont>> _fonts;
 
 };
+
+
+NLOHMANN_JSON_SERIALIZE_ENUM( Styles::Role, {
+    { Styles::Role::ROLE_FOREGROUND, "ROLE_FOREGROUND" },
+    { Styles::Role::ROLE_BACKGROUND, "ROLE_BACKGROUND"},
+    { Styles::Role::ROLE_ACCENT, "ROLE_ACCENT"},
+    { Styles::Role::ROLE_BORDER, "ROLE_BORDER"},
+    { Styles::Role::ROLE_TEXT, "ROLE_TEXT"}
+})
+
+
+NLOHMANN_JSON_SERIALIZE_ENUM( Styles::State, {
+    { Styles::State::STATE_NORMAL, "STATE_NORMAL" },
+    { Styles::State::STATE_OVER, "STATE_OVER"},
+    { Styles::State::STATE_DOWN, "STATE_DOWN"},
+    { Styles::State::STATE_DISABLED, "STATE_DISABLED"}
+})
 
 
 } } // ofx::MUI

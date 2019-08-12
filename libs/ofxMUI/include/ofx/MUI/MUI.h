@@ -43,4 +43,12 @@ protected:
 };
 
 
+NLOHMANN_JSON_SERIALIZE_ENUM( MUI::Scale, {
+    { MUI::Scale::SMALL, "SMALL" },
+    { MUI::Scale::MEDIUM, "MEDIUM"},
+    { MUI::Scale::LARGE, "LARGE"},
+    { MUI::Scale::X, "X"}
+})
+
+
 } } // ofx::MUI
