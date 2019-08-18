@@ -12,6 +12,8 @@
 #include "ofx/MUI/Axis.h"
 #include "ofx/MUI/Button.h"
 #include "ofx/MUI/ButtonGroup.h"
+#include "ofx/MUI/GrabHandle.h"
+#include "ofx/MUI/Icon.h"
 #include "ofx/MUI/Label.h"
 #include "ofx/MUI/MUI.h"
 #include "ofx/MUI/Panel.h"

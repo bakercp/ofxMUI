@@ -46,16 +46,9 @@ public:
 //        OF_ALIGN_HORZ_CENTER   = 0x0004,
 //    };
 
-//    Label(const std::string& id,
-//           float x,
-//           float y,
-//           float width,
-//           float height,
-//           std::size_t stateCount = 1);
+    Label(const std::string& text);
 
-//    virtual ~Label();
-
-
+    virtual ~Label();
 
     virtual void onDraw() const override;
 

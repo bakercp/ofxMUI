@@ -8,6 +8,7 @@
 #pragma once
 
 
+#include "ofTexture.h"
 #include "ofx/DOM/Events.h"
 #include "ofx/MUI/Widget.h"
 
@@ -133,7 +134,7 @@ public:
     template <class ListenerClass, typename ListenerMethod>
     void addListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
     {
-        ofAddListener(onValueChanged, listener, method, priority);
+        ofAddListener(valueChanged, listener, method, priority);
     }
 
     /// \brief Remove listeners to this onValueChanged event.
@@ -145,22 +146,22 @@ public:
     template <class ListenerClass, typename ListenerMethod>
     void removeListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
     {
-        ofRemoveListener(onValueChanged, listener, method, priority);
+        ofRemoveListener(valueChanged, listener, method, priority);
     }
 
     /// \brief Event called when button is pressed and released.
     ///
     /// This event follows the require release over policy.
-    DOM::DOMEvent<ButtonEventArgs> onButtonPressed;
+    DOM::DOMEvent<ButtonEventArgs> buttonPressed;
 
     /// \brief The event called when the button goes from an up to down state.
-    DOM::DOMEvent<ButtonEventArgs> onButtonDown;
+    DOM::DOMEvent<ButtonEventArgs> buttonDown;
 
     /// \brief The event called when the button goes from down to up state.
-    DOM::DOMEvent<ButtonEventArgs> onButtonUp;
+    DOM::DOMEvent<ButtonEventArgs> buttonUp;
 
     /// \brief The event that is set when the value of a button changes.
-    ofEvent<int> onValueChanged;
+    ofEvent<int> valueChanged;
 
     /// \brief The assignment operator.
     /// \param v Value to assign.

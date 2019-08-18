@@ -111,7 +111,7 @@ public:
                      ListenerMethod method,
                      int priority = OF_EVENT_ORDER_AFTER_APP)
     {
-        ofAddListener(onValueChanged, listener, method, priority);
+        ofAddListener(valueChanged, listener, method, priority);
     }
 
     /// \brief Remove listeners to this onValueChanged event.
@@ -125,11 +125,11 @@ public:
                         ListenerMethod method,
                         int priority = OF_EVENT_ORDER_AFTER_APP)
     {
-        ofRemoveListener(onValueChanged, listener, method, priority);
+        ofRemoveListener(valueChanged, listener, method, priority);
     }
 
     /// \brief A callback for the parameter change.
-    ofEvent<Type> onValueChanged;
+    ofEvent<Type> valueChanged;
 
     void setValueWithoutEventNotifications(const Type& value);
     void setValue(const Type& value);
@@ -499,7 +499,7 @@ template <typename Type>
 void Slider<Type>::_onValueChanged(const void* sender, Type& value)
 {
     // We forward the event changes as sent by the slider.
-    ofNotifyEvent(onValueChanged, value, this);
+    ofNotifyEvent(valueChanged, value, this);
 }
 
 

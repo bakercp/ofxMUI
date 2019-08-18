@@ -20,6 +20,11 @@ namespace MUI {
 class Shadow
 {
 public:
+//    static void draw(float elevation,
+//                     const ofFloatColor& color,
+//                     float cornerRadius = 0,
+//                     bool inset = false);
+
     static void draw(const ofRectangle& rect,
                      float windowWidth,
                      float windowHeight,
@@ -42,7 +47,7 @@ public:
     /// A positive value puts the shadow below the box, a negative value puts
     /// the shadow above the box.
     ///
-    /// \brief blurRadius
+    ///
     static void draw(const ofRectangle& rect,
                      float windowWidth,
                      float windowHeight,
@@ -57,11 +62,14 @@ public:
     
     static Shadow& instance();
 
+//    static const std::unordered_map<std::pair<Param, Param>> shadows;
+
     void reload()
     {
         shaderBoxShadow.load("boxShadow");
         shaderRoundedBoxShadow.load("roundedBoxShadow");
     }
+    
 private:
     Shadow();
     ~Shadow();

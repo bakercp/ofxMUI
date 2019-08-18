@@ -57,9 +57,9 @@ Button::Button(const std::string& id,
     _stateCount(stateCount),
     _value(id, 0, 0, _stateCount)
 {
-    registerEventType(ButtonEventArgs::BUTTON_DOWN, &onButtonDown);
-    registerEventType(ButtonEventArgs::BUTTON_UP, &onButtonUp);
-    registerEventType(ButtonEventArgs::BUTTON_PRESSED, &onButtonPressed);
+    registerEventType(ButtonEventArgs::BUTTON_DOWN, &buttonDown);
+    registerEventType(ButtonEventArgs::BUTTON_UP, &buttonUp);
+    registerEventType(ButtonEventArgs::BUTTON_PRESSED, &buttonPressed);
 
     _value.addListener(this,
                        &Button::_onValueChanged,
@@ -135,12 +135,14 @@ void Button::onDraw() const
         ofSetColor(styles->getColor(Styles::ROLE_FOREGROUND, Styles::STATE_NORMAL));
     }
 
-    ofDrawRectangle(5, 5, getWidth() - 10, getHeight() - 10);
+    ofRectangle targetRectangle(5, 5, getWidth() - 10, getHeight() - 10);
+    ofRectangle fullRectangle(0, 0, getWidth(), getHeight());
+
+    ofDrawRectangle(targetRectangle);
 
     ofNoFill();
     ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
-    ofDrawRectangle(0, 0, getWidth(), getHeight());
-
+    ofDrawRectangle(fullRectangle);
 }
 
 
@@ -211,7 +213,7 @@ void Button::onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e)
 void Button::_onValueChanged(const void* sender, int& value)
 {
     // We forward the event changes as sent by the slider.
-    ofNotifyEvent(onValueChanged, value, this);
+    ofNotifyEvent(valueChanged, value, this);
 }
 
 
