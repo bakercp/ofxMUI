@@ -29,7 +29,7 @@ public:
         X
     };
 
-    MUI(ofAppBaseWindow* window = nullptr);
+    MUI(ofAppBaseWindow* window = ofGetWindowPtr());
     virtual ~MUI();
 
 
