@@ -127,6 +127,12 @@ const ofColor& Styles::getColor(Role role, State state) const
 }
 
 
+void Styles::setColor(const ofColor& color, Role role, State state)
+{
+    _colors[role][state] = color;
+}
+
+
 void Styles::setColors(const ofColor& foreground,
                        const ofColor& background,
                        const ofColor& accent,
