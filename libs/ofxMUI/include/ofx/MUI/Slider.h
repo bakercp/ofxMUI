@@ -408,7 +408,20 @@ void Slider<Type>::onDraw() const
     }
 
     ofNoFill();
-    ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
+
+    if (isPointerDown())
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_DOWN));
+    }
+    else if (isPointerOver())
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_OVER));
+    }
+    else
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
+    }
+
     ofDrawRectangle(0, 0, getWidth(), getHeight());
 }
 
