@@ -16,19 +16,19 @@ namespace ofx {
 namespace MUI {
 
 
-/// \brief A widget label
+/// \brief A label widget.
 class Label: public Widget
 {
 public:
-    enum
-    {
-        NSLineBreakByWordWrapping = 0,
-        NSLineBreakByCharWrapping,
-        NSLineBreakByClipping,
-        NSLineBreakByTruncatingHead,
-        NSLineBreakByTruncatingTail,
-        NSLineBreakByTruncatingMiddle
-    };
+//    enum
+//    {
+//        NSLineBreakByWordWrapping = 0,
+//        NSLineBreakByCharWrapping,
+//        NSLineBreakByClipping,
+//        NSLineBreakByTruncatingHead,
+//        NSLineBreakByTruncatingTail,
+//        NSLineBreakByTruncatingMiddle
+//    };
 //    typedef NSUInteger NSLineBreakMode
 
 
@@ -46,7 +46,8 @@ public:
 //        OF_ALIGN_HORZ_CENTER   = 0x0004,
 //    };
 
-    Label(const std::string& text);
+    Label(const std::string& id);
+//    Label(const std::string& id, const std::string& text);
 
     virtual ~Label();
 
@@ -62,19 +63,19 @@ public:
     /// \returns the displayed text.
     std::string displayText() const;
 
-    /// \returns the vertical alignment of the Label text.
-    ofAlignVert getVerticalAlignment() const;
-
-    /// \brief Set the vertical alignment of the Label text.
-    /// \param alignment The alignment to set.
-    void setVerticalAlignment(ofAlignVert alignment);
-
-    /// \returns the horizontal alignment of the Label text.
-    ofAlignHorz getHorizontalAlignment() const;
-
-    /// \brief Set the horizontal alignment of the Label text.
-    /// \param alignment The alignment to set.
-    void setHorizontalAlignment(ofAlignHorz alignment);
+//    /// \returns the vertical alignment of the Label text.
+//    ofAlignVert getVerticalAlignment() const;
+//
+//    /// \brief Set the vertical alignment of the Label text.
+//    /// \param alignment The alignment to set.
+//    void setVerticalAlignment(ofAlignVert alignment);
+//
+//    /// \returns the horizontal alignment of the Label text.
+//    ofAlignHorz getHorizontalAlignment() const;
+//
+//    /// \brief Set the horizontal alignment of the Label text.
+//    /// \param alignment The alignment to set.
+//    void setHorizontalAlignment(ofAlignHorz alignment);
 
 private:
     /// \brief The contents of the label.
@@ -88,15 +89,15 @@ private:
     /// to content replacement, truncation, etc.
     mutable std::string _displayText;
 
-    /// \brief The label's vertical edge to align to.
-    ///
-    /// If OF_ALIGN_VERT_IGNORE, OF_ALIGN_VERT_CENTER will be used.
-    ofAlignVert _alignmentVertical = OF_ALIGN_VERT_CENTER;
-
-    /// \brief The label's horizontal edge to align to.
-    ///
-    /// If OF_ALIGN_HORZ_IGNORE, OF_ALIGN_HORZ_LEFT will be used.
-    ofAlignHorz _alignmentHorzontal = OF_ALIGN_HORZ_LEFT;
+//    /// \brief The label's vertical edge to align to.
+//    ///
+//    /// If OF_ALIGN_VERT_IGNORE, OF_ALIGN_VERT_CENTER will be used.
+//    ofAlignVert _alignmentVertical = OF_ALIGN_VERT_CENTER;
+//
+//    /// \brief The label's horizontal edge to align to.
+//    ///
+//    /// If OF_ALIGN_HORZ_IGNORE, OF_ALIGN_HORZ_LEFT will be used.
+//    ofAlignHorz _alignmentHorzontal = OF_ALIGN_HORZ_LEFT;
 
 };
 

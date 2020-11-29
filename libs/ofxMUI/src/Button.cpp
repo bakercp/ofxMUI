@@ -15,7 +15,8 @@ namespace MUI {
 
 const std::string ButtonEventArgs::BUTTON_UP = "buttonup";
 const std::string ButtonEventArgs::BUTTON_DOWN = "buttondown";
-const std::string ButtonEventArgs::BUTTON_PRESSED = "buttonpressed";
+//const std::string ButtonEventArgs::BUTTON_PRESSED = "buttonpressed";
+const std::string ButtonEventArgs::BUTTON_STATE_CHANGED = "buttonstatechanged";
 
 
 ButtonEventArgs::~ButtonEventArgs()
@@ -23,21 +24,26 @@ ButtonEventArgs::~ButtonEventArgs()
 }
 
 
-bool ButtonEventArgs::isButtonUp() const
+//bool ButtonEventArgs::isButtonUp() const
+//{
+//    return type() == BUTTON_UP;
+//}
+//
+//
+//bool ButtonEventArgs::isButtonDown() const
+//{
+//    return type() == BUTTON_DOWN;
+//}
+//
+//
+//bool ButtonEventArgs::isButtonPressed() const
+//{
+//    return type() == BUTTON_PRESSED;
+//}
+
+
+Button::Button(): Button("", 0, 0, 0, 0, false, false, true, 1)
 {
-    return type() == BUTTON_UP;
-}
-
-
-bool ButtonEventArgs::isButtonDown() const
-{
-    return type() == BUTTON_DOWN;
-}
-
-
-bool ButtonEventArgs::isButtonPressed() const
-{
-    return type() == BUTTON_PRESSED;
 }
 
 
@@ -51,20 +57,19 @@ Button::Button(const std::string& id,
                bool requirePointerOverOnRelease,
                std::size_t stateCount):
     Widget(id, x, y, width, height),
-    _autoExclusive(autoExclusive),
+     _autoExclusive(autoExclusive),
     _triggersOnRelease(triggersOnRelease),
     _requirePointerOverOnRelease(requirePointerOverOnRelease),
     _stateCount(stateCount),
-    _value(id, 0, 0, _stateCount)
+    _state(0),
+    _label(nullptr)
 {
+    // Register events provided by this class.
     registerEventType(ButtonEventArgs::BUTTON_DOWN, &buttonDown);
     registerEventType(ButtonEventArgs::BUTTON_UP, &buttonUp);
-    registerEventType(ButtonEventArgs::BUTTON_PRESSED, &buttonPressed);
+    registerEventType(ButtonEventArgs::BUTTON_STATE_CHANGED, &buttonStateChanged);
 
-    _value.addListener(this,
-                       &Button::_onValueChanged,
-                       std::numeric_limits<int>::lowest());
-
+    // Add listeners for events that were already registered.
     addEventListener(pointerDown, &Button::onPointerEvent, false, std::numeric_limits<int>::lowest());
     addEventListener(pointerUp, &Button::onPointerEvent, false, std::numeric_limits<int>::lowest());
 
@@ -77,11 +82,6 @@ Button::Button(const std::string& id,
 
 Button::~Button()
 {
-    // Remove the listener from the local or bound parameters.
-    _value.removeListener(this,
-                          &Button::_onValueChanged,
-                          std::numeric_limits<int>::lowest());
-
     removeEventListener(pointerDown, &Button::onPointerEvent, false, std::numeric_limits<int>::lowest());
     removeEventListener(pointerUp, &Button::onPointerEvent, false, std::numeric_limits<int>::lowest());
 
@@ -111,6 +111,19 @@ bool Button::autoExclusive() const
 std::size_t Button::stateCount() const
 {
     return _stateCount;
+}
+
+
+void Button::setText(const std::string& text)
+{
+    _label = addChild<Label>(_text);
+    _text = text;
+}
+
+
+std::string Button::getText() const
+{
+    return _text;
 }
 
 
@@ -170,7 +183,8 @@ void Button::onPointerEvent(DOM::PointerUIEventArgs& e)
                                    true,
                                    true,
                                    e.timestamp());
-
+//        buttonDown.state = _state;
+        
         this->dispatchEvent(buttonDown);
 
         if (!_triggersOnRelease)
@@ -180,14 +194,6 @@ void Button::onPointerEvent(DOM::PointerUIEventArgs& e)
     }
     else if (e.type() == PointerEventArgs::POINTER_UP)
     {
-
-        if (_triggersOnRelease &&
-            (!_requirePointerOverOnRelease ||
-             (_requirePointerOverOnRelease && isPointerOver())))
-        {
-            _incrementState();
-        }
-
         ButtonEventArgs buttonUp(ButtonEventArgs::BUTTON_UP,
                                  this,
                                  this,
@@ -195,17 +201,29 @@ void Button::onPointerEvent(DOM::PointerUIEventArgs& e)
                                  true,
                                  true,
                                  e.timestamp());
+
+//        buttonUp.state = _state;
+        
         this->dispatchEvent(buttonUp);
+        
+        if (_triggersOnRelease &&
+            (!_requirePointerOverOnRelease ||
+             (_requirePointerOverOnRelease && isPointerOver())))
+        {
+            _incrementState();
+        }
 
-        ButtonEventArgs buttonPressed(ButtonEventArgs::BUTTON_PRESSED,
-                                      this,
-                                      this,
-                                      nullptr,
-                                      true,
-                                      true,
-                                      e.timestamp());
 
-        this->dispatchEvent(buttonPressed);
+//        ButtonEventArgs buttonPressed(ButtonEventArgs::BUTTON_PRESSED,
+//                                      this,
+//                                      this,
+//                                      nullptr,
+//                                      true,
+//                                      true,
+//                                      e.timestamp());
+//        buttonPressed.state = _state;
+
+//        this->dispatchEvent(buttonPressed);
     }
 }
 
@@ -223,43 +241,51 @@ void Button::onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e)
 }
 
 
-void Button::_onValueChanged(const void* sender, int& value)
+void Button::setState(int state)
 {
-    // We forward the event changes as sent by the slider.
-    ofNotifyEvent(valueChanged, value, this);
+    bool needsUpdate = _state != state;
+    
+    if (needsUpdate)
+    {
+        _state = (state % _stateCount);
+
+        // Do radio button style updates.
+        if (_state > 0 && _autoExclusive)
+        {
+            for (auto& sibling : siblings<Button>())
+            {
+                if (sibling->autoExclusive())
+                {
+                    sibling->setState(0);
+                }
+            }
+        }
+
+        // We forward the event changes as sent by the button.
+        ButtonEventArgs e(ButtonEventArgs::BUTTON_STATE_CHANGED,
+                          this,
+                          this,
+                          nullptr,
+                          true,
+                          true,
+                          ofGetElapsedTimeMillis());
+//        e.state = state;
+        this->dispatchEvent(e);
+    }
 }
 
 
-int Button::operator = (int v)
+int Button::getState() const
 {
-    _value = v;
-    return v;
-}
-
-
-Button::operator const int& ()
-{
-    return _value;
+    return _state;
 }
 
 
 void Button::_incrementState()
 {
-    if (_autoExclusive)
+    if (!_autoExclusive || _state == 0)
     {
-        for (auto& sibling : siblings<Button>())
-        {
-            if (sibling->autoExclusive())
-            {
-                sibling->_value.setWithoutEventNotifications(0);
-            }
-        }
-
-        _value = 1;
-    }
-    else
-    {
-        _value = (_value + 1) % _stateCount;
+        setState(_state + 1);
     }
 }
 
@@ -294,7 +320,7 @@ void ToggleButton::onDraw() const
 {
     Button::onDraw();
 
-    if (_value)
+    if (_state)
     {
         ofFill();
         ofSetColor(getStyles()->getColor(Styles::ROLE_ACCENT, Styles::STATE_DOWN));
@@ -309,7 +335,7 @@ RadioButton::RadioButton(const std::string& id,
                          float y,
                          float width,
                          float height):
-    Button(id, x, y, width, height, true, false, true)
+    Button(id, x, y, width, height, true, false, true, 2)
 {
 }
 
@@ -321,7 +347,27 @@ RadioButton::~RadioButton()
 
 void RadioButton::onDraw() const
 {
-    if (_value)
+    ofNoFill();
+
+    auto styles = getStyles();
+    
+    if (isPointerDown())
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_DOWN));
+    }
+    else if (isPointerOver())
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_OVER));
+    }
+    else
+    {
+        ofSetColor(styles->getColor(Styles::ROLE_BORDER, Styles::STATE_NORMAL));
+    }
+
+    ofDrawEllipse(getWidth()/2, getHeight()/2, getWidth(), getHeight());
+    ofPopStyle();
+
+    if (_state)
     {
         ofFill();
     }

@@ -12,11 +12,10 @@
 namespace ofx {
 namespace MUI {
 
-
-Panel::Panel(float x, float y, float width, float height):
-    Panel("", x, y, width, height)
-{
-}
+//Panel::Panel(float x, float y, float width, float height):
+//    Panel("", x, y, width, height)
+//{
+//}
 
 
 Panel::Panel(const std::string& id, float x, float y, float width, float height):

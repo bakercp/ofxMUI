@@ -88,6 +88,10 @@ public:
     /// \param inverted true if the Slider direction should be inverted.
     void setInverted(bool inverted);
 
+    bool isCentered() const;
+    void setCentered(bool centered);
+
+    
     /// \brief Pointer event callback.
     /// \param evt The event data.
     void onPointerEvent(DOM::PointerUIEventArgs& e);
@@ -209,6 +213,9 @@ protected:
     /// \brief Is the Slider direction inverted.
     bool _isInverted = false;
 
+    /// \brief Is the Slider centered.
+    bool _isCentered = false;
+    
     /// \brief The parameter to watch.
     ofParameter<Type> _value;
 
@@ -398,13 +405,29 @@ void Slider<Type>::onDraw() const
 
     if (DOM::Orientation::HORIZONTAL == orientation)
     {
-        float width = Math::lerp(_value, min, max, 0, getWidth(), true);
-        ofDrawRectangle(0, 0, width, getHeight());
+        if (_isCentered)
+        {
+            float width = Math::lerp(_value, min, max, -getWidth() / 2, getWidth() / 2, true);
+            ofDrawRectangle(getWidth() / 2, 0, width, getHeight());
+        }
+        else
+        {
+            float width = Math::lerp(_value, min, max, 0, getWidth(), true);
+            ofDrawRectangle(0, 0, width, getHeight());
+        }
     }
     else
     {
-        float height = Math::lerp(_value, min, max, 0, getHeight(), true);
-        ofDrawRectangle(0, getHeight(), getWidth(), - height);
+        if (_isCentered)
+        {
+            float height = Math::lerp(_value, min, max, -getHeight() / 2, getHeight() / 2, true);
+            ofDrawRectangle(0, getHeight() / 2, getWidth(), - height);
+        }
+        else
+        {
+            float height = Math::lerp(_value, min, max, 0, getHeight(), true);
+            ofDrawRectangle(0, getHeight(), getWidth(), - height);
+        }
     }
 
     ofNoFill();
@@ -471,6 +494,19 @@ template <typename Type>
 void Slider<Type>::setInverted(bool inverted)
 {
     _isInverted = inverted;
+}
+
+template <typename Type>
+bool Slider<Type>::isCentered() const
+{
+    return _isCentered;
+}
+
+
+template <typename Type>
+void Slider<Type>::setCentered(bool centered)
+{
+    _isCentered = centered;
 }
 
 

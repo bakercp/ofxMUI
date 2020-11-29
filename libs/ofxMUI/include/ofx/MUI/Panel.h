@@ -31,8 +31,11 @@ namespace MUI {
 class Panel: public Widget
 {
 public:
-    Panel(float x, float y, float width, float height);
-    Panel(const std::string& id, float x, float y, float width, float height);
+    Panel(const std::string& id = "",
+          float x = 0,
+          float y = 0,
+          float width = 0,
+          float height = 0);
 
     /// \brief Destroy the Panel.
     virtual ~Panel();

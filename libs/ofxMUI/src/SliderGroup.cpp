@@ -28,7 +28,7 @@ SliderGroup::SliderGroup(const std::string& id,
     Widget(id, x, y, width, height),
     _orientation(orientation)
 {
-    createLayout<DOM::BoxLayout>(this, orientation);
+//    createLayout<DOM::BoxLayout>(this, orientation);
 }
 
 

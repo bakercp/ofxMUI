@@ -32,7 +32,6 @@ public:
     MUI(ofAppBaseWindow* window = ofGetWindowPtr());
     virtual ~MUI();
 
-
     std::shared_ptr<Styles> getDocumentStyles() const;
     
     void setDocumentStyles(std::shared_ptr<Styles> documentStyles);

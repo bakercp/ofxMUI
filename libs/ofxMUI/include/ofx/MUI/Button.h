@@ -10,6 +10,7 @@
 
 #include "ofTexture.h"
 #include "ofx/DOM/Events.h"
+#include "ofx/MUI/Label.h"
 #include "ofx/MUI/Widget.h"
 
 
@@ -18,6 +19,7 @@ namespace MUI {
 
 
 class Button;
+class ButtonGroup;
 
 
 /// \brief A set of event arguments for Button events.
@@ -28,27 +30,23 @@ public:
 
     /// \brief Destroy the ButtonEventArgs.
     virtual ~ButtonEventArgs();
-
-    /// \returns true if event type is BUTTON_UP.
-    bool isButtonUp() const;
-
-    /// \returns true if event type is BUTTON_DOWN.
-    bool isButtonDown() const;
-
-    /// \returns true if event type is BUTTON_PRESSED.
-    bool isButtonPressed() const;
-
+    
+//    /// \brief The value of the button/
+//    int state = 0;
+    
     /// \brief The button up event type.
     static const std::string BUTTON_UP;
 
     /// \brief The button down event type.
     static const std::string BUTTON_DOWN;
 
-    /// \brief The button pressed event type.
-    static const std::string BUTTON_PRESSED;
+//    /// \brief The button pressed event type.
+//    static const std::string BUTTON_PRESSED;
 
+    /// \brief The event when the button state changes.
+    static const std::string BUTTON_STATE_CHANGED;
+    
 };
-
 
 
 /// \brief A simple one state push button.
@@ -80,6 +78,7 @@ public:
 class Button: public Widget
 {
 public:
+    Button();
     /// \brief Create a Button with the given parameters.
     /// \param id The Widget's id string.
     /// \param x x-position in parent coordinates.
@@ -91,16 +90,24 @@ public:
     /// \param requirePointerOverOnRelease Require a pointer to be over the
     ///        button to trigger to change states.
     /// \param stateCount The number of values for multi-state buttons.
-    Button(const std::string& id = "",
-           float x = 0,
-           float y = 0,
-           float width = DEFAULT_WIDTH,
-           float height = DEFAULT_HEIGHT,
-           bool autoExclusive = false,
-           bool triggersOnRelease = false,
-           bool requirePointerOverOnRelease = true,
-           std::size_t stateCount = 1);
+    Button(const std::string& id,// = "",
+           float x,// = 0,
+           float y,// = 0,
+           float width,// = 40,
+           float height,// = 40,
+           bool autoExclusive,// = false,
+           bool triggersOnRelease, // = false,
+           bool requirePointerOverOnRelease,// = true,
+           std::size_t stateCount);// = 1);
 
+//    Button(const std::string& text);
+//
+//    Button(const std::string& text,
+//           bool autoExclusive,
+//           bool triggersOnRelease,
+//           bool requirePointerOverOnRelease,
+//           std::size_t stateCount);
+    
     /// \brief Destroy the Button.
     virtual ~Button();
 
@@ -115,6 +122,16 @@ public:
     /// \returns the number of Button states.
     std::size_t stateCount() const;
 
+    /// \brief Set the text on the label.
+    ///
+    /// A convenience method for adding a button label.
+    ///
+    /// \param text The label text.
+    void setText(const std::string& text);
+    
+    /// \returns the button text.
+    std::string getText() const;
+    
     virtual void onDraw() const override;
 
     /// \brief Default callback for built-in events, including dragging.
@@ -125,34 +142,10 @@ public:
     /// \param e The event data.
     void onPointerCaptureEvent(DOM::PointerCaptureUIEventArgs& e);
 
-    /// \brief Add listeners to this onValueChanged event.
-    /// \tparam ListenerClass The class type of the listener.
-    /// \tparam ListenerMethod The name of the listener method.
-    /// \param listener A pointer to the listener instance.
-    /// \param method A pointer to the listener method.
-    /// \param prioirty The order priority of this listener.
-    template <class ListenerClass, typename ListenerMethod>
-    void addListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
-    {
-        ofAddListener(valueChanged, listener, method, priority);
-    }
-
-    /// \brief Remove listeners to this onValueChanged event.
-    /// \tparam ListenerClass The class type of the listener.
-    /// \tparam ListenerMethod The name of the listener method.
-    /// \param listener A pointer to the listener instance.
-    /// \param method A pointer to the listener method.
-    /// \param prioirty The order priority of this listener.
-    template <class ListenerClass, typename ListenerMethod>
-    void removeListener(ListenerClass* listener, ListenerMethod method, int priority = OF_EVENT_ORDER_AFTER_APP)
-    {
-        ofRemoveListener(valueChanged, listener, method, priority);
-    }
-
-    /// \brief Event called when button is pressed and released.
-    ///
-    /// This event follows the require release over policy.
-    DOM::DOMEvent<ButtonEventArgs> buttonPressed;
+//    /// \brief Event called when button is pressed and released.
+//    ///
+//    /// This event follows the require release over policy.
+//    DOM::DOMEvent<ButtonEventArgs> buttonPressed;
 
     /// \brief The event called when the button goes from an up to down state.
     DOM::DOMEvent<ButtonEventArgs> buttonDown;
@@ -160,27 +153,25 @@ public:
     /// \brief The event called when the button goes from down to up state.
     DOM::DOMEvent<ButtonEventArgs> buttonUp;
 
-    /// \brief The event that is set when the value of a button changes.
-    ofEvent<int> valueChanged;
+    /// \brief The event called when the button value changes.
+    ///
+    /// This event follows various policies of the button configuration.
+    DOM::DOMEvent<ButtonEventArgs> buttonStateChanged;
 
-    /// \brief The assignment operator.
-    /// \param v Value to assign.
-    /// \returns the assigned value.
-    int operator = (int v);
-
-    /// \brief Dereference operator.
-    operator const int& ();
-
-    enum
-    {
-        DEFAULT_WIDTH = 40,
-        DEFAULT_HEIGHT = 40,
-    };
+    /// \brief Set the state of the button.
+    ///
+    /// If the state set is invalid, the state will be clamped to the range [0, _stateCount].
+    ///
+    /// \param state The state of the button to set.
+    void setState(int state);
+    
+    /// \returns the current state of the button.
+    int getState() const;
 
 protected:
     /// \brief A callback for the ParameterWidget's value.
     /// \param value The the updated value.
-    void _onValueChanged(const void* sender, int& value);
+    //void _onValueChanged(const void* sender, int& value);
 
     /// \brief Increment the current button state.
     void _incrementState();
@@ -204,9 +195,14 @@ protected:
     /// This is the first pointer that was captured when dragging.
     std::size_t _primaryPointerId = 0;
 
-    /// \brief The parameter to watch.
-    ofParameter<int> _value;
+    /// \brief The button state.
+    int _state = 0;
 
+    /// \brief The text on the label.
+    std::string _text;
+    
+    Label* _label;
+    
     friend class ButtonGroup;
 
 };
@@ -229,8 +225,8 @@ public:
     ToggleButton(const std::string& id = "",
                  float x = 0,
                  float y = 0,
-                 float width = DEFAULT_WIDTH,
-                 float height = DEFAULT_HEIGHT,
+                 float width = 40,
+                 float height = 40,
                  bool autoExclusive = false,
                  bool triggersOnRelease = false,
                  bool requirePointerOverOnRelease = true);
@@ -256,8 +252,8 @@ public:
     RadioButton(const std::string& id = "",
                 float x = 0,
                 float y = 0,
-                float width = DEFAULT_WIDTH,
-                float height = DEFAULT_HEIGHT);
+                float width = 40,
+                float height = 40);
 
     /// \brief Destroy the ToggleButton
     virtual ~RadioButton();
